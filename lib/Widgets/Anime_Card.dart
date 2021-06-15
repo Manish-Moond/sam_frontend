@@ -118,7 +118,7 @@ class AnimeCard extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              height: size.height * 0.35,
+              height: size.height * 0.34,
               width: size.width * 0.475,
               child: Image.network(
                 imageUrl,

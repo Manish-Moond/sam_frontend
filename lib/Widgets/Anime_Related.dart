@@ -11,15 +11,22 @@ class RelatedAnime extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: FutureBuilder(future: _animeServices.getAnime(malId: malId), builder: (context, AsyncSnapshot<AnimeModel>snapshot){
+    print("yeee");
+    return  Container(
+        child: FutureBuilder(
+      future: _animeServices.getAnime(malId: malId),
+      builder: (context, AsyncSnapshot<AnimeModel> snapshot) {
+        if (snapshot.hasData) {
+          print("Yes");
+          return Text('data');
+        }
         return Container(
           color: kPrimaryColor,
           child: Center(
             child: CircularProgressIndicator(),
           ),
         );
-      },)
-    );
+      },
+    ));
   }
 }

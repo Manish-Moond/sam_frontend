@@ -7,7 +7,6 @@ import 'package:sam_frontend/Models/Anime_Top_Model.dart';
 class HttpAnimeServices {
   Future<AnimeTopModel> getTopAnime() async {
     final res = await http.get(Uri.https('api.jikan.moe', '/v3/top/anime'));
-    print(res.statusCode);
     if (res.statusCode == 200) {
       AnimeTopModel resser = AnimeTopModel.fromJson(json.decode(res.body));
       return resser;
@@ -17,13 +16,18 @@ class HttpAnimeServices {
   }
 
   Future<AnimeModel> getAnime({required int malId}) async {
-    final res = await http.get(Uri.https("api.jikan.moe", "/v3/anime/$malId"));
+    print(malId);
+    final res = await http.get(Uri.http("192.168.43.19:8089", "/$malId"));
+    print(res.statusCode);
     if (res.statusCode == 200) {
+      print("errer");
       AnimeModel result = AnimeModel.fromJson(json.decode(res.body));
+      print(result);
+      print('call');
       return result;
     }
     throw Exception('Error');
-  }
+}
 
   Future<AnimeRRModel> getRRAnime({required int malId}) async {
     final res = await http.get(Uri.https('api.jikan.moe', '/v3/anime/$malId'));

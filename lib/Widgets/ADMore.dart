@@ -66,7 +66,6 @@ class ADMore extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    print(genre[1].name);
     return SingleChildScrollView(
       child: Column(children: [
         SizedBox(
@@ -275,6 +274,7 @@ class ADMore extends StatelessWidget {
                   style: TextStyle(fontSize: 24, color: kSecondaryColor),
                 ),
               ),
+              ...related.adaptation.map((e) => RelatedAnime(malId: e.malId)),
             ],
           ),
         ),

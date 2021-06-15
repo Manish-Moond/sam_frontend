@@ -105,9 +105,10 @@ class _AnimeDescripationState extends State<AnimeDescripation> {
                         imageUrl: _anime.imageUrl,
                         type: _anime.type,
                         episodes: _anime.episodes,
-                        startDate:
-                            '${_anime.aired.prop.from.month}' + '${_anime.aired.prop.from.year}',
-                        endDate: '${_anime.aired.prop.to.month}' + '${_anime.aired.prop.from.year}',
+                        startDate: '${_anime.aired.prop.from.month}' +
+                            '${_anime.aired.prop.from.year}',
+                        endDate: '${_anime.aired.prop.to.month}' +
+                            '${_anime.aired.prop.from.year}',
                         members: _anime.members,
                         score: _anime.score,
                         synopsis: _anime.synopsis,
@@ -130,10 +131,10 @@ class _AnimeDescripationState extends State<AnimeDescripation> {
                   episodes: widget.episodes,
                   type: widget.type,
                   popularity: widget.popularity,
-                  startDate:
-                      '${widget.aired.prop.from.month}' + '${widget.aired.prop.from.year}',
-                  endDate:
-                      '${widget.aired.prop.to.month}' + '${widget.aired.prop.from.year}',
+                  startDate: '${widget.aired.prop.from.month}' +
+                      '${widget.aired.prop.from.year}',
+                  endDate: '${widget.aired.prop.to.month}' +
+                      '${widget.aired.prop.from.year}',
                   rank: widget.rank,
                   imageUrl: widget.imageUrl,
                   score: widget.score,
