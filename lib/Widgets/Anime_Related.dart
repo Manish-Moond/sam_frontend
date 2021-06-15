@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
 import 'package:sam_frontend/Models/Anime_Model.dart';
 import 'package:sam_frontend/Services/Anime_Servies.dart';
+import 'package:sam_frontend/Widgets/Anime_Card.dart';
 
 class RelatedAnime extends StatelessWidget {
   final int malId;
@@ -11,22 +12,38 @@ class RelatedAnime extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("yeee");
-    return  Container(
-        child: FutureBuilder(
-      future: _animeServices.getAnime(malId: malId),
-      builder: (context, AsyncSnapshot<AnimeModel> snapshot) {
-        if (snapshot.hasData) {
-          print("Yes");
-          return Text('data');
-        }
-        return Container(
-          color: kPrimaryColor,
-          child: Center(
-            child: CircularProgressIndicator(),
-          ),
-        );
-      },
-    ));
+    return malId == -1
+        ? Text("")
+        : Container(
+            child: FutureBuilder(
+            future: _animeServices.getAnime(malId: malId),
+            builder: (context, AsyncSnapshot<AnimeModel> snapshot) {
+              if (snapshot.hasData) {
+                AnimeModel? _anime = snapshot.data;
+                return AnimeCard(
+                  topOrNot: false,
+                  imageUrl: _anime!.imageUrl,
+                  malId: _anime.malId,
+                  rank: _anime.rank,
+                  title: _anime.title,
+                  score: _anime.score,
+                  episodes: _anime.episodes,
+                  producers: _anime.producers,
+                  genres: _anime.genres,
+                  licensors: _anime.licensors,
+                  studios: _anime.studios,
+                  aired: _anime.aired,
+                  related: _anime.related,
+                  popularity: _anime.popularity,
+                );
+              }
+              return Container(
+                color: kPrimaryColor,
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            },
+          ));
   }
 }

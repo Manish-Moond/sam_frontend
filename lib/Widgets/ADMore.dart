@@ -274,7 +274,38 @@ class ADMore extends StatelessWidget {
                   style: TextStyle(fontSize: 24, color: kSecondaryColor),
                 ),
               ),
-              ...related.adaptation.map((e) => RelatedAnime(malId: e.malId)),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(children: [
+                      ...related.adaptation.map((e) =>
+                          RelatedAnime(malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.other.map((e) =>
+                          RelatedAnime(malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.alternativeSetting.map((e) =>
+                          RelatedAnime(malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.alternativeVersion.map((e) =>
+                          RelatedAnime(malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.character.map((e) =>
+                          RelatedAnime(malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.parentStory.map((e) =>
+                          RelatedAnime(malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.prequel.map((e) =>
+                          RelatedAnime(malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.sequel.map((e) =>
+                          RelatedAnime(malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.spinOff.map((e) =>
+                          RelatedAnime(malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.sideStory.map((e) =>
+                          RelatedAnime(malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.summary.map((e) =>
+                          RelatedAnime(malId: e.type == 'anime' ? e.malId : -1)),
+                      
+                    ],),
+                ),
+              )
+              
             ],
           ),
         ),

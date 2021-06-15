@@ -15,7 +15,7 @@ class _AnimeModalState extends State<AnimeModal> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Container(
-      height: 400,
+      height: 420,
       color: kSecondaryColor,
       child: Padding(
         padding: const EdgeInsets.all(18.0),

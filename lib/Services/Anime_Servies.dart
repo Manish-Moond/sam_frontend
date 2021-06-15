@@ -18,16 +18,13 @@ class HttpAnimeServices {
   Future<AnimeModel> getAnime({required int malId}) async {
     print(malId);
     final res = await http.get(Uri.http("192.168.43.19:8089", "/$malId"));
-    print(res.statusCode);
     if (res.statusCode == 200) {
-      print("errer");
       AnimeModel result = AnimeModel.fromJson(json.decode(res.body));
-      print(result);
-      print('call');
+      print('Done');
       return result;
     }
     throw Exception('Error');
-}
+  }
 
   Future<AnimeRRModel> getRRAnime({required int malId}) async {
     final res = await http.get(Uri.https('api.jikan.moe', '/v3/anime/$malId'));

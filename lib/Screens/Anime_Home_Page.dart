@@ -145,7 +145,7 @@ class _HomePageState extends State<HomePage> {
                             ],
                             alternativeSetting: [
                               Genre(malId: -1, type: '', name: '', url: '')
-                          ],
+                            ],
                             sequel: [
                               Genre(malId: -1, type: '', name: '', url: '')
                             ],
