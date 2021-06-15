@@ -2,7 +2,7 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
 import 'package:sam_frontend/Models/Anime_Model.dart';
-import 'package:sam_frontend/Widgets/Anime_Related.dart';
+import 'Anime_Related.dart';
 
 class ADMore extends StatelessWidget {
   final int rank;
@@ -10,13 +10,11 @@ class ADMore extends StatelessWidget {
   final String imageUrl;
   final String type;
   final int episodes;
-  final String startDate;
-  final String endDate;
-  final int members;
+  final List aired;
   final double score;
   final String synopsis;
   final int popularity;
-  final List<Genre> genre;
+  final List<String> genre;
   final Related related;
 
   const ADMore({
@@ -26,9 +24,7 @@ class ADMore extends StatelessWidget {
     required this.imageUrl,
     required this.type,
     required this.episodes,
-    required this.startDate,
-    required this.endDate,
-    required this.members,
+    required this.aired,
     required this.score,
     required this.synopsis,
     required this.popularity,
@@ -39,28 +35,14 @@ class ADMore extends StatelessWidget {
   String _g(genre) {
     String gnere = '';
     for (int i = 0; i < genre.length; i++) {
-      gnere += genre[i].name + '   ';
+      gnere += genre[i] + '   ';
     }
     return gnere;
   }
 
-  String _convertToMonth(date) {
-    Map _month = {
-      '1': 'January',
-      '2': 'February',
-      '3': 'March',
-      '4': 'April',
-      '5': 'May',
-      '6': 'June',
-      '7': 'July',
-      '8': 'August',
-      '9': 'September',
-      '10': 'October',
-      '11': 'November',
-      '12': 'December'
-    };
-    date = _month[date[0]] + " " + date.substring(1, 5);
-    return date;
+  String _date(_d) {
+    String result = '${_d[0]}   to   ${_d[1]}';
+    return result;
   }
 
   @override
@@ -251,9 +233,7 @@ class ADMore extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          _convertToMonth(startDate) +
-                              "  to  " +
-                              _convertToMonth(endDate),
+                          _date(aired),
                           style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.normal,
@@ -278,34 +258,36 @@ class ADMore extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child: Row(children: [
-                      ...related.adaptation.map((e) =>
-                          RelatedAnime(malId: e.type == 'anime' ? e.malId : -1)),
-                      ...related.other.map((e) =>
-                          RelatedAnime(malId: e.type == 'anime' ? e.malId : -1)),
-                      ...related.alternativeSetting.map((e) =>
-                          RelatedAnime(malId: e.type == 'anime' ? e.malId : -1)),
-                      ...related.alternativeVersion.map((e) =>
-                          RelatedAnime(malId: e.type == 'anime' ? e.malId : -1)),
-                      ...related.character.map((e) =>
-                          RelatedAnime(malId: e.type == 'anime' ? e.malId : -1)),
-                      ...related.parentStory.map((e) =>
-                          RelatedAnime(malId: e.type == 'anime' ? e.malId : -1)),
-                      ...related.prequel.map((e) =>
-                          RelatedAnime(malId: e.type == 'anime' ? e.malId : -1)),
-                      ...related.sequel.map((e) =>
-                          RelatedAnime(malId: e.type == 'anime' ? e.malId : -1)),
-                      ...related.spinOff.map((e) =>
-                          RelatedAnime(malId: e.type == 'anime' ? e.malId : -1)),
-                      ...related.sideStory.map((e) =>
-                          RelatedAnime(malId: e.type == 'anime' ? e.malId : -1)),
-                      ...related.summary.map((e) =>
-                          RelatedAnime(malId: e.type == 'anime' ? e.malId : -1)),
-                      
-                    ],),
+                  child: Row(
+                    children: [
+                      ...related.adaptation.map((e) => RelatedAnime(
+                          malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.other.map((e) => RelatedAnime(
+                          malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.alternativeSetting.map((e) => RelatedAnime(
+                          malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.alternativeVersion.map((e) => RelatedAnime(
+                          malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.character.map((e) => RelatedAnime(
+                          malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.parentStory.map((e) => RelatedAnime(
+                          malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.prequel.map((e) => RelatedAnime(
+                          malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.sequel.map((e) => RelatedAnime(
+                          malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.spinOff.map((e) => RelatedAnime(
+                          malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.sideStory.map((e) => RelatedAnime(
+                          malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.summary.map((e) => RelatedAnime(
+                          malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.fullStory.map((e) => RelatedAnime(
+                          malId: e.type == 'anime' ? e.malId : -1)),
+                    ],
+                  ),
                 ),
               )
-              
             ],
           ),
         ),

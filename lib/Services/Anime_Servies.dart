@@ -20,7 +20,6 @@ class HttpAnimeServices {
     final res = await http.get(Uri.http("192.168.43.19:8089", "/$malId"));
     if (res.statusCode == 200) {
       AnimeModel result = AnimeModel.fromJson(json.decode(res.body));
-      print('Done');
       return result;
     }
     throw Exception('Error');

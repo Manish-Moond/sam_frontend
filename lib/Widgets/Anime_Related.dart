@@ -28,13 +28,11 @@ class RelatedAnime extends StatelessWidget {
                   title: _anime.title,
                   score: _anime.score,
                   episodes: _anime.episodes,
-                  producers: _anime.producers,
                   genres: _anime.genres,
-                  licensors: _anime.licensors,
-                  studios: _anime.studios,
                   aired: _anime.aired,
                   related: _anime.related,
                   popularity: _anime.popularity,
+                  status: _anime.status,
                 );
               }
               return Container(

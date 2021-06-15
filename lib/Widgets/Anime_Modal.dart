@@ -10,7 +10,6 @@ class AnimeModal extends StatefulWidget {
 }
 
 class _AnimeModalState extends State<AnimeModal> {
-  bool _watchedPress = false;
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;

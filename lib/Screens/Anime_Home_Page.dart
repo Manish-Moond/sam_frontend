@@ -9,7 +9,6 @@ import 'package:sam_frontend/Services/Anime_Servies.dart';
 import 'package:sam_frontend/Widgets/Anime_Card.dart';
 
 class HomePage extends StatefulWidget {
-  // const HomePage({Key? key}) : super(key: key);
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -119,58 +118,38 @@ class _HomePageState extends State<HomePage> {
                           title: ani.title,
                           score: ani.score,
                           episodes: ani.episodes,
-                          producers: [],
                           genres: [],
-                          licensors: [],
-                          studios: [],
-                          aired: Aired(
-                              from: DateTime(3),
-                              to: DateTime(3),
-                              prop: Prop(
-                                  from: From(day: 1, month: 2, year: 1),
-                                  to: From(day: 1, month: 2, year: 2)),
-                              string: ''),
-                          related: Related(
-                            adaptation: [
-                              Genre(malId: 1, type: '', name: '', url: '')
-                            ],
-                            alternativeVersion: [
-                              Genre(malId: -1, type: '', name: '', url: '')
-                            ],
-                            sideStory: [
-                              Genre(malId: -1, type: '', name: '', url: '')
-                            ],
-                            spinOff: [
-                              Genre(malId: -1, type: '', name: '', url: '')
-                            ],
-                            alternativeSetting: [
-                              Genre(malId: -1, type: '', name: '', url: '')
-                            ],
-                            sequel: [
-                              Genre(malId: -1, type: '', name: '', url: '')
-                            ],
-                            other: [
-                              Genre(malId: -1, type: '', name: '', url: '')
-                            ],
-                            prequel: [
-                              Genre(malId: -1, type: '', name: '', url: '')
-                            ],
-                            summary: [
-                              Genre(malId: -1, type: '', name: '', url: '')
-                            ],
-                            character: [
-                              Genre(malId: -1, type: '', name: '', url: '')
-                            ],
-                            parentStory: [
-                              Genre(malId: -1, type: '', name: '', url: '')
-                            ],
-                          ),
+                          aired: [ani.startDate],
+                          status: '',
+                          related: Related(adaptation: [
+                            Genre(malId: 1, type: '', name: '', url: '')
+                          ], alternativeVersion: [
+                            Genre(malId: -1, type: '', name: '', url: '')
+                          ], sideStory: [
+                            Genre(malId: -1, type: '', name: '', url: '')
+                          ], spinOff: [
+                            Genre(malId: -1, type: '', name: '', url: '')
+                          ], alternativeSetting: [
+                            Genre(malId: -1, type: '', name: '', url: '')
+                          ], sequel: [
+                            Genre(malId: -1, type: '', name: '', url: '')
+                          ], other: [
+                            Genre(malId: -1, type: '', name: '', url: '')
+                          ], prequel: [
+                            Genre(malId: -1, type: '', name: '', url: '')
+                          ], summary: [
+                            Genre(malId: -1, type: '', name: '', url: '')
+                          ], character: [
+                            Genre(malId: -1, type: '', name: '', url: '')
+                          ], parentStory: [
+                            Genre(malId: -1, type: '', name: '', url: '')
+                          ], fullStory: [
+                            Genre(malId: -1,type: '', name: '', url: '')
+                          ]),
                         )),
                   ]),
             );
           } else if (snapshot.hasError) {
-            // when cart is empty
-            print("haserror ${snapshot.error}");
             return Text('No Anime');
           }
           return Container(

@@ -6,69 +6,38 @@ import 'package:sam_frontend/Widgets/ADMore.dart';
 
 class AnimeDescripation extends StatefulWidget {
   final bool topOrNot;
-  final int malId;
-  final String url;
-  final String imageUrl;
-  final String trailerUrl;
-  final String title;
-  final String titleEnglish;
-  final String titleJapanese;
-  final List<String> titleSynonyms;
-  final String type;
-  final String source;
+  final List<String> aired;
   final int episodes;
-  final String status;
-  final bool airing;
-  final Aired aired;
-  final String duration;
-  final String rating;
-  final double score;
-  final int scoredBy;
-  final int rank;
+  final List<String> genres;
+  final String imageUrl;
+  final int malId;
   final int popularity;
-  final int members;
-  final int favorites;
-  final String synopsis;
-  final String premiered;
-  final String broadcast;
+  final int rank;
   final Related related;
-  final List<Genre> producers;
-  final List<Genre> licensors;
-  final List<Genre> studios;
-  final List<Genre> genres;
+  final double score;
+  final String source;
+  final String status;
+  final String synopsis;
+  final String title;
+  final String type;
 
-  AnimeDescripation(
-      {this.topOrNot = false,
-      required this.malId,
-      this.url = '',
-      this.imageUrl = '',
-      this.trailerUrl = '',
-      this.title = '',
-      this.titleEnglish = '',
-      this.titleJapanese = '',
-      this.titleSynonyms = const [""],
-      this.type = '',
-      this.source = '',
-      this.episodes = -1,
-      this.status = '',
-      this.airing = false,
-      required this.aired,
-      this.duration = '',
-      this.rating = '',
-      this.score = -1.0,
-      this.scoredBy = -1,
-      this.rank = -1,
-      this.popularity = -1,
-      this.members = -1,
-      this.favorites = -1,
-      this.synopsis = '',
-      this.premiered = '',
-      this.broadcast = '',
-      required this.related,
-      required this.producers,
-      required this.licensors,
-      required this.studios,
-      required this.genres});
+  AnimeDescripation({
+    this.topOrNot = false,
+    required this.malId,
+    required this.aired,
+    required this.episodes,
+    required this.genres,
+    required this.imageUrl,
+    required this.popularity,
+    required this.rank,
+    required this.related,
+    required this.score,
+    required this.source,
+    required this.status,
+    required this.synopsis,
+    required this.title,
+    required this.type,
+  });
 
   @override
   _AnimeDescripationState createState() => _AnimeDescripationState();
@@ -87,7 +56,6 @@ class _AnimeDescripationState extends State<AnimeDescripation> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    print(widget.topOrNot);
     return Scaffold(
       body: CustomPaint(
         painter: BackgroundPainter(size),
@@ -98,18 +66,13 @@ class _AnimeDescripationState extends State<AnimeDescripation> {
                   builder: (context, AsyncSnapshot<AnimeModel> snapshot) {
                     if (snapshot.hasData) {
                       AnimeModel? _anime = snapshot.data;
-                      print(_anime!.episodes);
                       return ADMore(
-                        rank: _anime.rank,
+                        rank: _anime!.rank,
                         title: _anime.title,
                         imageUrl: _anime.imageUrl,
                         type: _anime.type,
                         episodes: _anime.episodes,
-                        startDate: '${_anime.aired.prop.from.month}' +
-                            '${_anime.aired.prop.from.year}',
-                        endDate: '${_anime.aired.prop.to.month}' +
-                            '${_anime.aired.prop.from.year}',
-                        members: _anime.members,
+                        aired: _anime.aired,
                         score: _anime.score,
                         synopsis: _anime.synopsis,
                         popularity: _anime.popularity,
@@ -131,14 +94,10 @@ class _AnimeDescripationState extends State<AnimeDescripation> {
                   episodes: widget.episodes,
                   type: widget.type,
                   popularity: widget.popularity,
-                  startDate: '${widget.aired.prop.from.month}' +
-                      '${widget.aired.prop.from.year}',
-                  endDate: '${widget.aired.prop.to.month}' +
-                      '${widget.aired.prop.from.year}',
+                  aired: widget.aired,
                   rank: widget.rank,
                   imageUrl: widget.imageUrl,
                   score: widget.score,
-                  members: widget.members,
                   synopsis: widget.synopsis,
                   title: widget.title,
                   genre: widget.genres,

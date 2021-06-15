@@ -122,7 +122,6 @@ import 'dart:convert';
 AnimeTopModel topAnimeModelFromJson(String str) =>
     AnimeTopModel.fromJson(json.decode(str));
 
-String animeTopModelToJson(AnimeTopModel data) => json.encode(data.toJson());
 
 class AnimeTopModel {
   AnimeTopModel({
@@ -144,12 +143,6 @@ class AnimeTopModel {
         top: List<Top>.from(json["top"].map((x) => Top.fromJson(x))),
       );
 
-  Map<String, dynamic> toJson() => {
-        "request_hash": requestHash,
-        "request_cached": requestCached,
-        "request_cache_expiry": requestCacheExpiry,
-        "top": List<dynamic>.from(top.map((x) => x.toJson())),
-      };
 }
 
 class Top {
@@ -192,36 +185,22 @@ class Top {
         members: json["members"],
         score: json["score"].toDouble(),
       );
-
-  Map<String, dynamic> toJson() => {
-        "mal_id": malId,
-        "rank": rank,
-        "title": title,
-        "url": url,
-        "image_url": imageUrl,
-        "type": typeValues.reverse[type],
-        "episodes": episodes,
-        "start_date": startDate,
-        "end_date": endDate,
-        "members": members,
-        "score": score,
-      };
 }
 
-enum Type { TV, OVA, MOVIE }
+// enum Type { TV, OVA, MOVIE }
 
-final typeValues =
-    EnumValues({"Movie": Type.MOVIE, "OVA": Type.OVA, "TV": Type.TV});
+// final typeValues =
+//     EnumValues({"Movie": Type.MOVIE, "OVA": Type.OVA, "TV": Type.TV});
 
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
+// class EnumValues<T> {
+//   Map<String, T> map;
+//   late Map<T, String> reverseMap;
 
-  EnumValues(this.map);
-  Map<T, String> get reverse {
-    if (reverseMap == null) {
-      reverseMap = map.map((k, v) => new MapEntry(v, k));
-    }
-    return reverseMap;
-  }
-}
+//   EnumValues(this.map);
+//   Map<T, String> get reverse {
+//     if (reverseMap == null) {
+//       reverseMap = map.map((k, v) => new MapEntry(v, k));
+//     }
+//     return reverseMap;
+//   }
+// }
