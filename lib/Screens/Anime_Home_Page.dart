@@ -7,13 +7,14 @@ import 'package:sam_frontend/Models/Anime_Model.dart';
 import 'package:sam_frontend/Models/Anime_Top_Model.dart';
 import 'package:sam_frontend/Services/Anime_Servies.dart';
 import 'package:sam_frontend/Widgets/Anime_Card.dart';
+import 'package:sam_frontend/Widgets/Custom_App_Bar.dart';
 
-class HomePage extends StatefulWidget {
+class AnimeHomePage extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _AnimeHomePageState createState() => _AnimeHomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _AnimeHomePageState extends State<AnimeHomePage> {
   final HttpAnimeServices _httpTopAnimeServices = HttpAnimeServices();
   Future<AnimeTopModel> _topAnime;
   var _isSearching = false;
@@ -30,73 +31,8 @@ class _HomePageState extends State<HomePage> {
     final double itemHeight = (size.height - size.height * 0.14) / 2;
     final double itemWidth = size.width / 2;
 
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: kPrimaryColor,
-        title: !_isSearching
-            ? Text(
-                "Anime",
-                style: TextStyle(
-                    color: kSecondaryColor,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold),
-              )
-            : TextField(
-                style: TextStyle(color: kFourthColor),
-                decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: kSecondaryColor)),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: kSecondaryColor),
-                    ),
-                    hintText: "anime search",
-                    hintStyle: TextStyle(
-                      color: kFourthColor.withOpacity(0.3),
-                    )),
-              ),
-        actions: [
-          _isSearching
-              ? IconButton(
-                  onPressed: () {
-                    setState(() {
-                      this._isSearching = !this._isSearching;
-                    });
-                  },
-                  icon: Icon(
-                    Icons.cancel_outlined,
-                    color: kSecondaryColor,
-                    size: 30,
-                  ))
-              : IconButton(
-                  onPressed: () {
-                    setState(() {
-                      this._isSearching = !this._isSearching;
-                    });
-                  },
-                  icon: Icon(
-                    Icons.search,
-                    color: kSecondaryColor,
-                    size: 30,
-                  ))
-        ],
-      ),
-      bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: kPrimaryColor,
-        color: kSecondaryColor,
-        // index: 4,
-        items: <Widget>[
-          Icon(Icons.movie, size: 30),
-          Icon(Icons.tv, size: 30),
-          Icon(Icons.compare_arrows, size: 30),
-          Icon(Icons.list, size: 30),
-          Icon(Icons.more_horiz, size: 30)
-        ],
-        onTap: (index) {
-          //Handle button tap
-        },
-      ),
-      body: FutureBuilder(
+    return Container(
+      child: FutureBuilder(
         future: _topAnime,
         builder: (BuildContext context, AsyncSnapshot<AnimeTopModel> snapshot) {
           if (snapshot.hasData) {
@@ -144,7 +80,7 @@ class _HomePageState extends State<HomePage> {
                           ], parentStory: [
                             Genre(malId: -1, type: '', name: '', url: '')
                           ], fullStory: [
-                            Genre(malId: -1,type: '', name: '', url: '')
+                            Genre(malId: -1, type: '', name: '', url: '')
                           ]),
                         )),
                   ]),
