@@ -21,15 +21,29 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(),
+      appBar: (() {
+        switch (_index) {
+          case 0:
+            return CustomAppBar(name:  'Movie',);
+          case 1:
+            return CustomAppBar(name:  'Anime',);
+          case 2:
+            return CustomAppBar(name:  'Tv Series',);
+          case 3:
+            return CustomAppBar(name:  'My List',);
+          case 4:
+            return CustomAppBar(name:  'More',);
+          default:
+        }
+      }()),
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: kPrimaryColor,
         color: kSecondaryColor,
         // index: 4,
         items: <Widget>[
           Icon(Icons.movie, size: 30),
+          Icon(Icons.laptop, size: 30),
           Icon(Icons.tv, size: 30),
-          Icon(Icons.compare_arrows, size: 30),
           Icon(Icons.list, size: 30),
           Icon(Icons.more_horiz, size: 30)
         ],

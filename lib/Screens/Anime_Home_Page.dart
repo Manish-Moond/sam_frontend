@@ -1,13 +1,11 @@
 // @dart=2.9
 
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
 import 'package:sam_frontend/Models/Anime_Model.dart';
 import 'package:sam_frontend/Models/Anime_Top_Model.dart';
 import 'package:sam_frontend/Services/Anime_Servies.dart';
 import 'package:sam_frontend/Widgets/Anime_Card.dart';
-import 'package:sam_frontend/Widgets/Custom_App_Bar.dart';
 
 class AnimeHomePage extends StatefulWidget {
   @override
@@ -17,7 +15,6 @@ class AnimeHomePage extends StatefulWidget {
 class _AnimeHomePageState extends State<AnimeHomePage> {
   final HttpAnimeServices _httpTopAnimeServices = HttpAnimeServices();
   Future<AnimeTopModel> _topAnime;
-  var _isSearching = false;
   @override
   void initState() {
     super.initState();
