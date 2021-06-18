@@ -2,11 +2,13 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
 import 'package:sam_frontend/Models/Anime_Model.dart';
-import 'Anime_Related.dart';
+import 'package:sam_frontend/Widgets/Anime_Recommended.dart';
+import 'Anime_RR.dart';
 
 class ADMore extends StatelessWidget {
   final int rank;
   final String title;
+  final int malId;
   final String imageUrl;
   final String type;
   final int episodes;
@@ -19,6 +21,7 @@ class ADMore extends StatelessWidget {
 
   const ADMore({
     Key? key,
+    required this.malId,
     required this.rank,
     required this.title,
     required this.imageUrl,
@@ -215,6 +218,7 @@ class ADMore extends StatelessWidget {
                   SizedBox(
                     height: size.height * 0.02,
                   ),
+                  //Aired
                   Container(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -260,34 +264,41 @@ class ADMore extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      ...related.adaptation.map((e) => RelatedAnime(
+                      ...related.adaptation.map((e) => RRAnime(
                           malId: e.type == 'anime' ? e.malId : -1)),
-                      ...related.other.map((e) => RelatedAnime(
+                      ...related.alternativeSetting.map((e) => RRAnime(
                           malId: e.type == 'anime' ? e.malId : -1)),
-                      ...related.alternativeSetting.map((e) => RelatedAnime(
+                      ...related.alternativeVersion.map((e) => RRAnime(
                           malId: e.type == 'anime' ? e.malId : -1)),
-                      ...related.alternativeVersion.map((e) => RelatedAnime(
+                      ...related.other.map((e) => RRAnime(
                           malId: e.type == 'anime' ? e.malId : -1)),
-                      ...related.character.map((e) => RelatedAnime(
+                      ...related.character.map((e) => RRAnime(
                           malId: e.type == 'anime' ? e.malId : -1)),
-                      ...related.parentStory.map((e) => RelatedAnime(
+                      ...related.parentStory.map((e) => RRAnime(
                           malId: e.type == 'anime' ? e.malId : -1)),
-                      ...related.prequel.map((e) => RelatedAnime(
+                      ...related.prequel.map((e) => RRAnime(
                           malId: e.type == 'anime' ? e.malId : -1)),
-                      ...related.sequel.map((e) => RelatedAnime(
+                      ...related.sequel.map((e) => RRAnime(
                           malId: e.type == 'anime' ? e.malId : -1)),
-                      ...related.spinOff.map((e) => RelatedAnime(
+                      ...related.spinOff.map((e) => RRAnime(
                           malId: e.type == 'anime' ? e.malId : -1)),
-                      ...related.sideStory.map((e) => RelatedAnime(
+                      ...related.sideStory.map((e) => RRAnime(
                           malId: e.type == 'anime' ? e.malId : -1)),
-                      ...related.summary.map((e) => RelatedAnime(
+                      ...related.summary.map((e) => RRAnime(
                           malId: e.type == 'anime' ? e.malId : -1)),
-                      ...related.fullStory.map((e) => RelatedAnime(
+                      ...related.fullStory.map((e) => RRAnime(
                           malId: e.type == 'anime' ? e.malId : -1)),
                     ],
                   ),
                 ),
-              )
+              ),
+              Container(
+                child: Text(
+                  "Recommended Anime",
+                  style: TextStyle(fontSize: 24, color: kSecondaryColor),
+                ),
+              ),
+              RecommendedAnime(malId:malId),
             ],
           ),
         ),

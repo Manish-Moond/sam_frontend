@@ -47,7 +47,7 @@ class AnimeCard extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     return Container(
         child: Card(
-      color: kSecondaryColor,
+      color: Colors.white,
       semanticContainer: true,
       clipBehavior: Clip.hardEdge,
       child: InkWell(

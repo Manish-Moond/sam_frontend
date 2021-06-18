@@ -67,7 +67,8 @@ class _AnimeDescripationState extends State<AnimeDescripation> {
                     if (snapshot.hasData) {
                       AnimeModel? _anime = snapshot.data;
                       return ADMore(
-                        rank: _anime!.rank,
+                        malId: _anime!.malId,
+                        rank: _anime.rank,
                         title: _anime.title,
                         imageUrl: _anime.imageUrl,
                         type: _anime.type,
@@ -91,6 +92,7 @@ class _AnimeDescripationState extends State<AnimeDescripation> {
               )
             : Container(
                 child: ADMore(
+                  malId: widget.malId,
                   episodes: widget.episodes,
                   type: widget.type,
                   popularity: widget.popularity,

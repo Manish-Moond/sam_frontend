@@ -4,10 +4,10 @@ import 'package:sam_frontend/Models/Anime_Model.dart';
 import 'package:sam_frontend/Services/Anime_Servies.dart';
 import 'package:sam_frontend/Widgets/Anime_Card.dart';
 
-class RelatedAnime extends StatelessWidget {
+class RRAnime extends StatelessWidget {
   final int malId;
 
-  RelatedAnime({Key? key, required this.malId}) : super(key: key);
+  RRAnime({Key? key, required this.malId}) : super(key: key);
   final HttpAnimeServices _animeServices = HttpAnimeServices();
 
   @override
