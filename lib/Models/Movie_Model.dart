@@ -4,14 +4,14 @@
 
 import 'dart:convert';
 
-TopRatedMoviesModel topRatedMoviesModelFromJson(String str) =>
-    TopRatedMoviesModel.fromJson(json.decode(str));
+MoviesModel topRatedMoviesModelFromJson(String str) =>
+    MoviesModel.fromJson(json.decode(str));
 
-String topRatedMoviesModelToJson(TopRatedMoviesModel data) =>
+String topRatedMoviesModelToJson(MoviesModel data) =>
     json.encode(data.toJson());
 
-class TopRatedMoviesModel {
-  TopRatedMoviesModel({
+class MoviesModel {
+  MoviesModel({
     required this.page,
     required this.results,
     required this.totalPages,
@@ -23,8 +23,8 @@ class TopRatedMoviesModel {
   int totalPages;
   int totalResults;
 
-  factory TopRatedMoviesModel.fromJson(Map<String, dynamic> json) =>
-      TopRatedMoviesModel(
+  factory MoviesModel.fromJson(Map<String, dynamic> json) =>
+      MoviesModel(
         page: json["page"],
         results:
             List<Result>.from(json["results"].map((x) => Result.fromJson(x))),

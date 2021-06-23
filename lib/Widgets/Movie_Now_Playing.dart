@@ -3,14 +3,16 @@ import 'package:sam_frontend/Models/Movie_Model.dart';
 import 'package:sam_frontend/Services/Movie_Servies.dart';
 import 'package:sam_frontend/Widgets/Movie_Card.dart';
 
-class MovieTopRated extends StatefulWidget {
+class MovieNowPlaying extends StatefulWidget {
+  const MovieNowPlaying({Key? key}) : super(key: key);
+
   @override
-  _MovieTopRatedState createState() => _MovieTopRatedState();
+  _MovieNowPlayingState createState() => _MovieNowPlayingState();
 }
 
-class _MovieTopRatedState extends State<MovieTopRated> {
+class _MovieNowPlayingState extends State<MovieNowPlaying> {
   final HttpMoviesServices _httpMoviesServices = HttpMoviesServices();
-  List<Result> _movies = [];
+    List<Result> _movies = [];
   ScrollController _scrollController = ScrollController();
   int _page = 1;
 
@@ -22,22 +24,23 @@ class _MovieTopRatedState extends State<MovieTopRated> {
     });
   }
 
-  @override
+    @override
   void initState() {
     super.initState();
-    _httpMoviesServices.getTopMovie(_page).then((value) {
+    _httpMoviesServices.getNowPlaing(_page).then((value) {
       filler(value);
     });
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         _page += 1;
-        _httpMoviesServices.getTopMovie(_page).then((value) {
+        _httpMoviesServices.getNowPlaing(_page).then((value) {
           filler(value);
         });
       }
     });
   }
+
 
   @override
   Widget build(BuildContext context) {

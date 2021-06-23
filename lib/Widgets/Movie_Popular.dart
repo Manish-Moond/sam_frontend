@@ -3,16 +3,18 @@ import 'package:sam_frontend/Models/Movie_Model.dart';
 import 'package:sam_frontend/Services/Movie_Servies.dart';
 import 'package:sam_frontend/Widgets/Movie_Card.dart';
 
-class MovieTopRated extends StatefulWidget {
+class MoviePopular extends StatefulWidget {
+  const MoviePopular({Key? key}) : super(key: key);
+
   @override
-  _MovieTopRatedState createState() => _MovieTopRatedState();
+  _MoviePopularState createState() => _MoviePopularState();
 }
 
-class _MovieTopRatedState extends State<MovieTopRated> {
+class _MoviePopularState extends State<MoviePopular> {
   final HttpMoviesServices _httpMoviesServices = HttpMoviesServices();
   List<Result> _movies = [];
   ScrollController _scrollController = ScrollController();
-  int _page = 1;
+  int _page = 2;
 
   void filler(value) {
     setState(() {
@@ -25,14 +27,14 @@ class _MovieTopRatedState extends State<MovieTopRated> {
   @override
   void initState() {
     super.initState();
-    _httpMoviesServices.getTopMovie(_page).then((value) {
+    _httpMoviesServices.getPopular(_page).then((value) {
       filler(value);
     });
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         _page += 1;
-        _httpMoviesServices.getTopMovie(_page).then((value) {
+        _httpMoviesServices.getPopular(_page).then((value) {
           filler(value);
         });
       }

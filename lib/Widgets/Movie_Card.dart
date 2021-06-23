@@ -37,8 +37,10 @@ class MovieCard extends StatelessWidget {
             Container(
               height: size.height * 0.27,
               width: size.width * 0.373,
-              child: Image.network(
-                'https://image.tmdb.org/t/p/w500/$posterPath',
+              child: FadeInImage(
+                placeholder: AssetImage('assets/images/movieplaceholder.jpg'),
+                image:
+                    NetworkImage('https://image.tmdb.org/t/p/w500/$posterPath'),
                 fit: BoxFit.fill,
               ),
             )
