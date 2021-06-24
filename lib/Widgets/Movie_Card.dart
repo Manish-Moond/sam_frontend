@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
+import 'package:sam_frontend/Screens/Movie_Descripation.dart';
 
 class MovieCard extends StatelessWidget {
   final List<int> genres;
@@ -10,6 +11,7 @@ class MovieCard extends StatelessWidget {
   final String posterPath;
   final DateTime releaseDate;
   final String title;
+  final double voteAverage;
 
   const MovieCard(
       {Key? key,
@@ -20,7 +22,7 @@ class MovieCard extends StatelessWidget {
       required this.overview,
       required this.posterPath,
       required this.releaseDate,
-      required this.title})
+      required this.title, required this.voteAverage})
       : super(key: key);
 
   @override
@@ -32,6 +34,22 @@ class MovieCard extends StatelessWidget {
       semanticContainer: true,
       color: kSecondaryColor,
       child: InkWell(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => MovieDescripation(
+                        genres: genres,
+                        id: id,
+                        originalTitle: originalTitle,
+                        originalLanguage: originalLanguage,
+                        overview: overview,
+                        posterPath: posterPath,
+                        releaseDate: releaseDate,
+                        title: title,
+                        voteAverage: voteAverage,
+                      )));
+        },
         child: Column(
           children: [
             Container(

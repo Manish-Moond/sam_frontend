@@ -59,7 +59,9 @@ class _MovieNowPlayingState extends State<MovieNowPlaying> {
               overview: _movies[index].overview,
               posterPath: _movies[index].posterPath,
               releaseDate: _movies[index].releaseDate,
-              title: _movies[index].title);
+              title: _movies[index].title,
+              voteAverage: _movies[index].voteAverage,
+              );
         },
       ),
     );
