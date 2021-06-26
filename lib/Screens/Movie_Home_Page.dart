@@ -5,13 +5,22 @@ import 'package:sam_frontend/Widgets/Movie_Now_Playing.dart';
 import 'package:sam_frontend/Widgets/Movie_Popular.dart';
 import 'package:sam_frontend/Widgets/Movie_Top_Rated.dart';
 
-class MovieHomePage extends StatelessWidget {
-  const MovieHomePage({Key? key}) : super(key: key);
+class MovieHomePage extends StatefulWidget {
+  final String searchParam;
+  const MovieHomePage({Key? key, required this.searchParam}) : super(key: key);
 
   @override
+  _MovieHomePageState createState() => _MovieHomePageState();
+}
+
+class _MovieHomePageState extends State<MovieHomePage> {
+  @override
   Widget build(BuildContext context) {
+    print(widget.searchParam);
     var size = MediaQuery.of(context).size;
-    return Container(
+    return
+      widget.searchParam == '' ?
+     Container(
         color: kPrimaryColor,
         child: Padding(
           padding: const EdgeInsets.all(6.0),
@@ -56,6 +65,7 @@ class MovieHomePage extends StatelessWidget {
               ],
             ),
           ),
-        ));
+        ))
+        : Text('data');
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
 import 'package:sam_frontend/Screens/Movie_Descripation.dart';
+import 'package:sam_frontend/Widgets/Movie_D.dart';
 
 class MovieCard extends StatelessWidget {
   final List<int> genres;
@@ -12,6 +13,7 @@ class MovieCard extends StatelessWidget {
   final DateTime releaseDate;
   final String title;
   final double voteAverage;
+  final String backdropPath;
 
   const MovieCard(
       {Key? key,
@@ -21,6 +23,7 @@ class MovieCard extends StatelessWidget {
       required this.originalLanguage,
       required this.overview,
       required this.posterPath,
+      required this.backdropPath,
       required this.releaseDate,
       required this.title, required this.voteAverage})
       : super(key: key);
@@ -38,12 +41,13 @@ class MovieCard extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (BuildContext context) => MovieDescripation(
+                  builder: (BuildContext context) => MovieD(
                         genres: genres,
                         id: id,
                         originalTitle: originalTitle,
                         originalLanguage: originalLanguage,
                         overview: overview,
+                        backdropPath: backdropPath,
                         posterPath: posterPath,
                         releaseDate: releaseDate,
                         title: title,

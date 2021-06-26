@@ -57,6 +57,7 @@ class _MovieNowPlayingState extends State<MovieNowPlaying> {
               originalTitle: _movies[index].originalTitle,
               originalLanguage: _movies[index].originalLanguage,
               overview: _movies[index].overview,
+              backdropPath: _movies[index].backdropPath,
               posterPath: _movies[index].posterPath,
               releaseDate: _movies[index].releaseDate,
               title: _movies[index].title,

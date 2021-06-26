@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String name;
-  const CustomAppBar({Key? key, required this.name}) : super(key: key);
+  final String value;
+  final Function searchFillerState;
+  const CustomAppBar(
+      {Key? key,
+      required this.name,
+      required this.searchFillerState,
+      required this.value})
+      : super(key: key);
 
   @override
   _CustomAppBarState createState() => _CustomAppBarState();
@@ -13,7 +21,21 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
+  final myController = TextEditingController();
   var _isSearching = false;
+
+  // setData() async {
+  //   SharedPreferences pref = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     pref.setString('search', myController.text);
+  //   });
+  // }
+
+  // @override
+  // void dispose() {
+  //   myController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +66,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                       fontWeight: FontWeight.bold),
                 )
               : TextField(
+                  controller: myController,
                   style: TextStyle(color: kFourthColor),
                   decoration: InputDecoration(
                       enabledBorder: UnderlineInputBorder(
@@ -62,10 +85,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
                     onPressed: () {
                       setState(() {
                         this._isSearching = !this._isSearching;
+                        widget.searchFillerState(myController.text);
                       });
                     },
                     icon: Icon(
-                      Icons.cancel_outlined,
+                      Icons.check,
                       color: kSecondaryColor,
                       size: 30,
                     ))

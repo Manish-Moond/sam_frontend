@@ -1,5 +1,8 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sam_frontend/Models/Anime_Top_Model.dart';
+import 'package:sam_frontend/Providers/My_Model.dart';
 import 'package:sam_frontend/Screens/About.dart';
 import 'package:sam_frontend/Screens/Anime_Home_Page.dart';
 import 'package:sam_frontend/Screens/My_List_Home_Page.dart';
@@ -17,59 +20,103 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String searchFillerValue = '';
   int _index = 0;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: (() {
-        switch (_index) {
-          case 0:
-            return CustomAppBar(name:  'Movie',);
-          case 1:
-            return CustomAppBar(name:  'Anime',);
-          case 2:
-            return CustomAppBar(name:  'Tv Series',);
-          case 3:
-            return CustomAppBar(name:  'My List',);
-          case 4:
-            return CustomAppBar(name:  'More',);
-          default:
-        }
-      }()),
-      bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: kPrimaryColor,
-        color: kSecondaryColor,
-        // index: 4,
-        items: <Widget>[
-          Icon(Icons.movie, size: 30),
-          Icon(Icons.laptop, size: 30),
-          Icon(Icons.tv, size: 30),
-          Icon(Icons.list, size: 30),
-          Icon(Icons.more_horiz, size: 30)
-        ],
-        onTap: (index) {
-          //Handle button tap
-          _index = index;
-          setState(() {
+    return ChangeNotifierProvider(
+      create: (_) => MyModel(0),
+      child: Scaffold(
+        appBar: (() {
+          switch (_index) {
+            case 0:
+              return CustomAppBar(
+                name: 'Movie',
+                value: searchFillerValue,
+                searchFillerState: (String newValue) {
+                  setState(() {
+                    searchFillerValue = newValue;
+                  });
+                },
+              );
+            case 1:
+              return CustomAppBar(
+                name: 'Anime',
+                value: searchFillerValue,
+                searchFillerState: (String newValue) {
+                  setState(() {
+                    searchFillerValue = newValue;
+                  });
+                },
+              );
+            case 2:
+              return CustomAppBar(
+                name: 'Tv Series',
+                value: searchFillerValue,
+                searchFillerState: (String newValue) {
+                  setState(() {
+                    searchFillerValue = newValue;
+                  });
+                },
+              );
+            case 3:
+              return CustomAppBar(
+                name: 'My List',
+                value: searchFillerValue,
+                searchFillerState: (String newValue) {
+                  setState(() {
+                    searchFillerValue = newValue;
+                  });
+                },
+              );
+            case 4:
+              return CustomAppBar(
+                name: 'More',
+                value: searchFillerValue,
+                searchFillerState: (String newValue) {
+                  setState(() {
+                    searchFillerValue = newValue;
+                  });
+                },
+              );
+            default:
+          }
+        }()),
+        bottomNavigationBar: CurvedNavigationBar(
+          backgroundColor: kPrimaryColor,
+          color: kSecondaryColor,
+          // index: 4,
+          items: <Widget>[
+            Icon(Icons.movie, size: 30),
+            Icon(Icons.laptop, size: 30),
+            Icon(Icons.tv, size: 30),
+            Icon(Icons.list, size: 30),
+            Icon(Icons.more_horiz, size: 30)
+          ],
+          onTap: (index) {
+            //Handle button tap
             _index = index;
-          });
-        },
+            setState(() {
+              _index = index;
+            });
+          },
+        ),
+        body: (() {
+          switch (_index) {
+            case 0:
+              return MovieHomePage(searchParam: searchFillerValue,);
+            case 1:
+              return AnimeHomePage();
+            case 2:
+              return TvSeriesHomePage();
+            case 3:
+              return MyListHomePage();
+            case 4:
+              return About();
+            default:
+          }
+        }()),
       ),
-      body: (() {
-        switch (_index) {
-          case 0:
-            return MovieHomePage();
-          case 1:
-            return AnimeHomePage();
-          case 2:
-            return TvSeriesHomePage();
-          case 3:
-            return MyListHomePage();
-          case 4:
-            return About();
-          default:
-        }
-      }()),
     );
   }
 }
