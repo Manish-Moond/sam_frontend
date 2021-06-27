@@ -18,54 +18,53 @@ class _MovieHomePageState extends State<MovieHomePage> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return
-      widget.searchParam == '' ?
-     Container(
-        color: kPrimaryColor,
-        child: Padding(
-          padding: const EdgeInsets.all(6.0),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                MovieGenres(),
-                SizedBox(
-                  height: size.height * 0.005,
+    return widget.searchParam == ''
+        ? Container(
+            color: kPrimaryColor,
+            child: Padding(
+              padding: const EdgeInsets.all(6.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    MovieGenres(),
+                    SizedBox(
+                      height: size.height * 0.005,
+                    ),
+                    Text(
+                      'Top Rated',
+                      style: TextStyle(fontSize: 20, color: kSecondaryColor),
+                    ),
+                    SizedBox(
+                      height: size.height * 0.011,
+                    ),
+                    MovieTopRated(),
+                    SizedBox(
+                      height: size.height * 0.005,
+                    ),
+                    Text(
+                      'Now playing',
+                      style: TextStyle(fontSize: 20, color: kSecondaryColor),
+                    ),
+                    SizedBox(
+                      height: size.height * 0.011,
+                    ),
+                    MovieNowPlaying(),
+                    SizedBox(
+                      height: size.height * 0.005,
+                    ),
+                    Text(
+                      'Popular',
+                      style: TextStyle(fontSize: 20, color: kSecondaryColor),
+                    ),
+                    SizedBox(
+                      height: size.height * 0.011,
+                    ),
+                    MoviePopular(),
+                  ],
                 ),
-                Text(
-                  'Top Rated',
-                  style: TextStyle(fontSize: 20, color: kSecondaryColor),
-                ),
-                SizedBox(
-                  height: size.height * 0.011,
-                ),
-                MovieTopRated(),
-                SizedBox(
-                  height: size.height * 0.005,
-                ),
-                Text(
-                  'Now playing',
-                  style: TextStyle(fontSize: 20, color: kSecondaryColor),
-                ),
-                SizedBox(
-                  height: size.height * 0.011,
-                ),
-                MovieNowPlaying(),
-                SizedBox(
-                  height: size.height * 0.005,
-                ),
-                Text(
-                  'Popular',
-                  style: TextStyle(fontSize: 20, color: kSecondaryColor),
-                ),
-                SizedBox(
-                  height: size.height * 0.011,
-                ),
-                MoviePopular(),
-              ],
-            ),
-          ),
-        ))
+              ),
+            ))
         : SearchedMovie(search: widget.searchParam);
   }
 }

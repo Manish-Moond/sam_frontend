@@ -22,7 +22,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _CustomAppBarState extends State<CustomAppBar> {
   final myController = TextEditingController();
   var _isSearching = false;
-  
+
   @override
   Widget build(BuildContext context) {
     return Container(
