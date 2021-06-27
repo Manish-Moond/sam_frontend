@@ -41,8 +41,9 @@ class _MovieTopRatedState extends State<MovieTopRated> {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Container(
-      height: 226,
+      height: size.height*0.3,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         controller: _scrollController,

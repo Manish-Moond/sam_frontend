@@ -12,7 +12,7 @@ class MovieNowPlaying extends StatefulWidget {
 
 class _MovieNowPlayingState extends State<MovieNowPlaying> {
   final HttpMoviesServices _httpMoviesServices = HttpMoviesServices();
-    List<Result> _movies = [];
+  List<Result> _movies = [];
   ScrollController _scrollController = ScrollController();
   int _page = 1;
 
@@ -24,7 +24,7 @@ class _MovieNowPlayingState extends State<MovieNowPlaying> {
     });
   }
 
-    @override
+  @override
   void initState() {
     super.initState();
     _httpMoviesServices.getNowPlaing(_page).then((value) {
@@ -41,28 +41,28 @@ class _MovieNowPlayingState extends State<MovieNowPlaying> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Container(
-      height: 226,
+      height: size.height*0.3,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         controller: _scrollController,
         itemCount: _movies.length,
         itemBuilder: (context, index) {
           return MovieCard(
-              genres: _movies[index].genreIds,
-              id: _movies[index].id,
-              originalTitle: _movies[index].originalTitle,
-              originalLanguage: _movies[index].originalLanguage,
-              overview: _movies[index].overview,
-              backdropPath: _movies[index].backdropPath,
-              posterPath: _movies[index].posterPath,
-              releaseDate: _movies[index].releaseDate,
-              title: _movies[index].title,
-              voteAverage: _movies[index].voteAverage,
-              );
+            genres: _movies[index].genreIds,
+            id: _movies[index].id,
+            originalTitle: _movies[index].originalTitle,
+            originalLanguage: _movies[index].originalLanguage,
+            overview: _movies[index].overview,
+            backdropPath: _movies[index].backdropPath,
+            posterPath: _movies[index].posterPath,
+            releaseDate: _movies[index].releaseDate,
+            title: _movies[index].title,
+            voteAverage: _movies[index].voteAverage,
+          );
         },
       ),
     );

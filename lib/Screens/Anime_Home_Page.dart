@@ -1,5 +1,3 @@
-// @dart=2.9
-
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
 import 'package:sam_frontend/Models/Anime_Model.dart';
@@ -14,7 +12,7 @@ class AnimeHomePage extends StatefulWidget {
 
 class _AnimeHomePageState extends State<AnimeHomePage> {
   final HttpAnimeServices _httpTopAnimeServices = HttpAnimeServices();
-  Future<AnimeTopModel> _topAnime;
+  late Future<AnimeTopModel> _topAnime;
   @override
   void initState() {
     super.initState();
@@ -33,8 +31,8 @@ class _AnimeHomePageState extends State<AnimeHomePage> {
         future: _topAnime,
         builder: (BuildContext context, AsyncSnapshot<AnimeTopModel> snapshot) {
           if (snapshot.hasData) {
-            AnimeTopModel anime = snapshot.data;
-            List<Top> erer = anime.top;
+            AnimeTopModel? anime = snapshot.data;
+            List<Top> erer = anime!.top;
             return Container(
               color: kPrimaryColor,
               child: GridView.count(

@@ -16,7 +16,8 @@ class HttpAnimeServices {
   }
 
   Future<AnimeModel> getAnime({required int malId}) async {
-    final res = await http.get(Uri.http("192.168.43.19:8089", "/$malId"));
+    final res = await http
+        .get(Uri.https("sam-api-flask.herokuapp.com", "anime/$malId"));
     if (res.statusCode == 200) {
       AnimeModel result = AnimeModel.fromJson(json.decode(res.body));
       return result;

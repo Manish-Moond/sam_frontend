@@ -41,7 +41,7 @@ class _MovieDState extends State<MovieD> {
     35: 'Comedy',
     80: 'Crime',
     99: 'Decumentry',
-    18: 'Drame',
+    18: 'Drama',
     10751: 'Family',
     14: 'Fantasy',
     36: 'History',
@@ -49,7 +49,7 @@ class _MovieDState extends State<MovieD> {
     10402: 'Music',
     9648: 'Mystery',
     10749: 'Romance',
-    878: 'Science Finction',
+    878: 'Sci-Fai',
     10770: 'TV Movie',
     53: 'Thriller',
     10752: 'War',
@@ -87,7 +87,6 @@ class _MovieDState extends State<MovieD> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    print(widget.releaseDate);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kPrimaryColor,
@@ -133,7 +132,6 @@ class _MovieDState extends State<MovieD> {
                       color: Colors.amber,
                     ),
                     onRatingUpdate: (rating) {
-                      print(rating);
                     },
                   ),
                 ),

@@ -82,7 +82,7 @@ class Result {
         originalTitle: json["original_title"],
         overview: json["overview"],
         popularity: json["popularity"].toDouble(),
-        posterPath: json["poster_path"],
+        posterPath: json["poster_path"] == null ? '': json['poster_path'],
         releaseDate: DateTime.parse(json["release_date"]),
         title: json["title"],
         video: json["video"],

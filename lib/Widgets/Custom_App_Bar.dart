@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String name;
@@ -23,20 +22,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _CustomAppBarState extends State<CustomAppBar> {
   final myController = TextEditingController();
   var _isSearching = false;
-
-  // setData() async {
-  //   SharedPreferences pref = await SharedPreferences.getInstance();
-  //   setState(() {
-  //     pref.setString('search', myController.text);
-  //   });
-  // }
-
-  // @override
-  // void dispose() {
-  //   myController.dispose();
-  //   super.dispose();
-  // }
-
+  
   @override
   Widget build(BuildContext context) {
     return Container(

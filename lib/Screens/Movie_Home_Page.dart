@@ -4,6 +4,7 @@ import 'package:sam_frontend/Widgets/Movie_Genres.dart';
 import 'package:sam_frontend/Widgets/Movie_Now_Playing.dart';
 import 'package:sam_frontend/Widgets/Movie_Popular.dart';
 import 'package:sam_frontend/Widgets/Movie_Top_Rated.dart';
+import 'package:sam_frontend/Widgets/Searched_Movie.dart';
 
 class MovieHomePage extends StatefulWidget {
   final String searchParam;
@@ -16,7 +17,6 @@ class MovieHomePage extends StatefulWidget {
 class _MovieHomePageState extends State<MovieHomePage> {
   @override
   Widget build(BuildContext context) {
-    print(widget.searchParam);
     var size = MediaQuery.of(context).size;
     return
       widget.searchParam == '' ?
@@ -66,6 +66,6 @@ class _MovieHomePageState extends State<MovieHomePage> {
             ),
           ),
         ))
-        : Text('data');
+        : SearchedMovie(search: widget.searchParam);
   }
 }

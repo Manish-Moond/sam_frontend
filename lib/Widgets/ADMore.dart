@@ -2,7 +2,6 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
 import 'package:sam_frontend/Models/Anime_Model.dart';
-import 'package:sam_frontend/Widgets/Anime_Recommended.dart';
 import 'Anime_RR.dart';
 
 class ADMore extends StatelessWidget {
@@ -298,7 +297,7 @@ class ADMore extends StatelessWidget {
                   style: TextStyle(fontSize: 24, color: kSecondaryColor),
                 ),
               ),
-              RecommendedAnime(malId:malId),
+              // RecommendedAnime(malId:malId),
             ],
           ),
         ),

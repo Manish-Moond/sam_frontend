@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
-import 'package:sam_frontend/Screens/Movie_Descripation.dart';
-import 'package:sam_frontend/Widgets/Movie_D.dart';
+import 'package:sam_frontend/Screens/Movie_Descripetion.dart';
 
 class MovieCard extends StatelessWidget {
   final List<int> genres;
@@ -57,7 +56,7 @@ class MovieCard extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              height: size.height * 0.27,
+              height: size.height * 0.288,
               width: size.width * 0.373,
               child: FadeInImage(
                 placeholder: AssetImage('assets/images/movieplaceholder.jpg'),

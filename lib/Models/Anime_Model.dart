@@ -69,10 +69,10 @@ class Genre {
   String url;
 
   factory Genre.fromJson(Map<String, dynamic> json) => Genre(
-        malId: json["mal_id"] == null ? null : json["mal_id"],
-        name: json["name"] == null ? null : json["name"],
-        type: json["type"] == null ? null : json["type"],
-        url: json["url"] == null ? null : json["url"],
+        malId: json["mal_id"] == -1 ? -1 : json["mal_id"],
+        name: json["name"] == "None" ? 'None' : json["name"],
+        type: json["type"] == 'None' ? "None" : json["type"],
+        url: json["url"] == "None" ? "None" : json["url"],
       );
 }
 

@@ -1,7 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sam_frontend/Models/Anime_Top_Model.dart';
 import 'package:sam_frontend/Providers/My_Model.dart';
 import 'package:sam_frontend/Screens/About.dart';
 import 'package:sam_frontend/Screens/Anime_Home_Page.dart';
@@ -22,6 +21,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String searchFillerValue = '';
   int _index = 0;
+
+  void searchFillterFunction(String newValue) {
+    setState(() {
+      searchFillerValue = newValue;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -33,11 +39,7 @@ class _HomePageState extends State<HomePage> {
               return CustomAppBar(
                 name: 'Movie',
                 value: searchFillerValue,
-                searchFillerState: (String newValue) {
-                  setState(() {
-                    searchFillerValue = newValue;
-                  });
-                },
+                searchFillerState: searchFillterFunction
               );
             case 1:
               return CustomAppBar(
@@ -53,11 +55,7 @@ class _HomePageState extends State<HomePage> {
               return CustomAppBar(
                 name: 'Tv Series',
                 value: searchFillerValue,
-                searchFillerState: (String newValue) {
-                  setState(() {
-                    searchFillerValue = newValue;
-                  });
-                },
+                searchFillerState: searchFillterFunction
               );
             case 3:
               return CustomAppBar(
@@ -73,11 +71,7 @@ class _HomePageState extends State<HomePage> {
               return CustomAppBar(
                 name: 'More',
                 value: searchFillerValue,
-                searchFillerState: (String newValue) {
-                  setState(() {
-                    searchFillerValue = newValue;
-                  });
-                },
+                searchFillerState: searchFillterFunction
               );
             default:
           }
@@ -104,7 +98,9 @@ class _HomePageState extends State<HomePage> {
         body: (() {
           switch (_index) {
             case 0:
-              return MovieHomePage(searchParam: searchFillerValue,);
+              return MovieHomePage(
+                searchParam: searchFillerValue,
+              );
             case 1:
               return AnimeHomePage();
             case 2:
