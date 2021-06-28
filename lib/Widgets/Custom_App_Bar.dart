@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
 
@@ -45,11 +47,17 @@ class _CustomAppBarState extends State<CustomAppBar> {
           backgroundColor: kPrimaryColor,
           title: !_isSearching
               ? Text(
-                  widget.name,
-                  style: TextStyle(
-                      color: kSecondaryColor,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold),
+                  myController.text == '' ? widget.name : myController.text,
+                  style: myController.text == ''
+                      ? TextStyle(
+                          color: kSecondaryColor,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold)
+                      : TextStyle(
+                          color: kSecondaryColor,
+                          fontSize: 23,
+                          fontWeight: FontWeight.normal
+                        ),
                 )
               : TextField(
                   controller: myController,
