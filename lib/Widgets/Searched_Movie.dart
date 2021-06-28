@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
 import 'package:sam_frontend/Models/Movie_Model.dart';
 import 'package:sam_frontend/Services/Movie_Servies.dart';
@@ -61,7 +60,12 @@ class _SearchedMovieState extends State<SearchedMovie> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: ListView.builder(
+      color: kPrimaryColor,
+      child: GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: MediaQuery.of(context).size.width /
+                (MediaQuery.of(context).size.height / 1.3)),
         controller: _scrollController,
         itemCount: _movies.length,
         itemBuilder: (context, index) {
@@ -137,57 +141,53 @@ class SearchedMovieCard extends StatelessWidget {
               ),
             );
           },
-          child: Row(
+          child: Column(
             children: [
-              //Image
+              // image
+              Container(
+                height: size.height * 0.3,
+                width: size.width * 0.475,
+                child: FadeInImage(
+                  placeholder: AssetImage('assets/images/movieplaceholder.jpg'),
+                  image: NetworkImage(
+                      'https://image.tmdb.org/t/p/w500/$posterPath'),
+                  fit: BoxFit.fill,
+                ),
+              ),
+              // Title
               Column(
                 children: [
                   Container(
-                    height: size.height * 0.20,
-                    width: size.width * 0.27,
-                    child: FadeInImage(
-                      placeholder:
-                          AssetImage('assets/images/movieplaceholder.jpg'),
-                      image: NetworkImage(
-                          'https://image.tmdb.org/t/p/w500/$posterPath'),
-                      fit: BoxFit.fill,
+                    padding: EdgeInsets.fromLTRB(6, 6, 0, 0),
+                    child: SizedBox(
+                      child: Text(
+                        originalTitle,
+                        maxLines: 1,
+                        overflow: TextOverflow.fade,
+                        softWrap: false,
+                        style: TextStyle(color: kPrimaryColor, fontSize: 15),
+                      ),
                     ),
-                  )
+                  ),
                 ],
               ),
               SizedBox(
-                width: size.width * 0.03,
+                height: size.height * 0.01,
               ),
-              //About Movie
-              Column(
+              //release date
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  SizedBox(
-                    width: size.width * 0.65,
-                    child: Text(
-                      title,
-                      overflow: TextOverflow.clip,
-                      style: TextStyle(color: kPrimaryColor, fontSize: 15),
-                    ),
+                  Container(
+                    child: Text('$voteAverage *'),
                   ),
                   Container(
-                    child: RatingBar.builder(
-                      initialRating: voteAverage / 2,
-                      minRating: 1,
-                      direction: Axis.horizontal,
-                      allowHalfRating: true,
-                      itemCount: 5,
-                      itemSize: 15,
-                      unratedColor: Colors.white,
-                      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                      itemBuilder: (context, _) => Icon(
-                        Icons.star,
-                        color: kPrimaryColor,
-                      ),
-                      onRatingUpdate: (rating) {},
+                    child: Text(
+                      '${releaseDate.year.toString()}',
                     ),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ),

@@ -4,6 +4,16 @@ import 'package:http/http.dart' as http;
 import 'package:sam_frontend/Models/Movie_Model.dart';
 
 class HttpMoviesServices {
+  Future<MoviesModel> getTrending(type, page) async {
+    final res = await http
+        .get(Uri.https('sam-api-flask.herokuapp.com', '/trending/$type/$page'));
+    if (res.statusCode == 200) {
+      MoviesModel result = MoviesModel.fromJson(json.decode(res.body));
+      return result;
+    }
+    throw 'Error from now Latest';
+  }
+
   Future<MoviesModel> getTopMovie(page) async {
     final res = await http
         .get(Uri.https("sam-api-flask.herokuapp.com", "/topmovie/$page"));
@@ -31,7 +41,7 @@ class HttpMoviesServices {
       MoviesModel result = MoviesModel.fromJson(json.decode(res.body));
       return result;
     }
-    throw 'Error from now playing';
+    throw 'Error from POPULAR movies';
   }
 
   Future<MoviesModel> getSearched(page, search) async {

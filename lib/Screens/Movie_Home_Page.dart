@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
 import 'package:sam_frontend/Widgets/Movie_Genres.dart';
+import 'package:sam_frontend/Widgets/Movie_Trending.dart';
 import 'package:sam_frontend/Widgets/Movie_Now_Playing.dart';
 import 'package:sam_frontend/Widgets/Movie_Popular.dart';
 import 'package:sam_frontend/Widgets/Movie_Top_Rated.dart';
@@ -27,35 +28,48 @@ class _MovieHomePageState extends State<MovieHomePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    MovieTrending(),
+                    SizedBox(
+                      height: size.height * 0.005,
+                    ),
                     MovieGenres(),
                     SizedBox(
                       height: size.height * 0.005,
                     ),
                     Text(
                       'Top Rated',
-                      style: TextStyle(fontSize: 20, color: kSecondaryColor),
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: kSecondaryColor,
+                          fontWeight: FontWeight.w400),
                     ),
                     SizedBox(
                       height: size.height * 0.011,
                     ),
                     MovieTopRated(),
                     SizedBox(
-                      height: size.height * 0.005,
+                      height: size.height * 0.02,
                     ),
                     Text(
                       'Now playing',
-                      style: TextStyle(fontSize: 20, color: kSecondaryColor),
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: kSecondaryColor,
+                          fontWeight: FontWeight.w400),
                     ),
                     SizedBox(
                       height: size.height * 0.011,
                     ),
                     MovieNowPlaying(),
                     SizedBox(
-                      height: size.height * 0.005,
+                      height: size.height * 0.02,
                     ),
                     Text(
                       'Popular',
-                      style: TextStyle(fontSize: 20, color: kSecondaryColor),
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: kSecondaryColor,
+                          fontWeight: FontWeight.w400),
                     ),
                     SizedBox(
                       height: size.height * 0.011,
