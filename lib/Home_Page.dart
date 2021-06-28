@@ -1,6 +1,5 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:sam_frontend/Screens/About.dart';
 import 'package:sam_frontend/Screens/Anime_Home_Page.dart';
 import 'package:sam_frontend/Screens/My_List_Home_Page.dart';

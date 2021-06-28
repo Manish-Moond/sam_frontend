@@ -103,8 +103,10 @@ class _MovieDState extends State<MovieD> {
                 borderRadius: BorderRadius.circular(2.0),
                 child: FadeInImage(
                   placeholder: AssetImage('assets/images/movieplaceholder.jpg'),
-                  image: NetworkImage(
-                      'https://image.tmdb.org/t/p/w500/${widget.backdropPath}'),
+                  image: widget.posterPath == ''
+                      ? NetworkImage('http://placeimg.com/640/360/any.jpg')
+                      : NetworkImage(
+                          'https://image.tmdb.org/t/p/w500/${widget.posterPath}'),
                   // fit: BoxFit.fill
                 ),
               ),
@@ -131,8 +133,7 @@ class _MovieDState extends State<MovieD> {
                       Icons.star,
                       color: Colors.amber,
                     ),
-                    onRatingUpdate: (rating) {
-                    },
+                    onRatingUpdate: (rating) {},
                   ),
                 ),
                 Container(

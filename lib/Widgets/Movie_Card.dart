@@ -24,7 +24,8 @@ class MovieCard extends StatelessWidget {
       required this.posterPath,
       required this.backdropPath,
       required this.releaseDate,
-      required this.title, required this.voteAverage})
+      required this.title,
+      required this.voteAverage})
       : super(key: key);
 
   @override
@@ -56,13 +57,15 @@ class MovieCard extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              height: size.height * 0.288,
+              height: size.height * 0.29009,
               width: size.width * 0.373,
               child: FadeInImage(
                 placeholder: AssetImage('assets/images/movieplaceholder.jpg'),
-                image:
-                    NetworkImage('https://image.tmdb.org/t/p/w500/$posterPath'),
-                fit: BoxFit.fill,
+                image: posterPath == ''
+                    ? NetworkImage('http://placeimg.com/640/360/any.jpg')
+                    : NetworkImage(
+                        'https://image.tmdb.org/t/p/w500/$posterPath'),
+                fit: BoxFit.cover,
               ),
             )
           ],

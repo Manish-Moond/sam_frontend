@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sam_frontend/Constant/Colors.dart';
 import 'package:sam_frontend/Models/Movie_Model.dart';
 import 'package:sam_frontend/Services/Movie_Servies.dart';
 import 'package:sam_frontend/Widgets/Movie_Card.dart';
@@ -44,27 +45,45 @@ class _MovieNowPlayingState extends State<MovieNowPlaying> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return Container(
-      height: size.height*0.3,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        controller: _scrollController,
-        itemCount: _movies.length,
-        itemBuilder: (context, index) {
-          return MovieCard(
-            genres: _movies[index].genreIds,
-            id: _movies[index].id,
-            originalTitle: _movies[index].originalTitle,
-            originalLanguage: _movies[index].originalLanguage,
-            overview: _movies[index].overview,
-            backdropPath: _movies[index].backdropPath,
-            posterPath: _movies[index].posterPath,
-            releaseDate: _movies[index].releaseDate,
-            title: _movies[index].title,
-            voteAverage: _movies[index].voteAverage,
-          );
-        },
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: size.height * 0.02,
+        ),
+        Text(
+          'Now playing',
+          style: TextStyle(
+              fontSize: 18,
+              color: kSecondaryColor,
+              fontWeight: FontWeight.w400),
+        ),
+        SizedBox(
+          height: size.height * 0.011,
+        ),
+        Container(
+          height: size.height * 0.3,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            controller: _scrollController,
+            itemCount: _movies.length,
+            itemBuilder: (context, index) {
+              return MovieCard(
+                genres: _movies[index].genreIds,
+                id: _movies[index].id,
+                originalTitle: _movies[index].originalTitle,
+                originalLanguage: _movies[index].originalLanguage,
+                overview: _movies[index].overview,
+                backdropPath: _movies[index].backdropPath,
+                posterPath: _movies[index].posterPath,
+                releaseDate: _movies[index].releaseDate,
+                title: _movies[index].title,
+                voteAverage: _movies[index].voteAverage,
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }

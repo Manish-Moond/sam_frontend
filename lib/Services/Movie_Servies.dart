@@ -14,6 +14,16 @@ class HttpMoviesServices {
     throw 'Error from now Latest';
   }
 
+  Future<MoviesModel> getGenresMovies(genresId, page) async {
+    final res = await http.get(Uri.https(
+        'sam-api-flask.herokuapp.com', '/movie/genre/$genresId/$page'));
+    if (res.statusCode == 200) {
+      MoviesModel result = MoviesModel.fromJson(json.decode(res.body));
+      return result;
+    }
+    throw 'Error from now Latest';
+  }
+
   Future<MoviesModel> getTopMovie(page) async {
     final res = await http
         .get(Uri.https("sam-api-flask.herokuapp.com", "/topmovie/$page"));

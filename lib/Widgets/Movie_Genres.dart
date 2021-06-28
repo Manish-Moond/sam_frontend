@@ -2,36 +2,95 @@ import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
 
 class MovieGenres extends StatelessWidget {
-   List<String> _genre = [
+  final Function selectedFunction;
+  final String selectedValue;
+
+  MovieGenres(
+      {Key? key, required this.selectedFunction, required this.selectedValue})
+      : super(key: key);
+
+  final List<String> _genre = [
     'Action',
-    'Drama',
-    'Comady',
     'Adventure',
-    'Crime ',
-    'Mystery',
+    'Animation',
+    'Comady',
+    'Crime',
+    'Documentary',
+    'Drama',
+    'Family',
     'Fantasy',
-    'Historical',
+    'History',
     'Horror',
+    'Music',
+    'Mystery',
     'Romance',
-    'Satire',
     'Science fiction',
+    'TV Movie',
     'Thriller',
+    'War',
     'Western',
-    'Other'
   ];
+
   @override
- 
   Widget build(BuildContext context) {
-    return Container(
-      height: 60,
-        child: ListView(
-          scrollDirection: Axis.horizontal,
+    var size = MediaQuery.of(context).size;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ..._genre.map((e) => Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 12, 6),
-          child: Chip(label: Text(e, style: TextStyle(color: kPrimaryColor),), backgroundColor: kSecondaryColor,),
-        ))
+        SizedBox(
+          height: size.height * 0.01,
+        ),
+        Container(
+            height: 60,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 12, 6),
+                  child: GestureDetector(
+                    onTap: () {
+                      selectedFunction('All');
+                    },
+                    child: Chip(
+                      label: Text(
+                        'All',
+                        style: TextStyle(
+                            color: selectedValue == 'All'
+                                ? kPrimaryColor
+                                : kSecondaryColor),
+                      ),
+                      backgroundColor: selectedValue == 'All'
+                          ? kSecondaryColor
+                          : kPrimaryColor,
+                    ),
+                  ),
+                ),
+                ..._genre.map((e) => Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 12, 6),
+                      child: GestureDetector(
+                        onTap: () {
+                          selectedFunction(e);
+                        },
+                        child: Chip(
+                          elevation: 0,
+                          shadowColor: kPrimaryColor,
+                          clipBehavior: Clip.antiAlias,
+                          backgroundColor: selectedValue == e
+                              ? kSecondaryColor
+                              : kPrimaryColor,
+                          label: Text(
+                            e,
+                            style: TextStyle(
+                                color: selectedValue == e
+                                    ? kPrimaryColor
+                                    : kSecondaryColor),
+                          ),
+                        ),
+                      ),
+                    ))
+              ],
+            )),
       ],
-    ));
+    );
   }
 }

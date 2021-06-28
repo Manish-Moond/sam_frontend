@@ -37,9 +37,7 @@ class _SearchedMovieState extends State<SearchedMovie> {
 
   @override
   void didUpdateWidget(covariant SearchedMovie oldWidget) {
-    print('called');
     if (this.widget.search != oldWidget.search) {
-      print('yes');
       _movies = [];
       _page = 1;
       _httpMoviesServices.getSearched(_page, widget.search).then((value) {
