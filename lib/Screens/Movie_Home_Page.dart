@@ -3,7 +3,7 @@ import 'package:sam_frontend/Constant/Colors.dart';
 import 'package:sam_frontend/Models/Movie_Model.dart';
 import 'package:sam_frontend/Services/Movie_Servies.dart';
 import 'package:sam_frontend/Widgets/Movie_Card.dart';
-import 'package:sam_frontend/Widgets/Movie_Genres.dart';
+import 'package:sam_frontend/Widgets/MTVS_Genres.dart';
 import 'package:sam_frontend/Widgets/Movie_Trending.dart';
 import 'package:sam_frontend/Widgets/Movie_Now_Playing.dart';
 import 'package:sam_frontend/Widgets/Movie_Popular.dart';
@@ -38,7 +38,7 @@ class _MovieHomePageState extends State<MovieHomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     MovieTrending(),
-                    MovieGenres(
+                    MTVSGenres(
                         selectedFunction: selectFunction,
                         selectedValue: selected),
                     MovieGT(selected: selected),

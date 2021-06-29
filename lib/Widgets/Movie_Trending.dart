@@ -70,7 +70,7 @@ class _MovieTrendingState extends State<MovieTrending> {
                 ClipRRect(
                   child: CachedNetworkImage(
                     imageUrl:
-                        'https://image.tmdb.org/t/p/w500/${_movies[index].posterPath}',
+                        'https://image.tmdb.org/t/p/w500/${_movies[index].backdropPath}',
                     placeholder: (context, url) => CircularProgressIndicator(),
                     height: MediaQuery.of(context).size.height / 3,
                     width: MediaQuery.of(context).size.width,

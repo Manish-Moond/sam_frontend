@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
 
-class MovieGenres extends StatelessWidget {
+class MTVSGenres extends StatelessWidget {
   final Function selectedFunction;
   final String selectedValue;
 
-  MovieGenres(
+  MTVSGenres(
       {Key? key, required this.selectedFunction, required this.selectedValue})
       : super(key: key);
 
