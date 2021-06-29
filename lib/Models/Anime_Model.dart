@@ -1,25 +1,24 @@
 import 'dart:convert';
 
-
 AnimeModel animeModelFromJson(String str) =>
     AnimeModel.fromJson(json.decode(str));
 
 class AnimeModel {
   AnimeModel({
-  required  this.aired,
-  required  this.episodes,
-  required  this.genres,
-  required  this.imageUrl,
-  required  this.malId,
-  required  this.popularity,
-  required  this.rank,
-  required  this.related,
-  required  this.score,
-  required  this.source,
-  required  this.status,
-  required  this.synopsis,
-  required  this.title,
-  required  this.type,
+    required this.aired,
+    required this.episodes,
+    required this.genres,
+    required this.imageUrl,
+    required this.malId,
+    required this.popularity,
+    required this.rank,
+    required this.related,
+    required this.score,
+    required this.source,
+    required this.status,
+    required this.synopsis,
+    required this.title,
+    required this.type,
   });
 
   List<String> aired;
@@ -53,8 +52,8 @@ class AnimeModel {
         title: json["title"],
         type: json["type"],
       );
-
 }
+
 class Genre {
   Genre({
     required this.malId,
@@ -90,10 +89,9 @@ class Related {
     required this.spinOff,
     required this.summary,
     required this.fullStory,
-
   });
 
-   List<Genre> adaptation;
+  List<Genre> adaptation;
   List<Genre> alternativeSetting;
   List<Genre> alternativeVersion;
   List<Genre> character;
@@ -104,7 +102,7 @@ class Related {
   List<Genre> sideStory;
   List<Genre> spinOff;
   List<Genre> summary;
-    List<Genre> fullStory;
+  List<Genre> fullStory;
 
   factory Related.fromJson(Map<String, dynamic> json) => Related(
         adaptation:
@@ -131,4 +129,3 @@ class Related {
             List<Genre>.from(json["Summary"].map((x) => Genre.fromJson(x))),
       );
 }
-

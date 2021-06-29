@@ -38,7 +38,9 @@ class _MovieHomePageState extends State<MovieHomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     MovieTrending(),
-                    MovieGenres(selectedFunction: selectFunction, selectedValue: selected,),
+                    MovieGenres(
+                        selectedFunction: selectFunction,
+                        selectedValue: selected),
                     MovieGT(selected: selected),
                     MovieNowPlaying(),
                     MoviePopular(),
