@@ -57,7 +57,7 @@ class _TvSeriesTopRatedState extends State<TvSeriesTopRated> {
           height: size.height * 0.011,
         ),
         Container(
-          height: size.height * 0.3,
+          height: size.height * 0.34,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             controller: _scrollController,
@@ -66,7 +66,7 @@ class _TvSeriesTopRatedState extends State<TvSeriesTopRated> {
               return MovieCard(
                 genres: _tv[index].genreIds,
                 id: _tv[index].id,
-                originalTitle: _tv[index].originalLanguage,
+                originalTitle: _tv[index].name,
                 originalLanguage: _tv[index].originalLanguage,
                 overview: _tv[index].overview,
                 backdropPath: _tv[index].backdropPath,

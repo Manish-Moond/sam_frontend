@@ -35,7 +35,7 @@ class MovieCard extends StatelessWidget {
         child: Card(
       clipBehavior: Clip.hardEdge,
       semanticContainer: true,
-      color: kSecondaryColor,
+      color: kPrimaryColor,
       child: InkWell(
         onTap: () {
           Navigator.push(
@@ -55,10 +55,11 @@ class MovieCard extends StatelessWidget {
                       )));
         },
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: size.height * 0.29009,
-              width: size.width * 0.373,
+              height: size.height * 0.27,
+              width: size.width * 0.40,
               child: FadeInImage(
                 placeholder: AssetImage('assets/images/movieplaceholder.jpg'),
                 image: posterPath == ''
@@ -67,6 +68,32 @@ class MovieCard extends StatelessWidget {
                         'https://image.tmdb.org/t/p/w500/$posterPath'),
                 fit: BoxFit.cover,
               ),
+            ),
+            Container(
+              margin: EdgeInsets.fromLTRB(6, 6, 0, 6),
+              child: SizedBox(
+                  width: size.width * 0.38,
+                  child: Text(
+                    title,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(color: kSecondaryColor),
+                  ),),
+            ),
+            Row(
+              children: [
+                Container(
+                  padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                  child: Text('$voteAverage', style: TextStyle(color: kSecondaryColor),),
+                ),
+                SizedBox(width: size.width*0.02,),
+                Container(
+                  child: Icon(Icons.star, color: kSecondaryColor, size: 14,),
+                ),
+                SizedBox(width: size.width*0.16,),
+                Container(
+                  child: Text('${releaseDate.year.toString()}', style: TextStyle(color: kSecondaryColor),),
+                )
+              ],
             )
           ],
         ),
