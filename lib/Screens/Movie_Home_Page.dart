@@ -21,9 +21,11 @@ class MovieHomePage extends StatefulWidget {
 class _MovieHomePageState extends State<MovieHomePage> {
   String selected = 'All';
   void selectFunction(String newValue) {
-    setState(() {
-      selected = newValue;
-    });
+    if (mounted) {
+      setState(() {
+        selected = newValue;
+      });
+    }
   }
 
   @override
@@ -165,7 +167,7 @@ class _MGenreMoviesState extends State<MGenreMovies> {
           height: size.height * 0.011,
         ),
         Container(
-          height: size.height * 0.3,
+          height: size.height * 0.34,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             controller: _scrollController,

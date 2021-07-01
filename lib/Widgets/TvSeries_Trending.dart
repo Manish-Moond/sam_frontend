@@ -43,7 +43,7 @@ class _TvSeriesTrendingState extends State<TvSeriesTrending> {
           autoPlayAnimationDuration: Duration(milliseconds: 1600),
         ),
         itemBuilder: (context, index, pageViewIndex) {
-          return InkWell(
+          return _tv.isEmpty? CircularProgressIndicator() : InkWell(
             onTap: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => Text('data')));

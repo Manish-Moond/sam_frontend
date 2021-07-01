@@ -20,6 +20,13 @@ class _TvSeriesTopRatedState extends State<TvSeriesTopRated> {
       for (int i = 0; i < value.results.length; i++) {
         _tv.add(value.results[i]);
       }
+      // execute when count of movie or tvseries is less then 10
+      if (value.results.length < 10) {
+        _page += 1;
+        _httpTvSeriesServices
+            .getTSTopRated(_page)
+            .then((value) => filler(value));
+      }
     });
   }
 
@@ -29,6 +36,7 @@ class _TvSeriesTopRatedState extends State<TvSeriesTopRated> {
     _httpTvSeriesServices.getTSTopRated(_page).then((value) {
       filler(value);
     });
+
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {

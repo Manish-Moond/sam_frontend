@@ -44,7 +44,7 @@ class _MovieTrendingState extends State<MovieTrending> {
         ),
         itemCount: _movies.length,
         itemBuilder: (context, index, pageViewIndex) {
-          return InkWell(
+          return  _movies.isEmpty ? CircularProgressIndicator(): InkWell(
             onTap: () {
               Navigator.push(
                 context,
