@@ -63,7 +63,7 @@ class _TvSeriesPopularState extends State<TvSeriesPopular> {
           height: size.height * 0.011,
         ),
         Container(
-          height: size.height * 0.34,
+          height: size.height * 0.35,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             controller: _scrollController,

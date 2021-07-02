@@ -39,7 +39,7 @@ class AnimeCard extends StatelessWidget {
 
   String _aired(aired) {
     String _start = aired[0];
-    return _start.split(" ")[1];
+    return _start.split(" ")[0] + ' ' + _start.split(' ')[1];
   }
 
   @override
@@ -81,7 +81,7 @@ class AnimeCard extends StatelessWidget {
               width: size.width * 0.475,
               child: Image.network(
                 imageUrl,
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
               ),
             ),
             Padding(
@@ -116,7 +116,7 @@ class AnimeCard extends StatelessWidget {
                               style: TextStyle(fontSize: 12),
                             ),
                             SizedBox(
-                              width: size.width * 0.08,
+                              width: size.width * 0.03,
                             ),
                             Text(
                               '$score',
