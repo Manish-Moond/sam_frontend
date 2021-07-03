@@ -65,7 +65,22 @@ class HttpAnimeServices {
     final res = await http.get(Uri.https(
         'sam-api-flask.herokuapp.com', '/anime/byseason/$year/$season'));
     if (res.statusCode == 200) {
-      AnimeThisSeasonModel result = AnimeThisSeasonModel.fromJson(json.decode(res.body));
+      AnimeThisSeasonModel result =
+          AnimeThisSeasonModel.fromJson(json.decode(res.body));
+      print('Done');
+      return result;
+    }
+    throw Exception('Error');
+  }
+
+  Future<AnimeThisSeasonModel> getGenresResults(
+      {required String genre, required int page}) async {
+    print('call hi');
+    final res = await http.get(
+        Uri.https('sam-api-flask.herokuapp.com', '/anime/genre/$genre/$page'));
+    if (res.statusCode == 200) {
+      AnimeThisSeasonModel result =
+          AnimeThisSeasonModel.fromJson(json.decode(res.body));
       print('Done');
       return result;
     }

@@ -29,7 +29,7 @@ class RRAnime extends StatelessWidget {
                   score: _anime.score,
                   episodes: _anime.episodes,
                   genres: _anime.genres,
-                  aired: _anime.aired,
+                  aired: [_anime.aired[0], _anime.aired[1]],
                   related: _anime.related,
                   popularity: _anime.popularity,
                   status: _anime.status,

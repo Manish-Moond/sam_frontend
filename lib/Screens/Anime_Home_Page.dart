@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Widgets/Anime_This_Season.dart';
 import 'package:sam_frontend/Widgets/Anime_Top_Slider.dart';
-import 'package:sam_frontend/Widgets/Anime_Top_Rated.dart';
+import 'package:sam_frontend/Widgets/Anime_For_You.dart';
 
 class AnimeHomePage extends StatefulWidget {
   @override
@@ -26,7 +26,7 @@ class _AnimeHomePageState extends State<AnimeHomePage> {
         ),
         value == 'This Season'
             ? Expanded(child: AnimeThisSeason())
-            : Expanded(child: AnimeTopRated())
+            : Expanded(child: AnimeForYou())
       ],
     );
   }

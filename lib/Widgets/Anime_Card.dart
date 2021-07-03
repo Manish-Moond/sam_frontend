@@ -39,7 +39,7 @@ class AnimeCard extends StatelessWidget {
 
   String _aired(aired) {
     String _start = aired[0];
-    return _start.split(" ")[0] + ' ' + _start.split(' ')[1];
+    return _start.split(" ")[0] + ' ' + _start.split(" ")[1];
   }
 
   @override
@@ -107,26 +107,29 @@ class AnimeCard extends StatelessWidget {
                         SizedBox(
                           height: size.height * 0.01,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          // crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Text(
-                              "${_aired(aired)} " + ' ($episodes)',
-                              style: TextStyle(fontSize: 12),
-                            ),
-                            SizedBox(
-                              width: size.width * 0.03,
-                            ),
-                            Text(
-                              '$score',
-                              style: TextStyle(fontSize: 12),
-                            ),
-                            Icon(
-                              Icons.star_rate,
-                              size: 12,
-                            )
-                          ],
+                        Container(
+                          // width: size.width*0.33,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "${_aired(aired)} " + ' ($episodes)',
+                                style: TextStyle(fontSize: 10),
+                              ),
+                              SizedBox(
+                                width: size.width * 0.03,
+                              ),
+                              // Spacer(flex: 2,),
+                              Text(
+                                '$score',
+                                style: TextStyle(fontSize: 10),
+                              ),
+                              Icon(
+                                Icons.star_rate,
+                                size: 12,
+                              )
+                            ],
+                          ),
                         ),
                       ],
                     ),

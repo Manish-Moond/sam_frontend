@@ -12,7 +12,7 @@ class AnimeTopSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: MediaQuery.of(context).size.height * 0.05,
+        height: MediaQuery.of(context).size.height * 0.03,
         color: kPrimaryColor,
         child: ListView(
           scrollDirection: Axis.horizontal,
@@ -27,10 +27,9 @@ class AnimeTopSlider extends StatelessWidget {
                   child: Text(
                     e,
                     style: TextStyle(
-                        color: e == selected ? kSecondaryColor : kWhiteColor,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400
-                        ),
+                        color: e == selected ? kWhiteColor : kSecondaryColor,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400),
                   ),
                 ),
               ),
@@ -39,4 +38,3 @@ class AnimeTopSlider extends StatelessWidget {
         ));
   }
 }
-
