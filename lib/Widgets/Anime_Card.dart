@@ -111,6 +111,7 @@ class AnimeCard extends StatelessWidget {
                           // width: size.width*0.33,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Text(
                                 "${_aired(aired)} " + ' ($episodes)',
@@ -121,12 +122,12 @@ class AnimeCard extends StatelessWidget {
                               ),
                               // Spacer(flex: 2,),
                               Text(
-                                '$score',
+                                score == -1 ? '0' : '$score',
                                 style: TextStyle(fontSize: 10),
                               ),
                               Icon(
                                 Icons.star_rate,
-                                size: 12,
+                                size: 15,
                               )
                             ],
                           ),

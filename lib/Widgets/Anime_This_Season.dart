@@ -5,8 +5,6 @@ import 'package:sam_frontend/Models/Anime_This_Season_Model.dart';
 import 'package:sam_frontend/Services/Anime_Servies.dart';
 import 'package:sam_frontend/Widgets/Anime_Card.dart';
 
-import 'Anime_Modal.dart';
-
 class AnimeThisSeason extends StatefulWidget {
   const AnimeThisSeason({Key? key}) : super(key: key);
 

@@ -239,14 +239,22 @@ class _AnimeGenresResultsState extends State<AnimeGenresResults> {
     final double itemWidth = size.width / 2;
     return Expanded(
       child: Container(
-        color: kPrimaryColor,
-          child:_anime.isEmpty ? CircularProgressIndicator(): GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                childAspectRatio: (itemWidth / itemHeight),
-                crossAxisCount: 2,
-              ),
-              itemBuilder: (context, index) {
-                return AnimeCard(
+          color: kPrimaryColor,
+          child: _anime.isEmpty
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [CircularProgressIndicator()],
+                )
+              : GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    childAspectRatio: (itemWidth / itemHeight),
+                    crossAxisCount: 2,
+                  ),
+                  controller: _scrollController,
+                  itemCount: _anime.length,
+                  itemBuilder: (context, index) {
+                    return AnimeCard(
                         topOrNot: true,
                         malId: _anime[index].malId,
                         title: _anime[index].title,
@@ -285,7 +293,7 @@ class _AnimeGenresResultsState extends State<AnimeGenresResults> {
                         ], fullStory: [
                           Genre(malId: -1, type: '', name: '', url: '')
                         ]));
-              })),
+                  })),
     );
   }
 }

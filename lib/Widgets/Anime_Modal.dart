@@ -19,6 +19,7 @@ class _AnimeModalState extends State<AnimeModal> {
       child: Padding(
         padding: const EdgeInsets.all(18.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
               '${widget.name}',
@@ -76,7 +77,7 @@ class _AnimeModalState extends State<AnimeModal> {
                   ],
                 ),
                 SizedBox(
-                  height: size.height * 0.17,
+                  height: size.height * 0.10,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,

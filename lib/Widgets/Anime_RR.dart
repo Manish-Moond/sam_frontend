@@ -34,6 +34,8 @@ class RRAnime extends StatelessWidget {
                   popularity: _anime.popularity,
                   status: _anime.status,
                 );
+              } else if (snapshot.hasError) {
+                return Text('');
               }
               return Container(
                 color: kPrimaryColor,

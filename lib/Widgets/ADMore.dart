@@ -43,8 +43,7 @@ class ADMore extends StatelessWidget {
   }
 
   String _date(_d) {
-    String result = '${_d[0]}   to   ${_d[1]}';
-    return result;
+    return type == 'Movie' ? '${_d[0]}' : '${_d[0]}   to   ${_d[1]}';
   }
 
   @override
@@ -263,30 +262,30 @@ class ADMore extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      ...related.adaptation.map((e) => RRAnime(
-                          malId: e.type == 'anime' ? e.malId : -1)),
-                      ...related.alternativeSetting.map((e) => RRAnime(
-                          malId: e.type == 'anime' ? e.malId : -1)),
-                      ...related.alternativeVersion.map((e) => RRAnime(
-                          malId: e.type == 'anime' ? e.malId : -1)),
-                      ...related.other.map((e) => RRAnime(
-                          malId: e.type == 'anime' ? e.malId : -1)),
-                      ...related.character.map((e) => RRAnime(
-                          malId: e.type == 'anime' ? e.malId : -1)),
-                      ...related.parentStory.map((e) => RRAnime(
-                          malId: e.type == 'anime' ? e.malId : -1)),
-                      ...related.prequel.map((e) => RRAnime(
-                          malId: e.type == 'anime' ? e.malId : -1)),
-                      ...related.sequel.map((e) => RRAnime(
-                          malId: e.type == 'anime' ? e.malId : -1)),
-                      ...related.spinOff.map((e) => RRAnime(
-                          malId: e.type == 'anime' ? e.malId : -1)),
-                      ...related.sideStory.map((e) => RRAnime(
-                          malId: e.type == 'anime' ? e.malId : -1)),
-                      ...related.summary.map((e) => RRAnime(
-                          malId: e.type == 'anime' ? e.malId : -1)),
-                      ...related.fullStory.map((e) => RRAnime(
-                          malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.adaptation.map((e) =>
+                          RRAnime(malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.alternativeSetting.map((e) =>
+                          RRAnime(malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.alternativeVersion.map((e) =>
+                          RRAnime(malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.other.map((e) =>
+                          RRAnime(malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.character.map((e) =>
+                          RRAnime(malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.parentStory.map((e) =>
+                          RRAnime(malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.prequel.map((e) =>
+                          RRAnime(malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.sequel.map((e) =>
+                          RRAnime(malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.spinOff.map((e) =>
+                          RRAnime(malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.sideStory.map((e) =>
+                          RRAnime(malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.summary.map((e) =>
+                          RRAnime(malId: e.type == 'anime' ? e.malId : -1)),
+                      ...related.fullStory.map((e) =>
+                          RRAnime(malId: e.type == 'anime' ? e.malId : -1)),
                     ],
                   ),
                 ),

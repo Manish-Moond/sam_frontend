@@ -106,7 +106,7 @@ class _MovieDState extends State<MovieD> {
                   image: widget.posterPath == ''
                       ? NetworkImage('http://placeimg.com/640/360/any.jpg')
                       : NetworkImage(
-                          'https://image.tmdb.org/t/p/w500/${widget.posterPath}'),
+                          'https://image.tmdb.org/t/p/w500/${widget.backdropPath}'),
                   // fit: BoxFit.fill
                 ),
               ),
