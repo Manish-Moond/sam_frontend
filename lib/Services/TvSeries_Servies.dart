@@ -31,4 +31,14 @@ class HttpTvSeriesServices {
     }
     throw 'Error from now Latest';
   }
+
+  Future<TvSeriesModel> getTSSearch({required int page, required String name}) async {
+    final res = await http
+        .get(Uri.https('sam-api-flask.herokuapp.com', '/ts/search/$name/$page'));
+    if (res.statusCode == 200) {
+      TvSeriesModel result = TvSeriesModel.fromJson(json.decode(res.body));
+      return result;
+    }
+    throw 'Error from search';
+  }
 }

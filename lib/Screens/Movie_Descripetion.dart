@@ -103,7 +103,7 @@ class _MovieDState extends State<MovieD> {
                 borderRadius: BorderRadius.circular(2.0),
                 child: FadeInImage(
                   placeholder: AssetImage('assets/images/movieplaceholder.jpg'),
-                  image: widget.posterPath == ''
+                  image: widget.backdropPath == ''
                       ? NetworkImage('http://placeimg.com/640/360/any.jpg')
                       : NetworkImage(
                           'https://image.tmdb.org/t/p/w500/${widget.backdropPath}'),

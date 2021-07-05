@@ -33,7 +33,7 @@ class MovieCard extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     return Container(
         child: Card(
-          elevation: 12,
+      elevation: 2,
       clipBehavior: Clip.hardEdge,
       semanticContainer: true,
       color: kPrimaryColor,

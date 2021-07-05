@@ -1,8 +1,8 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Models/TvSeries_Model.dart';
+import 'package:sam_frontend/Screens/Movie_Descripetion.dart';
 import 'package:sam_frontend/Services/TvSeries_Servies.dart';
 
 class TvSeriesTrending extends StatefulWidget {
@@ -54,8 +54,20 @@ class _TvSeriesTrendingState extends State<TvSeriesTrending> {
                 )
               : InkWell(
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Text('data')));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MovieD(
+                                genres: _tv[index].genreIds,
+                                id: _tv[index].id,
+                                originalTitle: _tv[index].name,
+                                originalLanguage: _tv[index].originalLanguage,
+                                overview: _tv[index].overview,
+                                posterPath: _tv[index].posterPath,
+                                releaseDate: _tv[index].firstAirDate,
+                                title: _tv[index].name,
+                                voteAverage: _tv[index].voteAverage,
+                                backdropPath: _tv[index].backdropPath)));
                   },
                   child: Stack(
                     alignment: Alignment.bottomLeft,
