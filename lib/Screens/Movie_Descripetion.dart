@@ -4,7 +4,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
 import 'dart:math' as math;
 
-class MovieD extends StatefulWidget {
+class MovieDescripation extends StatefulWidget {
   final List<int> genres;
   final int id;
   final String originalTitle;
@@ -15,7 +15,7 @@ class MovieD extends StatefulWidget {
   final String title;
   final double voteAverage;
   final String backdropPath;
-  MovieD(
+  MovieDescripation(
       {Key? key,
       required this.genres,
       required this.id,
@@ -30,10 +30,10 @@ class MovieD extends StatefulWidget {
       : super(key: key);
 
   @override
-  _MovieDState createState() => _MovieDState();
+  _MovieDescripationState createState() => _MovieDescripationState();
 }
 
-class _MovieDState extends State<MovieD> {
+class _MovieDescripationState extends State<MovieDescripation> {
   Map<int, String> _genre = {
     28: 'Action',
     12: 'Adventure',
@@ -60,7 +60,7 @@ class _MovieDState extends State<MovieD> {
     String res = '';
     for (int i = 0; i < genre.length; i++) {
       var re = _genre[genre[i]];
-      res += re!;
+      res += re ?? '';
       res += ' ';
     }
     return res;

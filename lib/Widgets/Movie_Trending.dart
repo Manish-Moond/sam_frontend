@@ -57,7 +57,7 @@ class _MovieTrendingState extends State<MovieTrending> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (BuildContext context) => MovieD(
+                        builder: (BuildContext context) => MovieDescripation(
                           genres: _movies[index].genreIds,
                           id: _movies[index].id,
                           originalTitle: _movies[index].originalTitle,

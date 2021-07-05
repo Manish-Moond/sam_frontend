@@ -57,7 +57,7 @@ class _TvSeriesTrendingState extends State<TvSeriesTrending> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => MovieD(
+                            builder: (context) => MovieDescripation(
                                 genres: _tv[index].genreIds,
                                 id: _tv[index].id,
                                 originalTitle: _tv[index].name,
