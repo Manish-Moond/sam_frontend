@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
+import 'package:sam_frontend/Constant/cancel_custom_icons_icons.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String name;
@@ -46,18 +47,37 @@ class _CustomAppBarState extends State<CustomAppBar> {
           elevation: 0,
           backgroundColor: kPrimaryColor,
           title: !_isSearching
-              ? Text(
-                  myController.text == '' ? widget.name : myController.text,
-                  style: myController.text == ''
-                      ? TextStyle(
-                          color: kSecondaryColor,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold)
-                      : TextStyle(
-                          color: kSecondaryColor,
-                          fontSize: 23,
-                          fontWeight: FontWeight.normal
-                        ),
+              ? Row(
+                  children: myController.text == ''
+                      ? [
+                          Text(widget.name,
+                              style: TextStyle(
+                                  color: kSecondaryColor,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold))
+                        ]
+                      : [
+                          IconButton(
+                            onPressed: () {
+                              setState(() {
+                                myController.text = '';
+                                widget.searchFillerState(myController.text);
+                              });
+                            },
+                            icon: Icon(CancelCustomIcons.cancel,
+                                size: 27, color: kSecondaryColor),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.25,
+                          ),
+                          Text(
+                            myController.text,
+                            style: TextStyle(
+                                color: kSecondaryColor,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ],
                 )
               : TextField(
                   controller: myController,

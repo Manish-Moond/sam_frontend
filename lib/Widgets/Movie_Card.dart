@@ -33,6 +33,7 @@ class MovieCard extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     return Container(
         child: Card(
+          elevation: 12,
       clipBehavior: Clip.hardEdge,
       semanticContainer: true,
       color: kPrimaryColor,
@@ -72,26 +73,41 @@ class MovieCard extends StatelessWidget {
             Container(
               margin: EdgeInsets.fromLTRB(6, 6, 0, 6),
               child: SizedBox(
-                  width: size.width * 0.38,
-                  child: Text(
-                    title,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: kSecondaryColor),
-                  ),),
+                width: size.width * 0.38,
+                child: Text(
+                  title,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(color: kSecondaryColor),
+                ),
+              ),
             ),
             Row(
               children: [
                 Container(
                   padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                  child: Text('$voteAverage', style: TextStyle(color: kSecondaryColor),),
+                  child: Text(
+                    '$voteAverage',
+                    style: TextStyle(color: kSecondaryColor),
+                  ),
                 ),
-                SizedBox(width: size.width*0.02,),
-                Container(
-                  child: Icon(Icons.star, color: kSecondaryColor, size: 14,),
+                SizedBox(
+                  width: size.width * 0.02,
                 ),
-                SizedBox(width: size.width*0.16,),
                 Container(
-                  child: Text('${releaseDate.year.toString()}', style: TextStyle(color: kSecondaryColor),),
+                  child: Icon(
+                    Icons.star,
+                    color: kSecondaryColor,
+                    size: 14,
+                  ),
+                ),
+                SizedBox(
+                  width: size.width * 0.16,
+                ),
+                Container(
+                  child: Text(
+                    '${releaseDate.year.toString()}',
+                    style: TextStyle(color: kSecondaryColor),
+                  ),
                 )
               ],
             )

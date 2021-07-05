@@ -86,6 +86,7 @@ class _HomePageState extends State<HomePage> {
             );
           case 1:
             return AnimeHomePage(
+              searchParam: searchFillerValue,
             );
           case 2:
             return TvSeriesHomePage(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
 import 'package:sam_frontend/Models/Movie_Model.dart';
 import 'package:sam_frontend/Services/Movie_Servies.dart';
-import 'package:sam_frontend/Screens/Movie_Descripetion.dart';
+import 'package:sam_frontend/Widgets/Movie_Card.dart';
 
 class SearchedMovie extends StatefulWidget {
   final String search;
@@ -61,13 +61,14 @@ class _SearchedMovieState extends State<SearchedMovie> {
       color: kPrimaryColor,
       child: GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: MediaQuery.of(context).size.width /
-                (MediaQuery.of(context).size.height / 1.3)),
+          crossAxisCount: 2,
+          childAspectRatio: MediaQuery.of(context).size.width /
+              (MediaQuery.of(context).size.height / 1.4),
+        ),
         controller: _scrollController,
         itemCount: _movies.length,
         itemBuilder: (context, index) {
-          return SearchedMovieCard(
+          return MovieCard(
             genres: _movies[index].genreIds,
             id: _movies[index].id,
             originalTitle: _movies[index].originalTitle,
@@ -85,111 +86,111 @@ class _SearchedMovieState extends State<SearchedMovie> {
   }
 }
 
-class SearchedMovieCard extends StatelessWidget {
-  final List<int> genres;
-  final int id;
-  final String originalTitle;
-  final String originalLanguage;
-  final String overview;
-  final String posterPath;
-  final DateTime releaseDate;
-  final String title;
-  final double voteAverage;
-  final String backdropPath;
+// class SearchedMovieCard extends StatelessWidget {
+//   final List<int> genres;
+//   final int id;
+//   final String originalTitle;
+//   final String originalLanguage;
+//   final String overview;
+//   final String posterPath;
+//   final DateTime releaseDate;
+//   final String title;
+//   final double voteAverage;
+//   final String backdropPath;
 
-  const SearchedMovieCard(
-      {Key? key,
-      required this.genres,
-      required this.id,
-      required this.originalTitle,
-      required this.originalLanguage,
-      required this.overview,
-      required this.posterPath,
-      required this.backdropPath,
-      required this.releaseDate,
-      required this.title,
-      required this.voteAverage})
-      : super(key: key);
+//   const SearchedMovieCard(
+//       {Key? key,
+//       required this.genres,
+//       required this.id,
+//       required this.originalTitle,
+//       required this.originalLanguage,
+//       required this.overview,
+//       required this.posterPath,
+//       required this.backdropPath,
+//       required this.releaseDate,
+//       required this.title,
+//       required this.voteAverage})
+//       : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    return Container(
-      child: Card(
-        clipBehavior: Clip.hardEdge,
-        semanticContainer: true,
-        color: kSecondaryColor,
-        child: InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (BuildContext context) => MovieD(
-                  genres: genres,
-                  id: id,
-                  originalTitle: originalTitle,
-                  originalLanguage: originalLanguage,
-                  overview: overview,
-                  backdropPath: backdropPath,
-                  posterPath: posterPath,
-                  releaseDate: releaseDate,
-                  title: title,
-                  voteAverage: voteAverage,
-                ),
-              ),
-            );
-          },
-          child: Column(
-            children: [
-              // image
-              Container(
-                height: size.height * 0.3,
-                width: size.width * 0.475,
-                child: FadeInImage(
-                  placeholder: AssetImage('assets/images/movieplaceholder.jpg'),
-                  image: NetworkImage(
-                      'https://image.tmdb.org/t/p/w500/$posterPath'),
-                  fit: BoxFit.fill,
-                ),
-              ),
-              // Title
-              Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.fromLTRB(6, 6, 0, 0),
-                    child: SizedBox(
-                      child: Text(
-                        originalTitle,
-                        maxLines: 1,
-                        overflow: TextOverflow.fade,
-                        softWrap: false,
-                        style: TextStyle(color: kPrimaryColor, fontSize: 15),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: size.height * 0.01,
-              ),
-              //release date
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                    child: Text('$voteAverage *'),
-                  ),
-                  Container(
-                    child: Text(
-                      '${releaseDate.year.toString()}',
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     var size = MediaQuery.of(context).size;
+//     return Container(
+//       child: Card(
+//         clipBehavior: Clip.hardEdge,
+//         semanticContainer: true,
+//         color: kSecondaryColor,
+//         child: InkWell(
+//           onTap: () {
+//             Navigator.push(
+//               context,
+//               MaterialPageRoute(
+//                 builder: (BuildContext context) => MovieD(
+//                   genres: genres,
+//                   id: id,
+//                   originalTitle: originalTitle,
+//                   originalLanguage: originalLanguage,
+//                   overview: overview,
+//                   backdropPath: backdropPath,
+//                   posterPath: posterPath,
+//                   releaseDate: releaseDate,
+//                   title: title,
+//                   voteAverage: voteAverage,
+//                 ),
+//               ),
+//             );
+//           },
+//           child: Column(
+//             children: [
+//               // image
+//               Container(
+//                 height: size.height * 0.3,
+//                 width: size.width * 0.475,
+//                 child: FadeInImage(
+//                   placeholder: AssetImage('assets/images/movieplaceholder.jpg'),
+//                   image: NetworkImage(
+//                       'https://image.tmdb.org/t/p/w500/$posterPath'),
+//                   fit: BoxFit.fill,
+//                 ),
+//               ),
+//               // Title
+//               Column(
+//                 children: [
+//                   Container(
+//                     padding: EdgeInsets.fromLTRB(6, 6, 0, 0),
+//                     child: SizedBox(
+//                       child: Text(
+//                         originalTitle,
+//                         maxLines: 1,
+//                         overflow: TextOverflow.fade,
+//                         softWrap: false,
+//                         style: TextStyle(color: kPrimaryColor, fontSize: 15),
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//               SizedBox(
+//                 height: size.height * 0.01,
+//               ),
+//               //release date
+//               Row(
+//                 mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                 children: [
+//                   Container(
+//                     child: Text('$voteAverage *'),
+//                   ),
+//                   Container(
+//                     child: Text(
+//                       '${releaseDate.year.toString()}',
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
