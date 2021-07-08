@@ -7,13 +7,12 @@ import 'dart:convert';
 TvSeriesModel tvSeriesModelFromJson(String str) =>
     TvSeriesModel.fromJson(json.decode(str));
 
-
 class TvSeriesModel {
   TvSeriesModel({
-   required this.page,
-   required this.results,
-   required this.totalPages,
-   required this.totalResults,
+    required this.page,
+    required this.results,
+    required this.totalPages,
+    required this.totalResults,
   });
 
   int page;
@@ -28,23 +27,22 @@ class TvSeriesModel {
         totalPages: json["total_pages"],
         totalResults: json["total_results"],
       );
-
 }
 
 class Result {
   Result({
-   required this.backdropPath,
-   required this.firstAirDate,
-   required this.genreIds,
-   required this.id,
-   required this.mediaType,
-   required this.name,
-   required this.originalLanguage,
-   required this.originalName,
-   required this.overview,
-   required this.popularity,
-   required this.posterPath,
-   required this.voteAverage,
+    required this.backdropPath,
+    required this.firstAirDate,
+    required this.genreIds,
+    required this.id,
+    required this.mediaType,
+    required this.name,
+    required this.originalLanguage,
+    required this.originalName,
+    required this.overview,
+    required this.popularity,
+    required this.posterPath,
+    required this.voteAverage,
   });
 
   String backdropPath;
@@ -61,7 +59,7 @@ class Result {
   double voteAverage;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
-        backdropPath: json["backdrop_path"],
+        backdropPath: json['backdrop_path'],
         firstAirDate: DateTime.parse(json["first_air_date"]),
         genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
         id: json["id"],
@@ -69,29 +67,9 @@ class Result {
         name: json["name"],
         originalLanguage: json["original_language"],
         originalName: json["original_name"],
-        overview: json["overview"],
+        overview: json['overview'],
         popularity: json["popularity"].toDouble(),
         posterPath: json["poster_path"],
         voteAverage: json["vote_average"].toDouble(),
       );
-
-
 }
-
-// enum MediaType { TV }
-
-// final mediaTypeValues = EnumValues({"tv": MediaType.TV});
-
-// class EnumValues<T> {
-//   Map<String, T> map;
-//   Map<T, String> reverseMap;
-
-//   EnumValues(this.map);
-
-//   Map<T, String> get reverse {
-//     if (reverseMap == null) {
-//       reverseMap = map.map((k, v) => new MapEntry(v, k));
-//     }
-//     return reverseMap;
-//   }
-// }

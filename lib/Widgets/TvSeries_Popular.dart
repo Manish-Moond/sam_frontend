@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
 import 'package:sam_frontend/Models/TvSeries_Model.dart';
 import 'package:sam_frontend/Services/TvSeries_Servies.dart';
-import 'package:sam_frontend/Widgets/Movie_Card.dart';
+import 'package:sam_frontend/Widgets/MTV_Card.dart';
 
 class TvSeriesPopular extends StatefulWidget {
   const TvSeriesPopular({Key? key}) : super(key: key);
@@ -69,7 +69,7 @@ class _TvSeriesPopularState extends State<TvSeriesPopular> {
             controller: _scrollController,
             itemCount: _tv.length,
             itemBuilder: (context, index) {
-              return MovieCard(
+              return MTVCard(
                 genres: _tv[index].genreIds,
                 id: _tv[index].id,
                 originalTitle: _tv[index].name,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
 import 'package:sam_frontend/Models/Movie_Model.dart';
 import 'package:sam_frontend/Services/Movie_Servies.dart';
-import 'package:sam_frontend/Widgets/Movie_Card.dart';
+import 'package:sam_frontend/Widgets/MTV_Card.dart';
 
 class MovieTopRated extends StatefulWidget {
   @override
@@ -63,7 +63,7 @@ class _MovieTopRatedState extends State<MovieTopRated> {
             controller: _scrollController,
             itemCount: _movies.length,
             itemBuilder: (context, index) {
-              return MovieCard(
+              return MTVCard(
                 genres: _movies[index].genreIds,
                 id: _movies[index].id,
                 originalTitle: _movies[index].originalTitle,

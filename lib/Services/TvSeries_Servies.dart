@@ -13,6 +13,7 @@ class HttpTvSeriesServices {
     }
     throw 'Error from now Latest';
   }
+
   Future<TvSeriesModel> getTSTopRated(page) async {
     final res = await http
         .get(Uri.https('sam-api-flask.herokuapp.com', '/ts/toprated/$page'));
@@ -22,6 +23,7 @@ class HttpTvSeriesServices {
     }
     throw 'Error from now Latest';
   }
+
   Future<TvSeriesModel> getTSPopular(page) async {
     final res = await http
         .get(Uri.https('sam-api-flask.herokuapp.com', '/ts/popular/$page'));
@@ -32,9 +34,20 @@ class HttpTvSeriesServices {
     throw 'Error from now Latest';
   }
 
-  Future<TvSeriesModel> getTSSearch({required int page, required String name}) async {
-    final res = await http
-        .get(Uri.https('sam-api-flask.herokuapp.com', '/ts/search/$name/$page'));
+  Future<TvSeriesModel> getTSSearch(
+      {required int page, required String name}) async {
+    final res = await http.get(
+        Uri.https('sam-api-flask.herokuapp.com', '/ts/search/$name/$page'));
+    if (res.statusCode == 200) {
+      TvSeriesModel result = TvSeriesModel.fromJson(json.decode(res.body));
+      return result;
+    }
+    throw 'Error from search';
+  }
+
+  Future<TvSeriesModel> getTSGenreResult({page, genreId}) async {
+    final res = await http.get(
+        Uri.https('sam-api-flask.herokuapp.com', '/ts/genre/$genreId/$page'));
     if (res.statusCode == 200) {
       TvSeriesModel result = TvSeriesModel.fromJson(json.decode(res.body));
       return result;

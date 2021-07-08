@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
 import 'package:sam_frontend/Models/TvSeries_Model.dart';
 import 'package:sam_frontend/Services/TvSeries_Servies.dart';
-import 'package:sam_frontend/Widgets/Movie_Card.dart';
+import 'package:sam_frontend/Widgets/MTV_Card.dart';
 
 class TvSearchByName extends StatefulWidget {
   final String search;
@@ -71,7 +71,8 @@ class _TvSearchByNameState extends State<TvSearchByName> {
         controller: _scrollController,
         itemCount: _tvseries.length,
         itemBuilder: (context, index) {
-          return MovieCard(
+          return MTVCard(
+            searcedOrNot: true,
             genres: _tvseries[index].genreIds,
             id: _tvseries[index].id,
             originalTitle: _tvseries[index].name,

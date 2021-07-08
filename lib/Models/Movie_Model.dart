@@ -75,7 +75,7 @@ class Result {
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         adult: json["adult"],
-        backdropPath: json["backdrop_path"],
+        backdropPath: json["backdrop_path"] == null ? '' : json['backdrop_path'],
         genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
         id: json["id"],
         originalLanguage: json["original_language"],

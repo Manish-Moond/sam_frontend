@@ -64,18 +64,24 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                 widget.searchFillerState(myController.text);
                               });
                             },
-                            icon: Icon(CancelCustomIcons.cancel,
-                                size: 27, color: kSecondaryColor),
+                            icon: Icon(CancelCustomIcons.cancel_1,
+                                size: 20, color: kSecondaryColor),
                           ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.25,
-                          ),
-                          Text(
-                            myController.text,
-                            style: TextStyle(
-                                color: kSecondaryColor,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w400),
+                          // SizedBox(
+                          //   width: MediaQuery.of(context).size.width * 0.25,
+                          // ),
+                          Center(
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.6,
+                              child: Text(
+                                myController.text,
+                                overflow: TextOverflow.fade,
+                                style: TextStyle(
+                                    color: kWhiteColor,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w400),
+                              ),
+                            ),
                           ),
                         ],
                 )

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
 import 'package:sam_frontend/Models/Movie_Model.dart';
 import 'package:sam_frontend/Services/Movie_Servies.dart';
-import 'package:sam_frontend/Widgets/Movie_Card.dart';
+import 'package:sam_frontend/Widgets/MTV_Card.dart';
 import 'package:sam_frontend/Widgets/MTVS_Genres.dart';
 import 'package:sam_frontend/Widgets/Movie_Trending.dart';
 import 'package:sam_frontend/Widgets/Movie_Now_Playing.dart';
@@ -20,6 +20,27 @@ class MovieHomePage extends StatefulWidget {
 
 class _MovieHomePageState extends State<MovieHomePage> {
   String selected = 'All';
+  final List<String> genres = [
+    'Action',
+    'Adventure',
+    'Animation',
+    'Comady',
+    'Crime',
+    'Documentary',
+    'Drama',
+    'Family',
+    'Fantasy',
+    'History',
+    'Horror',
+    'Music',
+    'Mystery',
+    'Romance',
+    'Science fiction',
+    'TV Movie',
+    'Thriller',
+    'War',
+    'Western',
+  ];
   void selectFunction(String newValue) {
     if (mounted) {
       setState(() {
@@ -41,6 +62,7 @@ class _MovieHomePageState extends State<MovieHomePage> {
                   children: [
                     MovieTrending(),
                     MTVSGenres(
+                        genres: genres,
                         selectedFunction: selectFunction,
                         selectedValue: selected),
                     MovieGT(selected: selected),
@@ -173,7 +195,7 @@ class _MGenreMoviesState extends State<MGenreMovies> {
             controller: _scrollController,
             itemCount: _movies.length,
             itemBuilder: (context, index) {
-              return MovieCard(
+              return MTVCard(
                 genres: _movies[index].genreIds,
                 id: _movies[index].id,
                 originalTitle: _movies[index].originalTitle,

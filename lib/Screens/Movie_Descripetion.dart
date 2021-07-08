@@ -49,7 +49,7 @@ class _MovieDescripationState extends State<MovieDescripation> {
     10402: 'Music',
     9648: 'Mystery',
     10749: 'Romance',
-    878: 'Sci-Fai',
+    878: 'Sci-Fi',
     10770: 'TV Movie',
     53: 'Thriller',
     10752: 'War',
@@ -102,13 +102,16 @@ class _MovieDescripationState extends State<MovieDescripation> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(2.0),
                 child: FadeInImage(
-                  placeholder: AssetImage('assets/images/movieplaceholder.jpg'),
-                  image: widget.backdropPath == ''
-                      ? NetworkImage('http://placeimg.com/640/360/any.jpg')
-                      : NetworkImage(
-                          'https://image.tmdb.org/t/p/w500/${widget.backdropPath}'),
-                  // fit: BoxFit.fill
-                ),
+                    placeholder:
+                        AssetImage('assets/images/movieplaceholder.jpg'),
+                    image: NetworkImage((() {
+                      if (widget.backdropPath != '') {
+                        return 'https://image.tmdb.org/t/p/w500/${widget.backdropPath}';
+                      } else if (widget.posterPath != '') {
+                        return 'https://image.tmdb.org/t/p/w500/${widget.posterPath}';
+                      }
+                      return 'http://placeimg.com/640/360/any.jpg';
+                    }()))),
               ),
             ),
             SizedBox(

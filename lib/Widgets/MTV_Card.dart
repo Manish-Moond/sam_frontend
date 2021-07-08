@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
 import 'package:sam_frontend/Screens/Movie_Descripetion.dart';
 
-class MovieCard extends StatelessWidget {
+class MTVCard extends StatelessWidget {
+  final bool searcedOrNot;
   final List<int> genres;
   final int id;
   final String originalTitle;
@@ -14,8 +15,9 @@ class MovieCard extends StatelessWidget {
   final double voteAverage;
   final String backdropPath;
 
-  const MovieCard(
+  const MTVCard(
       {Key? key,
+      this.searcedOrNot = false,
       required this.genres,
       required this.id,
       required this.originalTitle,
@@ -59,17 +61,14 @@ class MovieCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: size.height * 0.27,
-              width: size.width * 0.40,
-              child: FadeInImage(
-                placeholder: AssetImage('assets/images/movieplaceholder.jpg'),
-                image: posterPath == ''
-                    ? NetworkImage('http://placeimg.com/640/360/any.jpg')
-                    : NetworkImage(
-                        'https://image.tmdb.org/t/p/w500/$posterPath'),
-                fit: BoxFit.cover,
-              ),
-            ),
+                height: searcedOrNot ? size.height * 0.28 : size.height * 0.27,
+                width: searcedOrNot ? size.width * 0.48 : size.width * 0.41,
+                child: FadeInImage(
+                  placeholder: AssetImage('assets/images/movieplaceholder.jpg'),
+                  image: NetworkImage(
+                      'https://image.tmdb.org/t/p/w500/$posterPath'),
+                  fit: BoxFit.cover,
+                )),
             Container(
               margin: EdgeInsets.fromLTRB(6, 6, 0, 6),
               child: SizedBox(

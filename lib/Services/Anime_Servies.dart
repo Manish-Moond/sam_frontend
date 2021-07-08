@@ -8,7 +8,8 @@ import 'package:sam_frontend/Models/Anime_Top_Model.dart';
 
 class HttpAnimeServices {
   Future<AnimeTopModel> getTopAnime() async {
-    final res = await http.get(Uri.https('api.jikan.moe', '/v3/top/anime'));
+    final res = await http
+        .get(Uri.https('sam-api-flask.herokuapp.com', '/anime/toprated'));
     if (res.statusCode == 200) {
       AnimeTopModel resser = AnimeTopModel.fromJson(json.decode(res.body));
       return resser;

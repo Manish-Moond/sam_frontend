@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
 import 'package:sam_frontend/Models/Movie_Model.dart';
 import 'package:sam_frontend/Services/Movie_Servies.dart';
-import 'package:sam_frontend/Widgets/Movie_Card.dart';
+import 'package:sam_frontend/Widgets/MTV_Card.dart';
 
 class SearchedMovie extends StatefulWidget {
   final String search;
@@ -57,31 +57,50 @@ class _SearchedMovieState extends State<SearchedMovie> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: kPrimaryColor,
-      child: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: MediaQuery.of(context).size.width /
-              (MediaQuery.of(context).size.height / 1.4),
-        ),
-        controller: _scrollController,
-        itemCount: _movies.length,
-        itemBuilder: (context, index) {
-          return MovieCard(
-            genres: _movies[index].genreIds,
-            id: _movies[index].id,
-            originalTitle: _movies[index].originalTitle,
-            originalLanguage: _movies[index].originalLanguage,
-            overview: _movies[index].overview,
-            backdropPath: _movies[index].backdropPath,
-            posterPath: _movies[index].posterPath,
-            releaseDate: _movies[index].releaseDate,
-            title: _movies[index].title,
-            voteAverage: _movies[index].voteAverage,
+    return _movies.length == 0
+        ? Container(
+            color: kPrimaryColor,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(),
+                    ]),
+              ],
+            ),
+          )
+        : Container(
+            padding: EdgeInsets.fromLTRB(4, 4, 4, 4),
+            color: kPrimaryColor,
+            child: GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 8,
+                childAspectRatio: MediaQuery.of(context).size.width /
+                    (MediaQuery.of(context).size.height / 1.4),
+              ),
+              controller: _scrollController,
+              itemCount: _movies.length,
+              itemBuilder: (context, index) {
+                return MTVCard(
+                  searcedOrNot: true,
+                  genres: _movies[index].genreIds,
+                  id: _movies[index].id,
+                  originalTitle: _movies[index].originalTitle,
+                  originalLanguage: _movies[index].originalLanguage,
+                  overview: _movies[index].overview,
+                  backdropPath: _movies[index].backdropPath,
+                  posterPath: _movies[index].posterPath,
+                  releaseDate: _movies[index].releaseDate,
+                  title: _movies[index].title,
+                  voteAverage: _movies[index].voteAverage,
+                );
+              },
+            ),
           );
-        },
-      ),
-    );
   }
 }

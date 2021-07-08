@@ -5,8 +5,8 @@ import 'package:sam_frontend/Models/Movie_Model.dart';
 
 class HttpMoviesServices {
   Future<MoviesModel> getTrending(type, page) async {
-    final res = await http
-        .get(Uri.https('sam-api-flask.herokuapp.com', '/trending/$type/$page'));
+    final res = await http.get(Uri.https(
+        'sam-api-flask.herokuapp.com', '/movie/trending/$type/$page'));
     if (res.statusCode == 200) {
       MoviesModel result = MoviesModel.fromJson(json.decode(res.body));
       return result;
@@ -26,7 +26,7 @@ class HttpMoviesServices {
 
   Future<MoviesModel> getTopMovie(page) async {
     final res = await http
-        .get(Uri.https("sam-api-flask.herokuapp.com", "/topmovie/$page"));
+        .get(Uri.https("sam-api-flask.herokuapp.com", "/movie/toprated/$page"));
     if (res.statusCode == 200) {
       MoviesModel result = MoviesModel.fromJson(json.decode(res.body));
       return result;
@@ -35,8 +35,8 @@ class HttpMoviesServices {
   }
 
   Future<MoviesModel> getNowPlaing(page) async {
-    final res = await http
-        .get(Uri.https('sam-api-flask.herokuapp.com', '/nowplaying/$page'));
+    final res = await http.get(
+        Uri.https('sam-api-flask.herokuapp.com', '/movie/nowplaying/$page'));
     if (res.statusCode == 200) {
       MoviesModel result = MoviesModel.fromJson(json.decode(res.body));
       return result;
@@ -46,7 +46,7 @@ class HttpMoviesServices {
 
   Future<MoviesModel> getPopular(page) async {
     final res = await http
-        .get(Uri.https('sam-api-flask.herokuapp.com', '/popular/$page'));
+        .get(Uri.https('sam-api-flask.herokuapp.com', '/movie/popular/$page'));
     if (res.statusCode == 200) {
       MoviesModel result = MoviesModel.fromJson(json.decode(res.body));
       return result;
@@ -55,8 +55,8 @@ class HttpMoviesServices {
   }
 
   Future<MoviesModel> getSearched(page, search) async {
-    final res = await http.get(
-        Uri.https('sam-api-flask.herokuapp.com', '/searched/$search/$page'));
+    final res = await http.get(Uri.https(
+        'sam-api-flask.herokuapp.com', '/movie/search/$search/$page'));
     if (res.statusCode == 200) {
       MoviesModel result = MoviesModel.fromJson(json.decode(res.body));
       return result;

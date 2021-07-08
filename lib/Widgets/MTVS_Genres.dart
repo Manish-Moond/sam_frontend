@@ -4,32 +4,13 @@ import 'package:sam_frontend/Constant/Colors.dart';
 class MTVSGenres extends StatelessWidget {
   final Function selectedFunction;
   final String selectedValue;
+  final List<String> genres;
 
   MTVSGenres(
-      {Key? key, required this.selectedFunction, required this.selectedValue})
+      {Key? key, required this.selectedFunction, required this.selectedValue, required this.genres})
       : super(key: key);
 
-  final List<String> _genre = [
-    'Action',
-    'Adventure',
-    'Animation',
-    'Comady',
-    'Crime',
-    'Documentary',
-    'Drama',
-    'Family',
-    'Fantasy',
-    'History',
-    'Horror',
-    'Music',
-    'Mystery',
-    'Romance',
-    'Science fiction',
-    'TV Movie',
-    'Thriller',
-    'War',
-    'Western',
-  ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +46,7 @@ class MTVSGenres extends StatelessWidget {
                     ),
                   ),
                 ),
-                ..._genre.map((e) => Padding(
+                ...genres.map((e) => Padding(
                       padding: const EdgeInsets.fromLTRB(0, 0, 12, 6),
                       child: GestureDetector(
                         onTap: () {

@@ -43,7 +43,7 @@ class ADMore extends StatelessWidget {
   }
 
   String _date(_d) {
-    return type == 'Movie' ? '${_d[0]}' : '${_d[0]}   to   ${_d[1]}';
+    return episodes == 1 ? '${_d[0]}' : '${_d[0]}   to   ${_d[1]}';
   }
 
   @override
