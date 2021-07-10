@@ -17,10 +17,21 @@ class _SearchedMovieState extends State<SearchedMovie> {
   List<Result> _movies = [];
   ScrollController _scrollController = ScrollController();
   int _page = 1;
+  bool _loading = true;
+
+  void filler(value) {
+    setState(() {
+      for (int i = 0; i < value.results.length; i++) {
+        _movies.add(value.results[i]);
+      }
+      _loading = false;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
+    _loading = true;
     _httpMoviesServices.getSearched(_page, widget.search).then((value) {
       filler(value);
     });
@@ -28,6 +39,7 @@ class _SearchedMovieState extends State<SearchedMovie> {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         _page += 1;
+        _loading = true;
         _httpMoviesServices.getSearched(_page, widget.search).then((value) {
           filler(value);
         });
@@ -40,6 +52,7 @@ class _SearchedMovieState extends State<SearchedMovie> {
     if (this.widget.search != oldWidget.search) {
       _movies = [];
       _page = 1;
+      _loading = true;
       _httpMoviesServices.getSearched(_page, widget.search).then((value) {
         filler(value);
       });
@@ -47,31 +60,15 @@ class _SearchedMovieState extends State<SearchedMovie> {
     super.didUpdateWidget(oldWidget);
   }
 
-  void filler(value) {
-    setState(() {
-      for (int i = 0; i < value.results.length; i++) {
-        _movies.add(value.results[i]);
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return _movies.length == 0
+    return _loading
         ? Container(
             color: kPrimaryColor,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      CircularProgressIndicator(),
-                    ]),
-              ],
-            ),
+            child: Center(
+                child: CircularProgressIndicator(
+              color: kSecondaryColor,
+            )),
           )
         : Container(
             padding: EdgeInsets.fromLTRB(4, 4, 4, 4),

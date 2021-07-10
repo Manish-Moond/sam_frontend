@@ -40,7 +40,9 @@ class RRAnime extends StatelessWidget {
               return Container(
                 color: kPrimaryColor,
                 child: Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    color: kSecondaryColor,
+                  ),
                 ),
               );
             },

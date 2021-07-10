@@ -67,7 +67,7 @@ class _MovieHomePageState extends State<MovieHomePage> {
                         selectedValue: selected),
                     MovieGT(selected: selected),
                     MovieNowPlaying(),
-                    MoviePopular(),
+                    // MoviePopular(),
                   ],
                 ),
               ),
@@ -108,6 +108,7 @@ class _MGenreMoviesState extends State<MGenreMovies> {
   List<Result> _movies = [];
   ScrollController _scrollController = ScrollController();
   int _page = 1;
+  bool _loading = true;
   Map<String, int> _genre = {
     'Action': 28,
     'Adventure': 12,
@@ -135,12 +136,14 @@ class _MGenreMoviesState extends State<MGenreMovies> {
       for (int i = 0; i < value.results.length; i++) {
         _movies.add(value.results[i]);
       }
+      _loading = false;
     });
   }
 
   @override
   void initState() {
     super.initState();
+    _loading = true;
     _httpMoviesServices
         .getGenresMovies(_genre[widget.selected], _page)
         .then((value) {
@@ -150,6 +153,7 @@ class _MGenreMoviesState extends State<MGenreMovies> {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         _page += 1;
+        _loading = true;
         _httpMoviesServices
             .getGenresMovies(_genre[widget.selected], _page)
             .then((value) {
@@ -164,6 +168,7 @@ class _MGenreMoviesState extends State<MGenreMovies> {
     if (this.widget.selected != oldWidget.selected) {
       _movies = [];
       _page = 1;
+      _loading = true;
       _httpMoviesServices
           .getGenresMovies(_genre[widget.selected], _page)
           .then((value) => filler(value));
@@ -190,25 +195,30 @@ class _MGenreMoviesState extends State<MGenreMovies> {
         ),
         Container(
           height: size.height * 0.35,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            controller: _scrollController,
-            itemCount: _movies.length,
-            itemBuilder: (context, index) {
-              return MTVCard(
-                genres: _movies[index].genreIds,
-                id: _movies[index].id,
-                originalTitle: _movies[index].originalTitle,
-                originalLanguage: _movies[index].originalLanguage,
-                overview: _movies[index].overview,
-                backdropPath: _movies[index].backdropPath,
-                posterPath: _movies[index].posterPath,
-                releaseDate: _movies[index].releaseDate,
-                title: _movies[index].title,
-                voteAverage: _movies[index].voteAverage,
-              );
-            },
-          ),
+          child: _loading
+              ? Center(
+                  child: CircularProgressIndicator(
+                  color: kSecondaryColor,
+                ))
+              : ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  controller: _scrollController,
+                  itemCount: _movies.length,
+                  itemBuilder: (context, index) {
+                    return MTVCard(
+                      genres: _movies[index].genreIds,
+                      id: _movies[index].id,
+                      originalTitle: _movies[index].originalTitle,
+                      originalLanguage: _movies[index].originalLanguage,
+                      overview: _movies[index].overview,
+                      backdropPath: _movies[index].backdropPath,
+                      posterPath: _movies[index].posterPath,
+                      releaseDate: _movies[index].releaseDate,
+                      title: _movies[index].title,
+                      voteAverage: _movies[index].voteAverage,
+                    );
+                  },
+                ),
         ),
       ],
     );

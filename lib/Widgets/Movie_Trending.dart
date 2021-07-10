@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:sam_frontend/Constant/Colors.dart';
 import 'package:sam_frontend/Models/Movie_Model.dart';
 import 'package:sam_frontend/Screens/Movie_Descripetion.dart';
 import 'package:sam_frontend/Services/Movie_Servies.dart';
@@ -16,18 +17,21 @@ class _MovieTrendingState extends State<MovieTrending> {
   final HttpMoviesServices _httpMoviesServices = HttpMoviesServices();
   List<Result> _movies = [];
   int _page = 1;
+  bool _loading = true;
 
   void filler(value) {
     setState(() {
       for (int i = 0; i < value.results.length; i++) {
         _movies.add(value.results[i]);
       }
+      _loading = false;
     });
   }
 
   @override
   void initState() {
     super.initState();
+    _loading = true;
     _httpMoviesServices.getTrending('movie', _page).then((value) {
       filler(value);
     });
@@ -44,14 +48,11 @@ class _MovieTrendingState extends State<MovieTrending> {
         ),
         itemCount: _movies.length,
         itemBuilder: (context, index, pageViewIndex) {
-          return _movies.isEmpty
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    CircularProgressIndicator(),
-                  ],
-                )
+          return _loading
+              ? Center(
+                  child: CircularProgressIndicator(
+                  color: kSecondaryColor,
+                ))
               : InkWell(
                   onTap: () {
                     Navigator.push(

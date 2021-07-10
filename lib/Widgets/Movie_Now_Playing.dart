@@ -63,25 +63,27 @@ class _MovieNowPlayingState extends State<MovieNowPlaying> {
         ),
         Container(
           height: size.height * 0.35,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            controller: _scrollController,
-            itemCount: _movies.length,
-            itemBuilder: (context, index) {
-              return MTVCard(
-                genres: _movies[index].genreIds,
-                id: _movies[index].id,
-                originalTitle: _movies[index].originalTitle,
-                originalLanguage: _movies[index].originalLanguage,
-                overview: _movies[index].overview,
-                backdropPath: _movies[index].backdropPath,
-                posterPath: _movies[index].posterPath,
-                releaseDate: _movies[index].releaseDate,
-                title: _movies[index].title,
-                voteAverage: _movies[index].voteAverage,
-              );
-            },
-          ),
+          child: _movies == []
+              ? CircularProgressIndicator()
+              : ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  controller: _scrollController,
+                  itemCount: _movies.length,
+                  itemBuilder: (context, index) {
+                    return MTVCard(
+                      genres: _movies[index].genreIds,
+                      id: _movies[index].id,
+                      originalTitle: _movies[index].originalTitle,
+                      originalLanguage: _movies[index].originalLanguage,
+                      overview: _movies[index].overview,
+                      backdropPath: _movies[index].backdropPath,
+                      posterPath: _movies[index].posterPath,
+                      releaseDate: _movies[index].releaseDate,
+                      title: _movies[index].title,
+                      voteAverage: _movies[index].voteAverage,
+                    );
+                  },
+                ),
         ),
       ],
     );

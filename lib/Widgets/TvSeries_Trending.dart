@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:sam_frontend/Constant/Colors.dart';
 import 'package:sam_frontend/Models/TvSeries_Model.dart';
 import 'package:sam_frontend/Screens/Movie_Descripetion.dart';
 import 'package:sam_frontend/Services/TvSeries_Servies.dart';
@@ -16,18 +17,21 @@ class _TvSeriesTrendingState extends State<TvSeriesTrending> {
   final HttpTvSeriesServices _httpTvSeriesServices = HttpTvSeriesServices();
   List<Result> _tv = [];
   int _page = 1;
+  bool _loading = true;
 
   void filler(value) {
     setState(() {
       for (int i = 0; i < value.results.length; i++) {
         _tv.add(value.results[i]);
       }
+      _loading = false;
     });
   }
 
   @override
   void initState() {
     super.initState();
+    _loading = true;
     _httpTvSeriesServices.getTSTrending(_page).then((value) {
       filler(value);
     });
@@ -44,14 +48,11 @@ class _TvSeriesTrendingState extends State<TvSeriesTrending> {
           autoPlayAnimationDuration: Duration(milliseconds: 1600),
         ),
         itemBuilder: (context, index, pageViewIndex) {
-          return _tv.isEmpty
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    CircularProgressIndicator(),
-                  ],
-                )
+          return _loading
+              ? Center(
+                  child: CircularProgressIndicator(
+                  color: kSecondaryColor,
+                ))
               : InkWell(
                   onTap: () {
                     Navigator.push(

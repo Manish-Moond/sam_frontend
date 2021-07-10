@@ -173,18 +173,21 @@ class _AnimeGenresResultsState extends State<AnimeGenresResults> {
   List<Anime> _anime = [];
   ScrollController _scrollController = ScrollController();
   int _page = 1;
+  bool _loading = true;
 
   void filler(value) {
     setState(() {
       for (int i = 0; i < value.anime.length; i++) {
         _anime.add(value.anime[i]);
       }
+      _loading = false;
     });
   }
 
   @override
   void initState() {
     super.initState();
+    _loading = true;
     _httpAnimeServices
         .getGenresResults(genre: widget.selected, page: _page)
         .then((value) => filler(value));
@@ -192,6 +195,7 @@ class _AnimeGenresResultsState extends State<AnimeGenresResults> {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         _page += 1;
+        _loading = true;
         _httpAnimeServices
             .getGenresResults(genre: widget.selected, page: _page)
             .then((value) {
@@ -206,6 +210,7 @@ class _AnimeGenresResultsState extends State<AnimeGenresResults> {
     if (this.widget.selected != oldWidget.selected) {
       _anime = [];
       _page = 1;
+      _loading = true;
       _httpAnimeServices
           .getGenresResults(genre: widget.selected, page: _page)
           .then((value) => filler(value));
@@ -240,11 +245,11 @@ class _AnimeGenresResultsState extends State<AnimeGenresResults> {
     return Expanded(
       child: Container(
           color: kPrimaryColor,
-          child: _anime.isEmpty
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [CircularProgressIndicator()],
+          child: _loading
+              ? Center(
+                  child: CircularProgressIndicator(
+                    color: kSecondaryColor,
+                  ),
                 )
               : GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -381,7 +386,9 @@ class _AnimeTopRatedState extends State<AnimeTopRated> {
             return Container(
               color: kPrimaryColor,
               child: Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: kSecondaryColor,
+                ),
               ),
             );
           },

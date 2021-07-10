@@ -14,12 +14,14 @@ class _TvSeriesTopRatedState extends State<TvSeriesTopRated> {
   List<Result> _tv = [];
   ScrollController _scrollController = ScrollController();
   int _page = 1;
+  bool _loading = true;
 
   void filler(value) {
     setState(() {
       for (int i = 0; i < value.results.length; i++) {
         _tv.add(value.results[i]);
       }
+      _loading = false;
       // execute when count of movie or tvseries is less then 10
       if (value.results.length < 10) {
         _page += 1;
@@ -33,6 +35,7 @@ class _TvSeriesTopRatedState extends State<TvSeriesTopRated> {
   @override
   void initState() {
     super.initState();
+    _loading = true;
     _httpTvSeriesServices.getTSTopRated(_page).then((value) {
       filler(value);
     });
@@ -41,6 +44,7 @@ class _TvSeriesTopRatedState extends State<TvSeriesTopRated> {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         _page += 1;
+        _loading = true;
         _httpTvSeriesServices.getTSTopRated(_page).then((value) {
           filler(value);
         });
@@ -66,25 +70,30 @@ class _TvSeriesTopRatedState extends State<TvSeriesTopRated> {
         ),
         Container(
           height: size.height * 0.35,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            controller: _scrollController,
-            itemCount: _tv.length,
-            itemBuilder: (context, index) {
-              return MTVCard(
-                genres: _tv[index].genreIds,
-                id: _tv[index].id,
-                originalTitle: _tv[index].name,
-                originalLanguage: _tv[index].originalLanguage,
-                overview: _tv[index].overview,
-                backdropPath: _tv[index].backdropPath,
-                posterPath: _tv[index].posterPath,
-                releaseDate: _tv[index].firstAirDate,
-                title: _tv[index].name,
-                voteAverage: _tv[index].voteAverage,
-              );
-            },
-          ),
+          child: _loading
+              ? Center(
+                  child: CircularProgressIndicator(
+                  color: kSecondaryColor,
+                ))
+              : ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  controller: _scrollController,
+                  itemCount: _tv.length,
+                  itemBuilder: (context, index) {
+                    return MTVCard(
+                      genres: _tv[index].genreIds,
+                      id: _tv[index].id,
+                      originalTitle: _tv[index].name,
+                      originalLanguage: _tv[index].originalLanguage,
+                      overview: _tv[index].overview,
+                      backdropPath: _tv[index].backdropPath,
+                      posterPath: _tv[index].posterPath,
+                      releaseDate: _tv[index].firstAirDate,
+                      title: _tv[index].name,
+                      voteAverage: _tv[index].voteAverage,
+                    );
+                  },
+                ),
         ),
       ],
     );

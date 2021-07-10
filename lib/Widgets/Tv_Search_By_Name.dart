@@ -17,17 +17,21 @@ class _TvSearchByNameState extends State<TvSearchByName> {
   List<Result> _tvseries = [];
   ScrollController _scrollController = ScrollController();
   int _page = 1;
+  bool _loading = true;
+
   void filler(value) {
     setState(() {
       for (int i = 0; i < value.results.length; i++) {
         _tvseries.add(value.results[i]);
       }
+      _loading = false;
     });
   }
 
   @override
   void initState() {
     super.initState();
+    _loading = true;
     _httpTvSeriesServices
         .getTSSearch(name: widget.search, page: _page)
         .then((value) {
@@ -37,6 +41,7 @@ class _TvSearchByNameState extends State<TvSearchByName> {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         _page += 1;
+        _loading = true;
         _httpTvSeriesServices
             .getTSSearch(name: widget.search, page: _page)
             .then((value) {
@@ -51,6 +56,7 @@ class _TvSearchByNameState extends State<TvSearchByName> {
     if (this.widget.search != oldWidget.search) {
       _tvseries = [];
       _page = 1;
+      _loading = true;
       _httpTvSeriesServices
           .getTSSearch(page: _page, name: widget.search)
           .then((value) => filler(value));
@@ -62,30 +68,35 @@ class _TvSearchByNameState extends State<TvSearchByName> {
   Widget build(BuildContext context) {
     return Container(
       color: kPrimaryColor,
-      child: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: MediaQuery.of(context).size.width /
-              (MediaQuery.of(context).size.height / 1.4),
-        ),
-        controller: _scrollController,
-        itemCount: _tvseries.length,
-        itemBuilder: (context, index) {
-          return MTVCard(
-            searcedOrNot: true,
-            genres: _tvseries[index].genreIds,
-            id: _tvseries[index].id,
-            originalTitle: _tvseries[index].name,
-            originalLanguage: _tvseries[index].originalLanguage,
-            overview: _tvseries[index].overview,
-            backdropPath: _tvseries[index].backdropPath,
-            posterPath: _tvseries[index].posterPath,
-            releaseDate: _tvseries[index].firstAirDate,
-            title: _tvseries[index].name,
-            voteAverage: _tvseries[index].voteAverage,
-          );
-        },
-      ),
+      child: _loading
+          ? Center(
+              child: CircularProgressIndicator(
+              color: kSecondaryColor,
+            ))
+          : GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: MediaQuery.of(context).size.width /
+                    (MediaQuery.of(context).size.height / 1.4),
+              ),
+              controller: _scrollController,
+              itemCount: _tvseries.length,
+              itemBuilder: (context, index) {
+                return MTVCard(
+                  searcedOrNot: true,
+                  genres: _tvseries[index].genreIds,
+                  id: _tvseries[index].id,
+                  originalTitle: _tvseries[index].name,
+                  originalLanguage: _tvseries[index].originalLanguage,
+                  overview: _tvseries[index].overview,
+                  backdropPath: _tvseries[index].backdropPath,
+                  posterPath: _tvseries[index].posterPath,
+                  releaseDate: _tvseries[index].firstAirDate,
+                  title: _tvseries[index].name,
+                  voteAverage: _tvseries[index].voteAverage,
+                );
+              },
+            ),
     );
   }
 }

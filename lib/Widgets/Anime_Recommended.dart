@@ -18,12 +18,16 @@ class RecommendedAnime extends StatelessWidget {
         builder: (context, AsyncSnapshot<AnimeRRModel> snapshot) {
           if (snapshot.hasData) {
             AnimeRRModel? _list = snapshot.data;
-            _list!.recommendedList.asMap().forEach((key, value) => RRAnime(malId: value));
+            _list!.recommendedList
+                .asMap()
+                .forEach((key, value) => RRAnime(malId: value));
           }
           return Container(
             color: kPrimaryColor,
             child: Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                color: kSecondaryColor,
+              ),
             ),
           );
         },

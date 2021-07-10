@@ -112,7 +112,9 @@ class _AnimeThisSeasonState extends State<AnimeThisSeason> {
           return Container(
             color: kPrimaryColor,
             child: Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                color: kSecondaryColor,
+              ),
             ),
           );
         },
