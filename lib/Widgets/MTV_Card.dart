@@ -61,7 +61,7 @@ class MTVCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-                height: size.height * 0.27,
+                height: size.height * 0.26,
                 width: searcedOrNot ? size.width * 0.48 : size.width * 0.41,
                 child: FadeInImage(
                   placeholder: AssetImage('assets/images/movieplaceholder.jpg'),

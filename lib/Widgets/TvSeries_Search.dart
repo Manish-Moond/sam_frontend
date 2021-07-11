@@ -4,15 +4,15 @@ import 'package:sam_frontend/Models/TvSeries_Model.dart';
 import 'package:sam_frontend/Services/TvSeries_Servies.dart';
 import 'package:sam_frontend/Widgets/MTV_Card.dart';
 
-class TvSearchByName extends StatefulWidget {
+class TvSeriesSearch extends StatefulWidget {
   final String search;
-  const TvSearchByName({Key? key, required this.search}) : super(key: key);
+  const TvSeriesSearch({Key? key, required this.search}) : super(key: key);
 
   @override
-  _TvSearchByNameState createState() => _TvSearchByNameState();
+  _TvSeriesSearchState createState() => _TvSeriesSearchState();
 }
 
-class _TvSearchByNameState extends State<TvSearchByName> {
+class _TvSeriesSearchState extends State<TvSeriesSearch> {
   final HttpTvSeriesServices _httpTvSeriesServices = HttpTvSeriesServices();
   List<Result> _tvseries = [];
   ScrollController _scrollController = ScrollController();
@@ -52,7 +52,7 @@ class _TvSearchByNameState extends State<TvSearchByName> {
   }
 
   @override
-  void didUpdateWidget(covariant TvSearchByName oldWidget) {
+  void didUpdateWidget(covariant TvSeriesSearch oldWidget) {
     if (this.widget.search != oldWidget.search) {
       _tvseries = [];
       _page = 1;

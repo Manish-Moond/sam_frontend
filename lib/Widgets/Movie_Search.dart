@@ -4,15 +4,15 @@ import 'package:sam_frontend/Models/Movie_Model.dart';
 import 'package:sam_frontend/Services/Movie_Servies.dart';
 import 'package:sam_frontend/Widgets/MTV_Card.dart';
 
-class SearchedMovie extends StatefulWidget {
+class MovieSearch extends StatefulWidget {
   final String search;
-  const SearchedMovie({Key? key, required this.search}) : super(key: key);
+  const MovieSearch({Key? key, required this.search}) : super(key: key);
 
   @override
-  _SearchedMovieState createState() => _SearchedMovieState();
+  _MovieSearchState createState() => _MovieSearchState();
 }
 
-class _SearchedMovieState extends State<SearchedMovie> {
+class _MovieSearchState extends State<MovieSearch> {
   final HttpMoviesServices _httpMoviesServices = HttpMoviesServices();
   List<Result> _movies = [];
   ScrollController _scrollController = ScrollController();
@@ -48,7 +48,7 @@ class _SearchedMovieState extends State<SearchedMovie> {
   }
 
   @override
-  void didUpdateWidget(covariant SearchedMovie oldWidget) {
+  void didUpdateWidget(covariant MovieSearch oldWidget) {
     if (this.widget.search != oldWidget.search) {
       _movies = [];
       _page = 1;

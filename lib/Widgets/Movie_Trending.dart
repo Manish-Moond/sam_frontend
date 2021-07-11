@@ -127,31 +127,3 @@ class _MovieTrendingState extends State<MovieTrending> {
     );
   }
 }
-
-
-// FadeInImage(
-//                     image: NetworkImage(
-//                         'https://image.tmdb.org/t/p/original/${_movies[index].backdropPath}'),
-//                     placeholder:
-//                         AssetImage('assets/images/movieplaceholder.jpg'),
-//                     fit: BoxFit.cover,
-//                     height: MediaQuery.of(context).size.height / 3,
-//                     width: MediaQuery.of(context).size.width,
-//                   ),
-
-
-// CachedNetworkImage(
-//                     imageUrl:
-//                         'https://image.tmdb.org/t/p/w500/${_movies[index].posterPath}',
-//                     height: MediaQuery.of(context).size.height / 3,
-//                     width: MediaQuery.of(context).size.width,
-//                     fit: BoxFit.cover,
-//                     errorWidget: (context, url, error) => Container(
-//                       decoration: BoxDecoration(
-//                         image: DecorationImage(
-//                           image:
-//                               AssetImage('assets/images/movieplaceholder.jpg'),
-//                         ),
-//                       ),
-//                     ),
-//                   ),

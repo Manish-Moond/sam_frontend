@@ -7,7 +7,7 @@ import 'package:sam_frontend/Widgets/MTV_Card.dart';
 import 'package:sam_frontend/Widgets/TvSeries_Popular.dart';
 import 'package:sam_frontend/Widgets/TvSeries_Top_Rated.dart';
 import 'package:sam_frontend/Widgets/TvSeries_Trending.dart';
-import 'package:sam_frontend/Widgets/Tv_Search_By_Name.dart';
+import 'package:sam_frontend/Widgets/TvSeries_Search.dart';
 
 class TvSeriesHomePage extends StatefulWidget {
   final String searchParam;
@@ -67,7 +67,7 @@ class _TvSeriesHomePageState extends State<TvSeriesHomePage> {
               ),
             ),
           )
-        : TvSearchByName(
+        : TvSeriesSearch(
             search: widget.searchParam,
           );
   }

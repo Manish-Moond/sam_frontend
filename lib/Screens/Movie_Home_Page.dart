@@ -8,7 +8,7 @@ import 'package:sam_frontend/Widgets/Movie_Trending.dart';
 import 'package:sam_frontend/Widgets/Movie_Now_Playing.dart';
 import 'package:sam_frontend/Widgets/Movie_Popular.dart';
 import 'package:sam_frontend/Widgets/Movie_Top_Rated.dart';
-import 'package:sam_frontend/Widgets/Searched_Movie.dart';
+import 'package:sam_frontend/Widgets/Movie_Search.dart';
 
 class MovieHomePage extends StatefulWidget {
   final String searchParam;
@@ -72,7 +72,7 @@ class _MovieHomePageState extends State<MovieHomePage> {
                 ),
               ),
             ))
-        : SearchedMovie(search: widget.searchParam);
+        : MovieSearch(search: widget.searchParam);
   }
 }
 
