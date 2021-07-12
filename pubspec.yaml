@@ -36,6 +36,11 @@ dependencies:
   carousel_slider: ^4.0.0
   cached_network_image: ^3.0.0
   fluttericon: ^2.0.0
+  firebase_auth: ^2.0.0
+  google_sign_in: ^5.0.4
+  font_awesome_flutter: ^9.1.0
+  localstorage: ^4.0.0+1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -6,7 +6,6 @@ import 'package:sam_frontend/Widgets/MTV_Card.dart';
 import 'package:sam_frontend/Widgets/MTVS_Genres.dart';
 import 'package:sam_frontend/Widgets/Movie_Trending.dart';
 import 'package:sam_frontend/Widgets/Movie_Now_Playing.dart';
-import 'package:sam_frontend/Widgets/Movie_Popular.dart';
 import 'package:sam_frontend/Widgets/Movie_Top_Rated.dart';
 import 'package:sam_frontend/Widgets/Movie_Search.dart';
 

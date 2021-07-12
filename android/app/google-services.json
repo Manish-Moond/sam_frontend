@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1053532722168",
+    "project_id": "mysam-b946c",
+    "storage_bucket": "mysam-b946c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1053532722168:android:1e5b31ba804ef3b144bc0d",
+        "android_client_info": {
+          "package_name": "com.example.sam_frontend"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1053532722168-irrsql8irl972bmdat04ad0oidkbhhgg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGwXAsVcbqPWfsRD4fCOy1uazSXX-XghI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1053532722168-irrsql8irl972bmdat04ad0oidkbhhgg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
