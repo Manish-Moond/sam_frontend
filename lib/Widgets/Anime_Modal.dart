@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
 
@@ -10,8 +12,19 @@ class AnimeModal extends StatefulWidget {
 }
 
 class _AnimeModalState extends State<AnimeModal> {
+  addData(user) async {
+    Map<String, dynamic> demoData = {'name': "${widget.name}", "image": 21};
+
+    CollectionReference collectionReference = FirebaseFirestore.instance
+        .collection('data')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('anime');
+    collectionReference.add(demoData);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
     var size = MediaQuery.of(context).size;
     return Container(
       height: 420,
@@ -35,7 +48,9 @@ class _AnimeModalState extends State<AnimeModal> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          addData(user);
+                        },
                         style: ElevatedButton.styleFrom(primary: kPrimaryColor),
                         child: Text(
                           "Watching",

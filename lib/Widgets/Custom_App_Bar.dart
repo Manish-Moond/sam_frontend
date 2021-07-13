@@ -29,104 +29,134 @@ class _CustomAppBarState extends State<CustomAppBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
+        height: 200,
         child: (() {
-      if (widget.name == 'My List' || widget.name == 'More') {
-        return AppBar(
-          elevation: 0,
-          backgroundColor: kPrimaryColor,
-          title: Text(
-            widget.name,
-            style: TextStyle(
-                color: kSecondaryColor,
-                fontSize: 25,
-                fontWeight: FontWeight.bold),
-          ),
-        );
-      } else {
-        return AppBar(
-          elevation: 0,
-          backgroundColor: kPrimaryColor,
-          title: !_isSearching
-              ? Row(
-                  children: myController.text == ''
-                      ? [
-                          Text(widget.name,
-                              style: TextStyle(
-                                  color: kSecondaryColor,
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold))
-                        ]
-                      : [
-                          IconButton(
-                            onPressed: () {
-                              setState(() {
-                                myController.text = '';
-                                widget.searchFillerState(myController.text);
-                              });
-                            },
-                            icon: Icon(CancelCustomIcons.cancel_1,
-                                size: 20, color: kSecondaryColor),
-                          ),
-                          // SizedBox(
-                          //   width: MediaQuery.of(context).size.width * 0.25,
-                          // ),
-                          Center(
-                            child: SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.6,
-                              child: Text(
-                                myController.text,
-                                overflow: TextOverflow.fade,
-                                style: TextStyle(
-                                    color: kWhiteColor,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w400),
+          if (widget.name == 'My List') {
+            return AppBar(
+              elevation: 0,
+              backgroundColor: kPrimaryColor,
+              title: Text(
+                widget.name,
+                style: TextStyle(
+                    color: kSecondaryColor,
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold),
+              ),
+              bottom: TabBar(
+                tabs: [
+                  Text(
+                    'Movie',
+                    style: TextStyle(color: Colors.white, fontSize: 15),
+                  ),
+                  Text(
+                    'Anime',
+                    style: TextStyle(color: Colors.white, fontSize: 15),
+                  ),
+                  Text(
+                    'TvSeries',
+                    style: TextStyle(color: Colors.white, fontSize: 15),
+                  )
+                ],
+              ),
+            );
+          } else if (widget.name == 'More') {
+            return AppBar(
+              elevation: 0,
+              backgroundColor: kPrimaryColor,
+              title: Text(
+                widget.name,
+                style: TextStyle(
+                    color: kSecondaryColor,
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold),
+              ),
+            );
+          } else {
+            return AppBar(
+              elevation: 0,
+              backgroundColor: kPrimaryColor,
+              title: !_isSearching
+                  ? Row(
+                      children: myController.text == ''
+                          ? [
+                              Text(widget.name,
+                                  style: TextStyle(
+                                      color: kSecondaryColor,
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold))
+                            ]
+                          : [
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    myController.text = '';
+                                    widget.searchFillerState(myController.text);
+                                  });
+                                },
+                                icon: Icon(CancelCustomIcons.cancel_1,
+                                    size: 20, color: kSecondaryColor),
                               ),
-                            ),
+                              // SizedBox(
+                              //   width: MediaQuery.of(context).size.width * 0.25,
+                              // ),
+                              Center(
+                                child: SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.6,
+                                  child: Text(
+                                    myController.text,
+                                    overflow: TextOverflow.fade,
+                                    style: TextStyle(
+                                        color: kWhiteColor,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                ),
+                              ),
+                            ],
+                    )
+                  : TextField(
+                      controller: myController,
+                      style: TextStyle(color: kFourthColor),
+                      decoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: kSecondaryColor)),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: kSecondaryColor),
                           ),
-                        ],
-                )
-              : TextField(
-                  controller: myController,
-                  style: TextStyle(color: kFourthColor),
-                  decoration: InputDecoration(
-                      enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: kSecondaryColor)),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: kSecondaryColor),
-                      ),
-                      hintText: "${widget.name.toLowerCase()} search",
-                      hintStyle: TextStyle(
-                        color: kFourthColor.withOpacity(0.3),
-                      )),
-                ),
-          actions: [
-            _isSearching
-                ? IconButton(
-                    onPressed: () {
-                      setState(() {
-                        this._isSearching = !this._isSearching;
-                        widget.searchFillerState(myController.text);
-                      });
-                    },
-                    icon: Icon(
-                      Icons.check,
-                      color: kSecondaryColor,
-                      size: 30,
-                    ))
-                : IconButton(
-                    onPressed: () {
-                      setState(() {
-                        this._isSearching = !this._isSearching;
-                      });
-                    },
-                    icon: Icon(
-                      Icons.search,
-                      color: kSecondaryColor,
-                      size: 30,
-                    ))
-          ],
-        );
-      }
-    }()));
+                          hintText: "${widget.name.toLowerCase()} search",
+                          hintStyle: TextStyle(
+                            color: kFourthColor.withOpacity(0.3),
+                          )),
+                    ),
+              actions: [
+                _isSearching
+                    ? IconButton(
+                        onPressed: () {
+                          setState(() {
+                            this._isSearching = !this._isSearching;
+                            widget.searchFillerState(myController.text);
+                          });
+                        },
+                        icon: Icon(
+                          Icons.check,
+                          color: kSecondaryColor,
+                          size: 30,
+                        ))
+                    : IconButton(
+                        onPressed: () {
+                          setState(() {
+                            this._isSearching = !this._isSearching;
+                          });
+                        },
+                        icon: Icon(
+                          Icons.search,
+                          color: kSecondaryColor,
+                          size: 30,
+                        ))
+              ],
+            );
+          }
+        }()));
   }
 }

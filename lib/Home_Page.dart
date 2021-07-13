@@ -28,77 +28,80 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: (() {
-        switch (_index) {
-          case 0:
-            return CustomAppBar(
-                name: 'Movie',
-                value: searchFillerValue,
-                searchFillerState: searchFillterFunction);
-          case 1:
-            return CustomAppBar(
-                name: 'Anime',
-                value: searchFillerValue,
-                searchFillerState: searchFillterFunction);
-          case 2:
-            return CustomAppBar(
-                name: 'Tv Series',
-                value: searchFillerValue,
-                searchFillerState: searchFillterFunction);
-          case 3:
-            return CustomAppBar(
-                name: 'My List',
-                value: searchFillerValue,
-                searchFillerState: searchFillterFunction);
-          case 4:
-            return CustomAppBar(
-                name: 'More',
-                value: searchFillerValue,
-                searchFillerState: searchFillterFunction);
-          default:
-        }
-      }()),
-      bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: kPrimaryColor,
-        color: kSecondaryColor,
-        // index: 4,
-        items: <Widget>[
-          Icon(Icons.movie, size: 30),
-          Icon(Icons.laptop, size: 30),
-          Icon(Icons.tv, size: 30),
-          Icon(Icons.list, size: 30),
-          Icon(Icons.more_horiz, size: 30)
-        ],
-        onTap: (index) {
-          //Handle button tap
-          _index = index;
-          setState(() {
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: (() {
+          switch (_index) {
+            case 0:
+              return CustomAppBar(
+                  name: 'Movie',
+                  value: searchFillerValue,
+                  searchFillerState: searchFillterFunction);
+            case 1:
+              return CustomAppBar(
+                  name: 'Anime',
+                  value: searchFillerValue,
+                  searchFillerState: searchFillterFunction);
+            case 2:
+              return CustomAppBar(
+                  name: 'Tv Series',
+                  value: searchFillerValue,
+                  searchFillerState: searchFillterFunction);
+            case 3:
+              return CustomAppBar(
+                  name: 'My List',
+                  value: searchFillerValue,
+                  searchFillerState: searchFillterFunction);
+            case 4:
+              return CustomAppBar(
+                  name: 'More',
+                  value: searchFillerValue,
+                  searchFillerState: searchFillterFunction);
+            default:
+          }
+        }()),
+        bottomNavigationBar: CurvedNavigationBar(
+          backgroundColor: kPrimaryColor,
+          color: kSecondaryColor,
+          // index: 4,
+          items: <Widget>[
+            Icon(Icons.movie, size: 30),
+            Icon(Icons.laptop, size: 30),
+            Icon(Icons.tv, size: 30),
+            Icon(Icons.list, size: 30),
+            Icon(Icons.more_horiz, size: 30)
+          ],
+          onTap: (index) {
+            //Handle button tap
             _index = index;
-          });
-        },
+            setState(() {
+              _index = index;
+            });
+          },
+        ),
+        body: (() {
+          switch (_index) {
+            case 0:
+              return MovieHomePage(
+                searchParam: searchFillerValue,
+              );
+            case 1:
+              return AnimeHomePage(
+                searchParam: searchFillerValue,
+              );
+            case 2:
+              return TvSeriesHomePage(
+                searchParam: searchFillerValue,
+              );
+            case 3:
+              return MyListHomePage();
+            case 4:
+              return About();
+            default:
+          }
+        }()),
       ),
-      body: (() {
-        switch (_index) {
-          case 0:
-            return MovieHomePage(
-              searchParam: searchFillerValue,
-            );
-          case 1:
-            return AnimeHomePage(
-              searchParam: searchFillerValue,
-            );
-          case 2:
-            return TvSeriesHomePage(
-              searchParam: searchFillerValue,
-            );
-          case 3:
-            return MyListHomePage();
-          case 4:
-            return About();
-          default:
-        }
-      }()),
     );
   }
 }

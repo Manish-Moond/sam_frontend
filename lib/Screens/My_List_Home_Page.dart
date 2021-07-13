@@ -6,7 +6,9 @@ class MyListHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text("My List"),
+      child: TabBarView(
+        children: [Icon(Icons.movie), Icon(Icons.ac_unit), Icon(Icons.tv)],
+      ),
     );
   }
 }
