@@ -28,7 +28,7 @@ class SignInPage extends StatelessWidget {
               onPressed: () {
                 final provider =
                     Provider.of<GoogleSignInProvider>(context, listen: false);
-                provider.login();
+                provider.googleLogin();
               },
             ),
           ),

@@ -41,13 +41,14 @@ class NewHomePage extends StatelessWidget {
         builder: (context, snapshot) {
           final GoogleSignInProvider provider =
               Provider.of<GoogleSignInProvider>(context);
-          if (provider.getIsSigningIn() == true) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
               child: CircularProgressIndicator(),
             );
           } else if (snapshot.hasData) {
-            print(snapshot.data);
             return HomePage();
+          } else if (snapshot.hasError) {
+            return Text('Somthing went wrong');
           } else {
             return SignInPage();
           }
