@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttericon/font_awesome_icons.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
 
 class MyListHomePage extends StatelessWidget {
@@ -12,97 +10,128 @@ class MyListHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: TabBarView(
-        children: [UserMovie(), UserAnime(), Icon(Icons.tv)],
+        children: [UserMovieTabs(), UserAnimeTabs(), UserTvSeriesTabs()],
       ),
     );
   }
 }
 
-class UserMovie extends StatefulWidget {
-  const UserMovie({Key? key}) : super(key: key);
-
-  @override
-  _UserMovieState createState() => _UserMovieState();
-}
-
-class _UserMovieState extends State<UserMovie> {
-  List _movie = [];
-  bool _loading = true;
-  // funt() {
-  //   FirebaseFirestore.instance
-  //       .collection('users')
-  //       .doc(FirebaseAuth.instance.currentUser!.uid)
-  //       .collection('anime')
-  //       .get()
-  //       .then((QuerySnapshot querySnapshot) {
-  //     querySnapshot.docs.forEach((doc) {
-  //       print(doc["name"]);
-  //       _movie.add(doc['name']);
-  //     });
-  //   });
-  //   return _movie;
-  // }
-
-  filler(val) {
-    val.docs.forEach((doc) {
-      _movie.add(doc['name']);
-    });
-    setState(() {
-      _loading = false;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('movie')
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      filler(querySnapshot);
-    });
-  }
+class UserMovie extends StatelessWidget {
+  final List movie;
+  const UserMovie({Key? key, required this.movie}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return _loading
-        ? Center(
-            child: CircularProgressIndicator(),
-          )
-        : Container(
-            child: ListView.builder(
-              itemCount: _movie.length,
-              itemBuilder: (BuildContext context, index) {
-                return UserSAMCard(
-                  name: _movie[index].name,
-                  imageUrl: _movie[index].imageUrl,
-                );
-              },
-            ),
+    return Container(
+      color: kPrimaryColor,
+      child: GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          crossAxisSpacing: 4,
+          mainAxisSpacing: 3,
+          childAspectRatio: MediaQuery.of(context).size.width /
+              (MediaQuery.of(context).size.height / 1.25),
+        ),
+        itemCount: movie.length,
+        itemBuilder: (BuildContext context, index) {
+          print(movie[index]['name']);
+          return UserSAMCard(
+            name: movie[index]['name'],
+            imageUrl: movie[index]['imageUrl'],
           );
+        },
+      ),
+    );
   }
 }
 
-class UserAnime extends StatefulWidget {
-  const UserAnime({Key? key}) : super(key: key);
+class UserAnime extends StatelessWidget {
+  final List anime;
+  const UserAnime({Key? key, required this.anime}) : super(key: key);
 
   @override
-  _UserAnimeState createState() => _UserAnimeState();
+  Widget build(BuildContext context) {
+    return Container(
+      color: kPrimaryColor,
+      child: GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          crossAxisSpacing: 4,
+          mainAxisSpacing: 3,
+          childAspectRatio: MediaQuery.of(context).size.width /
+              (MediaQuery.of(context).size.height / 1.25),
+        ),
+        itemCount: anime.length,
+        itemBuilder: (BuildContext context, index) {
+          print(anime[index]['name']);
+          return UserSAMCard(
+            name: anime[index]['name'],
+            imageUrl: anime[index]['imageUrl'],
+          );
+        },
+      ),
+    );
+  }
 }
 
-class _UserAnimeState extends State<UserAnime> {
-  List _anime = [];
+class UserTvSeries extends StatelessWidget {
+  final List tvSeries;
+  const UserTvSeries({Key? key, required this.tvSeries}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: kPrimaryColor,
+      child: GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          crossAxisSpacing: 4,
+          mainAxisSpacing: 3,
+          childAspectRatio: MediaQuery.of(context).size.width /
+              (MediaQuery.of(context).size.height / 1.25),
+        ),
+        itemCount: tvSeries.length,
+        itemBuilder: (BuildContext context, index) {
+          print(tvSeries[index]['name']);
+          return UserSAMCard(
+            name: tvSeries[index]['name'],
+            imageUrl: tvSeries[index]['imageUrl'],
+          );
+        },
+      ),
+    );
+  }
+}
+
+class UserAnimeTabs extends StatefulWidget {
+  @override
+  _UserAnimeTabsState createState() => _UserAnimeTabsState();
+}
+
+class _UserAnimeTabsState extends State<UserAnimeTabs> {
+  List _watching = [];
+  List _planTow = [];
+  List _watched = [];
+  List _onHold = [];
+  List _drop = [];
   bool _loading = true;
 
   filler(val) {
     val.docs.forEach((doc) {
-      print(doc['name']);
-      _anime.add({'name': doc['name'], 'imageUrl': doc['image']});
+      if (doc['status'] == 'Watching') {
+        _watching.add({'name': doc['name'], 'imageUrl': doc['image']});
+      } else if (doc['status'] == 'Plan To Watch') {
+        _planTow.add({'name': doc['name'], 'imageUrl': doc['image']});
+      } else if (doc['status'] == 'Watched') {
+        _watched.add({'name': doc['name'], 'imageUrl': doc['image']});
+      } else if (doc['status'] == 'On Hold') {
+        _onHold.add({'name': doc['name'], 'imageUrl': doc['image']});
+      } else if (doc['status'] == 'Drop') {
+        _drop.add({'name': doc['name'], 'imageUrl': doc['image']});
+      }
     });
-    print(_anime);
     setState(() {
+      print('object');
       _loading = false;
     });
   }
@@ -110,6 +139,7 @@ class _UserAnimeState extends State<UserAnime> {
   @override
   void initState() {
     super.initState();
+    print('object');
     FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -122,78 +152,307 @@ class _UserAnimeState extends State<UserAnime> {
 
   @override
   Widget build(BuildContext context) {
-    return _loading
-        ? Center(
-            child: CircularProgressIndicator(),
-          )
-        : Container(
-            color: kPrimaryColor,
-            child: GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                crossAxisSpacing: 4,
-                mainAxisSpacing: 3,
-                childAspectRatio: MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.height / 1.25),
+    return Container(
+      child: DefaultTabController(
+        length: 5,
+        child: Scaffold(
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(50),
+            child: AppBar(
+              backgroundColor: kPrimaryColor,
+              bottom: TabBar(
+                indicatorColor: kSecondaryColor,
+                isScrollable: true,
+                tabs: [
+                  Tab(
+                    text: 'Wacthing',
+                  ),
+                  Tab(
+                    text: 'Plan to watch',
+                  ),
+                  Tab(
+                    text: 'Watched',
+                  ),
+                  Tab(
+                    text: 'On Hold',
+                  ),
+                  Tab(
+                    text: 'Drop',
+                  ),
+                ],
               ),
-              itemCount: _anime.length,
-              itemBuilder: (BuildContext context, index) {
-                print(_anime[index]['name']);
-                return UserSAMCard(
-                  name: _anime[index]['name'],
-                  imageUrl: _anime[index]['imageUrl'],
-                );
-              },
             ),
-          );
+          ),
+          body: TabBarView(children: [
+            _loading
+                ? Center(
+                    child: CircularProgressIndicator(
+                      color: kSecondaryColor,
+                    ),
+                  )
+                : UserAnime(
+                    anime: _watching,
+                  ),
+            _loading
+                ? Center(
+                    child: CircularProgressIndicator(
+                      color: kSecondaryColor,
+                    ),
+                  )
+                : UserAnime(
+                    anime: _planTow,
+                  ),
+            _loading
+                ? Center(
+                    child: CircularProgressIndicator(
+                      color: kSecondaryColor,
+                    ),
+                  )
+                : UserAnime(
+                    anime: _watched,
+                  ),
+            _loading
+                ? Center(
+                    child: CircularProgressIndicator(
+                      color: kSecondaryColor,
+                    ),
+                  )
+                : UserAnime(
+                    anime: _onHold,
+                  ),
+            _loading
+                ? Center(
+                    child: CircularProgressIndicator(
+                      color: kSecondaryColor,
+                    ),
+                  )
+                : UserAnime(
+                    anime: _drop,
+                  )
+          ]),
+        ),
+      ),
+    );
   }
 }
 
-// class UserAnimeTabs extends StatefulWidget {
-//   const UserAnimeTabs({Key? key}) : super(key: key);
+class UserMovieTabs extends StatefulWidget {
+  const UserMovieTabs({Key? key}) : super(key: key);
 
-//   @override
-//   _UserAnimeTabsState createState() => _UserAnimeTabsState();
-// }
+  @override
+  _UserMovieTabsState createState() => _UserMovieTabsState();
+}
 
-// class _UserAnimeTabsState extends State<UserAnimeTabs>
-//     with SingleTickerProviderStateMixin {
-//   late TabController _tabController;
+class _UserMovieTabsState extends State<UserMovieTabs> {
+  List _planTow = [];
+  List _watched = [];
+  bool _loading = true;
 
-//   // @override
-//   // void initState() {
-//   //   super.initState();
-//   //   _tabController = new TabController(vsync: this, length: 6);
-//   //   // _tabController.addListener(_handleTabSelection);
-//   // }
+  filler(val) {
+    val.docs.forEach((doc) {
+      if (doc['status'] == 'Plan To Watch') {
+        _planTow.add({'name': doc['name'], 'imageUrl': doc['image']});
+      } else if (doc['status'] == 'Watched') {
+        _watched.add({'name': doc['name'], 'imageUrl': doc['image']});
+      }
+    });
+    setState(() {
+      _loading = false;
+    });
+  }
 
-//   // void _handleTabSelection() {
-//   //   setState(() {
-//   //     widget.colorVal = 0xffff5722;
-//   //   });
-//   // }
+  @override
+  void initState() {
+    super.initState();
+    print('object');
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('movie')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      filler(querySnapshot);
+    });
+  }
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       child: DefaultTabController(
-//         length: 5,
-//         child: Scaffold(
-//           appBar: AppBar(
-//             bottom: TabBar(
-//               controller: _tabController,
-//               isScrollable: true,
-//               tabs: [
-//                 Tab(icon: Icon(FontAwesomeIcons.),),
-              
-//               ],
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(50),
+          child: AppBar(
+            backgroundColor: kPrimaryColor,
+            bottom: TabBar(
+              indicatorColor: kSecondaryColor,
+              tabs: [
+                Tab(
+                  text: 'Watched',
+                ),
+                Tab(
+                  text: 'Plan To Watched',
+                )
+              ],
+            ),
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            _loading
+                ? Center(
+                    child: CircularProgressIndicator(
+                      color: kSecondaryColor,
+                    ),
+                  )
+                : UserMovie(movie: _watched),
+            _loading
+                ? Center(
+                    child: CircularProgressIndicator(
+                      color: kSecondaryColor,
+                    ),
+                  )
+                : UserMovie(movie: _planTow)
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class UserTvSeriesTabs extends StatefulWidget {
+  const UserTvSeriesTabs({Key? key}) : super(key: key);
+
+  @override
+  _UserTvSeriesTabsState createState() => _UserTvSeriesTabsState();
+}
+
+class _UserTvSeriesTabsState extends State<UserTvSeriesTabs> {
+  List _watching = [];
+  List _planTow = [];
+  List _watched = [];
+  List _onHold = [];
+  List _drop = [];
+  bool _loading = true;
+
+  filler(val) {
+    val.docs.forEach((doc) {
+      if (doc['status'] == 'Watching') {
+        _watching.add({'name': doc['name'], 'imageUrl': doc['image']});
+      } else if (doc['status'] == 'Plan To Watch') {
+        _planTow.add({'name': doc['name'], 'imageUrl': doc['image']});
+      } else if (doc['status'] == 'Watched') {
+        _watched.add({'name': doc['name'], 'imageUrl': doc['image']});
+      } else if (doc['status'] == 'On Hold') {
+        _onHold.add({'name': doc['name'], 'imageUrl': doc['image']});
+      } else if (doc['status'] == 'Drop') {
+        _drop.add({'name': doc['name'], 'imageUrl': doc['image']});
+      }
+    });
+    setState(() {
+      _loading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    print('object');
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('tvSeries')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      filler(querySnapshot);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: DefaultTabController(
+        length: 5,
+        child: Scaffold(
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(50),
+            child: AppBar(
+              backgroundColor: kPrimaryColor,
+              bottom: TabBar(
+                indicatorColor: kSecondaryColor,
+                isScrollable: true,
+                tabs: [
+                  Tab(
+                    text: 'Wacthing',
+                  ),
+                  Tab(
+                    text: 'Plan to watch',
+                  ),
+                  Tab(
+                    text: 'Watched',
+                  ),
+                  Tab(
+                    text: 'On Hold',
+                  ),
+                  Tab(
+                    text: 'Drop',
+                  ),
+                ],
+              ),
+            ),
+          ),
+          body: TabBarView(children: [
+            _loading
+                ? Center(
+                    child: CircularProgressIndicator(
+                      color: kSecondaryColor,
+                    ),
+                  )
+                : UserTvSeries(
+                    tvSeries: _watching,
+                  ),
+            _loading
+                ? Center(
+                    child: CircularProgressIndicator(
+                      color: kSecondaryColor,
+                    ),
+                  )
+                : UserTvSeries(
+                    tvSeries: _planTow,
+                  ),
+            _loading
+                ? Center(
+                    child: CircularProgressIndicator(
+                      color: kSecondaryColor,
+                    ),
+                  )
+                : UserTvSeries(
+                    tvSeries: _watched,
+                  ),
+            _loading
+                ? Center(
+                    child: CircularProgressIndicator(
+                      color: kSecondaryColor,
+                    ),
+                  )
+                : UserTvSeries(
+                    tvSeries: _onHold,
+                  ),
+            _loading
+                ? Center(
+                    child: CircularProgressIndicator(
+                      color: kSecondaryColor,
+                    ),
+                  )
+                : UserTvSeries(
+                    tvSeries: _drop,
+                  )
+          ]),
+        ),
+      ),
+    );
+  }
+}
 
 class UserSAMCard extends StatelessWidget {
   final String name;

@@ -52,6 +52,7 @@ class _HomePageState extends State<HomePage> {
               return PreferredSize(
                   child: AppBar(
                     backgroundColor: kPrimaryColor,
+                    // elevation: 3,
                     title: Text(
                       'MyList',
                       style: TextStyle(
@@ -60,18 +61,19 @@ class _HomePageState extends State<HomePage> {
                           fontWeight: FontWeight.bold),
                     ),
                     bottom: TabBar(
+                      indicatorColor: kSecondaryColor,
                       tabs: [
                         Text(
                           'Movie',
-                          style: TextStyle(color: Colors.white, fontSize: 15),
+                          // style: TextStyle(color: Colors.white, fontSize: 15),
                         ),
                         Text(
                           'Anime',
-                          style: TextStyle(color: Colors.white, fontSize: 15),
+                          // style: TextStyle(color: Colors.white, fontSize: 15),
                         ),
                         Text(
                           'TvSeries',
-                          style: TextStyle(color: Colors.white, fontSize: 15),
+                          // style: TextStyle(color: Colors.white, fontSize: 15),
                         )
                       ],
                     ),

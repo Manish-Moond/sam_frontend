@@ -68,11 +68,11 @@ class _AnimeModalState extends State<AnimeModal> {
                         )),
                     ElevatedButton(
                         onPressed: () {
-                          addData('Completed');
+                          addData('Watched');
                         },
                         style: ElevatedButton.styleFrom(primary: kPrimaryColor),
                         child: Text(
-                          "Completed",
+                          "Watched",
                           style: TextStyle(color: kSecondaryColor),
                         )),
                     ElevatedButton(
@@ -100,11 +100,11 @@ class _AnimeModalState extends State<AnimeModal> {
                         )),
                     ElevatedButton(
                         onPressed: () {
-                          addData('Dropped');
+                          addData('Drop');
                         },
                         style: ElevatedButton.styleFrom(primary: kPrimaryColor),
                         child: Text(
-                          "Dropped",
+                          "Drop",
                           style: TextStyle(color: kSecondaryColor),
                         )),
                   ],
