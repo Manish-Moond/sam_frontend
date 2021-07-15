@@ -49,10 +49,34 @@ class _HomePageState extends State<HomePage> {
                   value: searchFillerValue,
                   searchFillerState: searchFillterFunction);
             case 3:
-              return CustomAppBar(
-                  name: 'My List',
-                  value: searchFillerValue,
-                  searchFillerState: searchFillterFunction);
+              return PreferredSize(
+                  child: AppBar(
+                    backgroundColor: kPrimaryColor,
+                    title: Text(
+                      'MyList',
+                      style: TextStyle(
+                          color: kSecondaryColor,
+                          fontSize: 23,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    bottom: TabBar(
+                      tabs: [
+                        Text(
+                          'Movie',
+                          style: TextStyle(color: Colors.white, fontSize: 15),
+                        ),
+                        Text(
+                          'Anime',
+                          style: TextStyle(color: Colors.white, fontSize: 15),
+                        ),
+                        Text(
+                          'TvSeries',
+                          style: TextStyle(color: Colors.white, fontSize: 15),
+                        )
+                      ],
+                    ),
+                  ),
+                  preferredSize: Size.fromHeight(95));
             case 4:
               return CustomAppBar(
                   name: 'More',

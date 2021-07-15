@@ -5,26 +5,36 @@ import 'package:sam_frontend/Constant/Colors.dart';
 
 class AnimeModal extends StatefulWidget {
   final String name;
-  const AnimeModal({Key? key, required this.name}) : super(key: key);
+  final String imageUrl;
+  const AnimeModal({Key? key, required this.name, required this.imageUrl})
+      : super(key: key);
 
   @override
   _AnimeModalState createState() => _AnimeModalState();
 }
 
 class _AnimeModalState extends State<AnimeModal> {
-  addData(user) async {
-    Map<String, dynamic> demoData = {'name': "${widget.name}", "image": 21};
-
-    CollectionReference collectionReference = FirebaseFirestore.instance
-        .collection('data')
+  addData(String _status) async {
+    await FirebaseFirestore.instance
+        .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('anime');
-    collectionReference.add(demoData);
+        .set({'Status': 'Watched'}).then((value) {
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('anime')
+          .add({
+            'name': widget.name,
+            'image': widget.imageUrl,
+            'status': _status
+          })
+          .then((value) => print('object'))
+          .catchError(throw 'Error');
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser;
     var size = MediaQuery.of(context).size;
     return Container(
       height: 420,
@@ -49,7 +59,7 @@ class _AnimeModalState extends State<AnimeModal> {
                   children: [
                     ElevatedButton(
                         onPressed: () {
-                          addData(user);
+                          addData('Watching');
                         },
                         style: ElevatedButton.styleFrom(primary: kPrimaryColor),
                         child: Text(
@@ -57,14 +67,18 @@ class _AnimeModalState extends State<AnimeModal> {
                           style: TextStyle(color: kSecondaryColor),
                         )),
                     ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          addData('Completed');
+                        },
                         style: ElevatedButton.styleFrom(primary: kPrimaryColor),
                         child: Text(
                           "Completed",
                           style: TextStyle(color: kSecondaryColor),
                         )),
                     ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          addData('On Hold');
+                        },
                         style: ElevatedButton.styleFrom(primary: kPrimaryColor),
                         child: Text(
                           "On Hold",
@@ -76,14 +90,18 @@ class _AnimeModalState extends State<AnimeModal> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          addData('Plan To Watch');
+                        },
                         style: ElevatedButton.styleFrom(primary: kPrimaryColor),
                         child: Text(
                           "Plan To Watch",
                           style: TextStyle(color: kSecondaryColor),
                         )),
                     ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          addData('Dropped');
+                        },
                         style: ElevatedButton.styleFrom(primary: kPrimaryColor),
                         child: Text(
                           "Dropped",

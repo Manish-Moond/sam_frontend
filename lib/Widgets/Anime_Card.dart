@@ -150,7 +150,7 @@ class AnimeCard extends StatelessWidget {
                                 showModalBottomSheet<void>(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return AnimeModal(name: title);
+                                    return AnimeModal(name: title, imageUrl: imageUrl,);
                                   },
                                 );
                               },
