@@ -6,7 +6,14 @@ import 'package:sam_frontend/Constant/Colors.dart';
 class AnimeModal extends StatefulWidget {
   final String name;
   final String imageUrl;
-  const AnimeModal({Key? key, required this.name, required this.imageUrl})
+  final String status;
+  final String id;
+  const AnimeModal(
+      {Key? key,
+      required this.name,
+      required this.imageUrl,
+      this.status = '',
+      this.id = ''})
       : super(key: key);
 
   @override
@@ -15,22 +22,45 @@ class AnimeModal extends StatefulWidget {
 
 class _AnimeModalState extends State<AnimeModal> {
   addData(String _status) async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .set({'Status': 'Watched'}).then((value) {
-      FirebaseFirestore.instance
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .collection('anime')
-          .add({
-            'name': widget.name,
-            'image': widget.imageUrl,
-            'status': _status
+    // await FirebaseFirestore.instance
+    //     .collection('users')
+    //     .doc(FirebaseAuth.instance.currentUser!.uid)
+    //     .set({'name': 'anime'}).then((value) {
+    //   FirebaseFirestore.instance
+    //       .collection('users')
+    //       .doc(FirebaseAuth.instance.currentUser!.uid)
+    //       .collection('anime')
+    //       .add({
+    //         'name': widget.name,
+    //         'image': widget.imageUrl,
+    //         'status': _status
+    //       })
+    //       .then((value) => print('object'))
+    //       .catchError(throw 'Error');
+    // });
+    widget.status == ''
+        ? await FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .set({'name': 'anime'}).then((value) {
+            FirebaseFirestore.instance
+                .collection('users')
+                .doc(FirebaseAuth.instance.currentUser!.uid)
+                .collection('anime')
+                .add({
+                  'name': widget.name,
+                  'image': widget.imageUrl,
+                  'status': _status
+                })
+                .then((value) => print('object'))
+                .catchError(throw 'Error');
           })
-          .then((value) => print('object'))
-          .catchError(throw 'Error');
-    });
+        : await FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection('anime')
+            .doc(widget.id)
+            .update({'status': _status});
   }
 
   @override

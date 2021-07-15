@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
+import 'package:sam_frontend/Widgets/Anime_Modal.dart';
 
 class MyListHomePage extends StatelessWidget {
   const MyListHomePage({Key? key}) : super(key: key);
@@ -38,6 +39,7 @@ class UserMovie extends StatelessWidget {
           return UserSAMCard(
             name: movie[index]['name'],
             imageUrl: movie[index]['imageUrl'],
+            id: movie[index]['id']
           );
         },
       ),
@@ -47,7 +49,9 @@ class UserMovie extends StatelessWidget {
 
 class UserAnime extends StatelessWidget {
   final List anime;
-  const UserAnime({Key? key, required this.anime}) : super(key: key);
+  final String status;
+  const UserAnime({Key? key, required this.anime, required this.status})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -63,10 +67,11 @@ class UserAnime extends StatelessWidget {
         ),
         itemCount: anime.length,
         itemBuilder: (BuildContext context, index) {
-          print(anime[index]['name']);
           return UserSAMCard(
             name: anime[index]['name'],
             imageUrl: anime[index]['imageUrl'],
+            id: anime[index]['id'],
+            status: status,
           );
         },
       ),
@@ -96,6 +101,7 @@ class UserTvSeries extends StatelessWidget {
           return UserSAMCard(
             name: tvSeries[index]['name'],
             imageUrl: tvSeries[index]['imageUrl'],
+            id: tvSeries[index]['id'],
           );
         },
       ),
@@ -119,15 +125,20 @@ class _UserAnimeTabsState extends State<UserAnimeTabs> {
   filler(val) {
     val.docs.forEach((doc) {
       if (doc['status'] == 'Watching') {
-        _watching.add({'name': doc['name'], 'imageUrl': doc['image']});
+        _watching
+            .add({'name': doc['name'], 'imageUrl': doc['image'], 'id': doc.id});
       } else if (doc['status'] == 'Plan To Watch') {
-        _planTow.add({'name': doc['name'], 'imageUrl': doc['image']});
+        _planTow
+            .add({'name': doc['name'], 'imageUrl': doc['image'], 'id': doc.id});
       } else if (doc['status'] == 'Watched') {
-        _watched.add({'name': doc['name'], 'imageUrl': doc['image']});
+        _watched
+            .add({'name': doc['name'], 'imageUrl': doc['image'], 'id': doc.id});
       } else if (doc['status'] == 'On Hold') {
-        _onHold.add({'name': doc['name'], 'imageUrl': doc['image']});
+        _onHold
+            .add({'name': doc['name'], 'imageUrl': doc['image'], 'id': doc.id});
       } else if (doc['status'] == 'Drop') {
-        _drop.add({'name': doc['name'], 'imageUrl': doc['image']});
+        _drop
+            .add({'name': doc['name'], 'imageUrl': doc['image'], 'id': doc.id});
       }
     });
     setState(() {
@@ -190,9 +201,7 @@ class _UserAnimeTabsState extends State<UserAnimeTabs> {
                       color: kSecondaryColor,
                     ),
                   )
-                : UserAnime(
-                    anime: _watching,
-                  ),
+                : UserAnime(anime: _watching, status: 'Watching'),
             _loading
                 ? Center(
                     child: CircularProgressIndicator(
@@ -201,6 +210,7 @@ class _UserAnimeTabsState extends State<UserAnimeTabs> {
                   )
                 : UserAnime(
                     anime: _planTow,
+                    status: 'Plan To Watch',
                   ),
             _loading
                 ? Center(
@@ -210,6 +220,7 @@ class _UserAnimeTabsState extends State<UserAnimeTabs> {
                   )
                 : UserAnime(
                     anime: _watched,
+                    status: 'Watched',
                   ),
             _loading
                 ? Center(
@@ -219,6 +230,7 @@ class _UserAnimeTabsState extends State<UserAnimeTabs> {
                   )
                 : UserAnime(
                     anime: _onHold,
+                    status: 'On Hold',
                   ),
             _loading
                 ? Center(
@@ -228,6 +240,7 @@ class _UserAnimeTabsState extends State<UserAnimeTabs> {
                   )
                 : UserAnime(
                     anime: _drop,
+                    status: 'Drop',
                   )
           ]),
         ),
@@ -457,31 +470,49 @@ class _UserTvSeriesTabsState extends State<UserTvSeriesTabs> {
 class UserSAMCard extends StatelessWidget {
   final String name;
   final String imageUrl;
-  const UserSAMCard({Key? key, required this.name, required this.imageUrl})
+  final String status;
+  final String id;
+  const UserSAMCard(
+      {Key? key, required this.name, required this.imageUrl, this.status = '',required this.id})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: kSecondaryColor,
-      elevation: 5,
-      child: Column(
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height * 0.21,
-            width: Size.infinite.width,
-            child: Image.network(
-              imageUrl,
-              fit: BoxFit.cover,
+    return GestureDetector(
+      onDoubleTap: () {
+        showModalBottomSheet<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return AnimeModal(
+              name: name,
+              imageUrl: imageUrl,
+              id: id,
+              status: status,
+            );
+          },
+        );
+      },
+      child: Card(
+        color: kSecondaryColor,
+        elevation: 5,
+        child: Column(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height * 0.21,
+              width: Size.infinite.width,
+              child: Image.network(
+                imageUrl,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          Text(
-            name,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: kPrimaryColor, fontSize: 12),
-          )
-        ],
+            Text(
+              name,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(color: kPrimaryColor, fontSize: 12),
+            )
+          ],
+        ),
       ),
     );
   }
