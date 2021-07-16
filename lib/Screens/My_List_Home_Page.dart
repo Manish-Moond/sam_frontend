@@ -42,7 +42,6 @@ class UserMovie extends StatelessWidget {
             name: movie[index]['name'],
             imageUrl: movie[index]['imageUrl'],
             id: movie[index]['id'],
-            totalList: totalMovie,
           );
         },
       ),
@@ -90,10 +89,10 @@ class UserAnime extends StatelessWidget {
                 children: snapshot.data!.docs.map(
                   (snap) {
                     return UserSAMCard(
-                        name: snap['name'],
-                        imageUrl: snap['image'],
-                        id: snap.id,
-                        totalList: []);
+                      name: snap['name'],
+                      imageUrl: snap['image'],
+                      id: snap.id,
+                    );
                   },
                 ).toList(),
               );
@@ -130,7 +129,6 @@ class UserTvSeries extends StatelessWidget {
             name: tvSeries[index]['name'],
             imageUrl: tvSeries[index]['imageUrl'],
             id: tvSeries[index]['id'],
-            totalList: totalTvSeries,
           );
         },
       ),
@@ -435,15 +433,13 @@ class UserSAMCard extends StatelessWidget {
   final String imageUrl;
   final String status;
   final String id;
-  final List totalList;
-  const UserSAMCard(
-      {Key? key,
-      required this.name,
-      required this.imageUrl,
-      this.status = '',
-      required this.id,
-      required this.totalList})
-      : super(key: key);
+  const UserSAMCard({
+    Key? key,
+    required this.name,
+    required this.imageUrl,
+    this.status = '',
+    required this.id,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -456,8 +452,6 @@ class UserSAMCard extends StatelessWidget {
               name: name,
               imageUrl: imageUrl,
               id: id,
-              status: status,
-              totalAnime: totalList,
             );
           },
         );

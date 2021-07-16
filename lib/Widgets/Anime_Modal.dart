@@ -6,17 +6,13 @@ import 'package:sam_frontend/Constant/Colors.dart';
 class AnimeModal extends StatefulWidget {
   final String name;
   final String imageUrl;
-  final String status;
   final String id;
-  final List totalAnime;
-  const AnimeModal(
-      {Key? key,
-      required this.name,
-      required this.imageUrl,
-      this.status = '',
-      this.id = '',
-      required this.totalAnime})
-      : super(key: key);
+  const AnimeModal({
+    Key? key,
+    required this.name,
+    required this.imageUrl,
+    this.id = '',
+  }) : super(key: key);
 
   @override
   _AnimeModalState createState() => _AnimeModalState();
@@ -24,23 +20,7 @@ class AnimeModal extends StatefulWidget {
 
 class _AnimeModalState extends State<AnimeModal> {
   addData(String _status) async {
-    // await FirebaseFirestore.instance
-    //     .collection('users')
-    //     .doc(FirebaseAuth.instance.currentUser!.uid)
-    //     .set({'name': 'anime'}).then((value) {
-    //   FirebaseFirestore.instance
-    //       .collection('users')
-    //       .doc(FirebaseAuth.instance.currentUser!.uid)
-    //       .collection('anime')
-    //       .add({
-    //         'name': widget.name,
-    //         'image': widget.imageUrl,
-    //         'status': _status
-    //       })
-    //       .then((value) => print('object'))
-    //       .catchError(throw 'Error');
-    // });
-    widget.status == ''
+    widget.id == ''
         ? await FirebaseFirestore.instance
             .collection('users')
             .doc(FirebaseAuth.instance.currentUser!.uid)
