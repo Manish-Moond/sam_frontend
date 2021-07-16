@@ -73,6 +73,7 @@ class _MovieTopRatedState extends State<MovieTopRated> {
                   itemCount: _movies.length,
                   itemBuilder: (context, index) {
                     return MTVCard(
+                      movieOrNot: true,
                       genres: _movies[index].genreIds,
                       id: _movies[index].id,
                       originalTitle: _movies[index].originalTitle,

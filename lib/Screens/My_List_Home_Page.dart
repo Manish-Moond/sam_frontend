@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
 import 'package:sam_frontend/Widgets/Anime_Modal.dart';
+import 'package:sam_frontend/Widgets/Movie_Modal.dart';
+import 'package:sam_frontend/Widgets/TvSeries_Modal.dart';
 
 class MyListHomePage extends StatelessWidget {
   const MyListHomePage({Key? key}) : super(key: key);
@@ -18,31 +20,52 @@ class MyListHomePage extends StatelessWidget {
 }
 
 class UserMovie extends StatelessWidget {
-  final List movie;
-  final List totalMovie;
-  const UserMovie({Key? key, required this.movie, required this.totalMovie})
-      : super(key: key);
+  final String status;
+
+  const UserMovie({Key? key, required this.status}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: kPrimaryColor,
-      child: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          crossAxisSpacing: 4,
-          mainAxisSpacing: 3,
-          childAspectRatio: MediaQuery.of(context).size.width /
-              (MediaQuery.of(context).size.height / 1.25),
-        ),
-        itemCount: movie.length,
-        itemBuilder: (BuildContext context, index) {
-          print(movie[index]['name']);
-          return UserSAMCard(
-            name: movie[index]['name'],
-            imageUrl: movie[index]['imageUrl'],
-            id: movie[index]['id'],
-          );
+      child: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection('movie')
+            .where('status', isEqualTo: status)
+            .snapshots(),
+        builder: (BuildContext context,
+            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+          if (snapshot.hasError) {
+            return Text('Error: ' + '${snapshot.error}');
+          }
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return Center(
+                child: CircularProgressIndicator(
+                  color: kSecondaryColor,
+                ),
+              );
+            default:
+              return GridView.count(
+                crossAxisCount: 3,
+                crossAxisSpacing: 4,
+                mainAxisSpacing: 3,
+                childAspectRatio: MediaQuery.of(context).size.width /
+                    (MediaQuery.of(context).size.height / 1.25),
+                children: snapshot.data!.docs.map(
+                  (snap) {
+                    return UserSAMCard(
+                      who: 'movie',
+                      name: snap['name'],
+                      imageUrl: snap['image'],
+                      id: snap.id,
+                    );
+                  },
+                ).toList(),
+              );
+          }
         },
       ),
     );
@@ -89,6 +112,7 @@ class UserAnime extends StatelessWidget {
                 children: snapshot.data!.docs.map(
                   (snap) {
                     return UserSAMCard(
+                      who: 'anime',
                       name: snap['name'],
                       imageUrl: snap['image'],
                       id: snap.id,
@@ -104,32 +128,51 @@ class UserAnime extends StatelessWidget {
 }
 
 class UserTvSeries extends StatelessWidget {
-  final List tvSeries;
-  final List totalTvSeries;
-  const UserTvSeries(
-      {Key? key, required this.tvSeries, required this.totalTvSeries})
-      : super(key: key);
+  final String status;
+  const UserTvSeries({Key? key, required this.status}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: kPrimaryColor,
-      child: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          crossAxisSpacing: 4,
-          mainAxisSpacing: 3,
-          childAspectRatio: MediaQuery.of(context).size.width /
-              (MediaQuery.of(context).size.height / 1.25),
-        ),
-        itemCount: tvSeries.length,
-        itemBuilder: (BuildContext context, index) {
-          print(tvSeries[index]['name']);
-          return UserSAMCard(
-            name: tvSeries[index]['name'],
-            imageUrl: tvSeries[index]['imageUrl'],
-            id: tvSeries[index]['id'],
-          );
+      child: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection('tvseries')
+            .where('status', isEqualTo: status)
+            .snapshots(),
+        builder: (BuildContext context,
+            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+          if (snapshot.hasError) {
+            return Text('Error: ' + '${snapshot.error}');
+          }
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return Center(
+                child: CircularProgressIndicator(
+                  color: kSecondaryColor,
+                ),
+              );
+            default:
+              return GridView.count(
+                crossAxisCount: 3,
+                crossAxisSpacing: 4,
+                mainAxisSpacing: 3,
+                childAspectRatio: MediaQuery.of(context).size.width /
+                    (MediaQuery.of(context).size.height / 1.25),
+                children: snapshot.data!.docs.map(
+                  (snap) {
+                    return UserSAMCard(
+                      who: 'tvseries',
+                      name: snap['name'],
+                      imageUrl: snap['image'],
+                      id: snap.id,
+                    );
+                  },
+                ).toList(),
+              );
+          }
         },
       ),
     );
@@ -205,39 +248,6 @@ class UserMovieTabs extends StatefulWidget {
 }
 
 class _UserMovieTabsState extends State<UserMovieTabs> {
-  List _planTow = [];
-  List _watched = [];
-  List _all = [];
-  bool _loading = true;
-
-  filler(val) {
-    val.docs.forEach((doc) {
-      _all.add({'name': doc['name'], 'imageUrl': doc['image']});
-      if (doc['status'] == 'Plan To Watch') {
-        _planTow.add({'name': doc['name'], 'imageUrl': doc['image']});
-      } else if (doc['status'] == 'Watched') {
-        _watched.add({'name': doc['name'], 'imageUrl': doc['image']});
-      }
-    });
-    setState(() {
-      _loading = false;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    print('object');
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('movie')
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      filler(querySnapshot);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -262,26 +272,12 @@ class _UserMovieTabsState extends State<UserMovieTabs> {
         ),
         body: TabBarView(
           children: [
-            _loading
-                ? Center(
-                    child: CircularProgressIndicator(
-                      color: kSecondaryColor,
-                    ),
-                  )
-                : UserMovie(
-                    movie: _watched,
-                    totalMovie: _all,
-                  ),
-            _loading
-                ? Center(
-                    child: CircularProgressIndicator(
-                      color: kSecondaryColor,
-                    ),
-                  )
-                : UserMovie(
-                    movie: _planTow,
-                    totalMovie: _all,
-                  )
+            UserMovie(
+              status: 'Watched',
+            ),
+            UserMovie(
+              status: 'Plan To Watch',
+            )
           ],
         ),
       ),
@@ -297,46 +293,6 @@ class UserTvSeriesTabs extends StatefulWidget {
 }
 
 class _UserTvSeriesTabsState extends State<UserTvSeriesTabs> {
-  List _watching = [];
-  List _planTow = [];
-  List _watched = [];
-  List _onHold = [];
-  List _drop = [];
-  bool _loading = true;
-
-  filler(val) {
-    val.docs.forEach((doc) {
-      if (doc['status'] == 'Watching') {
-        _watching.add({'name': doc['name'], 'imageUrl': doc['image']});
-      } else if (doc['status'] == 'Plan To Watch') {
-        _planTow.add({'name': doc['name'], 'imageUrl': doc['image']});
-      } else if (doc['status'] == 'Watched') {
-        _watched.add({'name': doc['name'], 'imageUrl': doc['image']});
-      } else if (doc['status'] == 'On Hold') {
-        _onHold.add({'name': doc['name'], 'imageUrl': doc['image']});
-      } else if (doc['status'] == 'Drop') {
-        _drop.add({'name': doc['name'], 'imageUrl': doc['image']});
-      }
-    });
-    setState(() {
-      _loading = false;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    print('object');
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('tvSeries')
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      filler(querySnapshot);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -371,56 +327,21 @@ class _UserTvSeriesTabsState extends State<UserTvSeriesTabs> {
             ),
           ),
           body: TabBarView(children: [
-            _loading
-                ? Center(
-                    child: CircularProgressIndicator(
-                      color: kSecondaryColor,
-                    ),
-                  )
-                : UserTvSeries(
-                    tvSeries: _watching,
-                    totalTvSeries: [],
-                  ),
-            _loading
-                ? Center(
-                    child: CircularProgressIndicator(
-                      color: kSecondaryColor,
-                    ),
-                  )
-                : UserTvSeries(
-                    tvSeries: _planTow,
-                    totalTvSeries: [],
-                  ),
-            _loading
-                ? Center(
-                    child: CircularProgressIndicator(
-                      color: kSecondaryColor,
-                    ),
-                  )
-                : UserTvSeries(
-                    tvSeries: _watched,
-                    totalTvSeries: [],
-                  ),
-            _loading
-                ? Center(
-                    child: CircularProgressIndicator(
-                      color: kSecondaryColor,
-                    ),
-                  )
-                : UserTvSeries(
-                    tvSeries: _onHold,
-                    totalTvSeries: [],
-                  ),
-            _loading
-                ? Center(
-                    child: CircularProgressIndicator(
-                      color: kSecondaryColor,
-                    ),
-                  )
-                : UserTvSeries(
-                    tvSeries: _drop,
-                    totalTvSeries: [],
-                  )
+            UserTvSeries(
+              status: 'Watching',
+            ),
+            UserTvSeries(
+              status: 'Plan To Watch',
+            ),
+            UserTvSeries(
+              status: 'Watched',
+            ),
+            UserTvSeries(
+              status: 'On Hold',
+            ),
+            UserTvSeries(
+              status: 'Drop',
+            )
           ]),
         ),
       ),
@@ -431,14 +352,14 @@ class _UserTvSeriesTabsState extends State<UserTvSeriesTabs> {
 class UserSAMCard extends StatelessWidget {
   final String name;
   final String imageUrl;
-  final String status;
   final String id;
+  final String who;
   const UserSAMCard({
     Key? key,
     required this.name,
     required this.imageUrl,
-    this.status = '',
     required this.id,
+    required this.who,
   }) : super(key: key);
 
   @override
@@ -448,11 +369,25 @@ class UserSAMCard extends StatelessWidget {
         showModalBottomSheet<void>(
           context: context,
           builder: (BuildContext context) {
-            return AnimeModal(
-              name: name,
-              imageUrl: imageUrl,
-              id: id,
-            );
+            if (who == 'movie') {
+              return MovieModal(
+                name: name,
+                imageUrl: imageUrl,
+                id: id,
+              );
+            } else if (who == 'anime') {
+              return AnimeModal(
+                name: name,
+                imageUrl: imageUrl,
+                id: id,
+              );
+            } else {
+              return TvSeriesModal(
+                name: name,
+                imageUrl: imageUrl,
+                id: id,
+              );
+            }
           },
         );
       },

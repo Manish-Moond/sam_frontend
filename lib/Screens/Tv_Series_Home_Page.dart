@@ -190,6 +190,7 @@ class _TvSeriesGenresResultState extends State<TvSeriesGenresResult> {
             itemCount: _movies.length,
             itemBuilder: (context, index) {
               return MTVCard(
+                movieOrNot: false,
                 genres: _movies[index].genreIds,
                 id: _movies[index].id,
                 originalTitle: _movies[index].name,

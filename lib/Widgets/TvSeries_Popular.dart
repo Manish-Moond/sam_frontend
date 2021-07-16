@@ -80,6 +80,7 @@ class _TvSeriesPopularState extends State<TvSeriesPopular> {
                   itemCount: _tv.length,
                   itemBuilder: (context, index) {
                     return MTVCard(
+                      movieOrNot: false,
                       genres: _tv[index].genreIds,
                       id: _tv[index].id,
                       originalTitle: _tv[index].name,

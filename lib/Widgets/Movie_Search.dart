@@ -84,6 +84,7 @@ class _MovieSearchState extends State<MovieSearch> {
               itemCount: _movies.length,
               itemBuilder: (context, index) {
                 return MTVCard(
+                  movieOrNot: true,
                   searcedOrNot: true,
                   genres: _movies[index].genreIds,
                   id: _movies[index].id,

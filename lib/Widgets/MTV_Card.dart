@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
 import 'package:sam_frontend/Screens/Movie_Descripetion.dart';
+import 'package:sam_frontend/Widgets/Movie_Modal.dart';
+import 'package:sam_frontend/Widgets/TvSeries_Modal.dart';
 
 class MTVCard extends StatelessWidget {
   final bool searcedOrNot;
+  final bool movieOrNot;
   final List<int> genres;
   final int id;
   final String originalTitle;
@@ -27,7 +30,8 @@ class MTVCard extends StatelessWidget {
       required this.backdropPath,
       required this.releaseDate,
       required this.title,
-      required this.voteAverage})
+      required this.voteAverage,
+      required this.movieOrNot})
       : super(key: key);
 
   @override
@@ -56,6 +60,23 @@ class MTVCard extends StatelessWidget {
                         title: title,
                         voteAverage: voteAverage,
                       )));
+        },
+        onDoubleTap: () {
+          movieOrNot
+              ? showModalBottomSheet<void>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return MovieModal(
+                        name: originalTitle, imageUrl: posterPath);
+                  },
+                )
+              : showModalBottomSheet<void>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return TvSeriesModal(
+                        name: originalTitle, imageUrl: posterPath);
+                  },
+                );
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

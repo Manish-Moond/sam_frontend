@@ -83,6 +83,7 @@ class _TvSeriesSearchState extends State<TvSeriesSearch> {
               itemCount: _tvseries.length,
               itemBuilder: (context, index) {
                 return MTVCard(
+                  movieOrNot: false,
                   searcedOrNot: true,
                   genres: _tvseries[index].genreIds,
                   id: _tvseries[index].id,
