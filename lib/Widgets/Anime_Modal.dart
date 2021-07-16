@@ -8,12 +8,14 @@ class AnimeModal extends StatefulWidget {
   final String imageUrl;
   final String status;
   final String id;
+  final List totalAnime;
   const AnimeModal(
       {Key? key,
       required this.name,
       required this.imageUrl,
       this.status = '',
-      this.id = ''})
+      this.id = '',
+      required this.totalAnime})
       : super(key: key);
 
   @override

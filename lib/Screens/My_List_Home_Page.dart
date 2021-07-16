@@ -19,7 +19,9 @@ class MyListHomePage extends StatelessWidget {
 
 class UserMovie extends StatelessWidget {
   final List movie;
-  const UserMovie({Key? key, required this.movie}) : super(key: key);
+  final List totalMovie;
+  const UserMovie({Key? key, required this.movie, required this.totalMovie})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,8 @@ class UserMovie extends StatelessWidget {
           return UserSAMCard(
             name: movie[index]['name'],
             imageUrl: movie[index]['imageUrl'],
-            id: movie[index]['id']
+            id: movie[index]['id'],
+            totalList: totalMovie,
           );
         },
       ),
@@ -48,31 +51,53 @@ class UserMovie extends StatelessWidget {
 }
 
 class UserAnime extends StatelessWidget {
-  final List anime;
   final String status;
-  const UserAnime({Key? key, required this.anime, required this.status})
-      : super(key: key);
+  UserAnime({
+    Key? key,
+    required this.status,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: kPrimaryColor,
-      child: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          crossAxisSpacing: 4,
-          mainAxisSpacing: 3,
-          childAspectRatio: MediaQuery.of(context).size.width /
-              (MediaQuery.of(context).size.height / 1.25),
-        ),
-        itemCount: anime.length,
-        itemBuilder: (BuildContext context, index) {
-          return UserSAMCard(
-            name: anime[index]['name'],
-            imageUrl: anime[index]['imageUrl'],
-            id: anime[index]['id'],
-            status: status,
-          );
+      child: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection('anime')
+            .where('status', isEqualTo: status)
+            .snapshots(),
+        builder: (BuildContext context,
+            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+          if (snapshot.hasError) {
+            return Text('Error: ' + '${snapshot.error}');
+          }
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return Center(
+                child: CircularProgressIndicator(
+                  color: kSecondaryColor,
+                ),
+              );
+            default:
+              return GridView.count(
+                crossAxisCount: 3,
+                crossAxisSpacing: 4,
+                mainAxisSpacing: 3,
+                childAspectRatio: MediaQuery.of(context).size.width /
+                    (MediaQuery.of(context).size.height / 1.25),
+                children: snapshot.data!.docs.map(
+                  (snap) {
+                    return UserSAMCard(
+                        name: snap['name'],
+                        imageUrl: snap['image'],
+                        id: snap.id,
+                        totalList: []);
+                  },
+                ).toList(),
+              );
+          }
         },
       ),
     );
@@ -81,7 +106,10 @@ class UserAnime extends StatelessWidget {
 
 class UserTvSeries extends StatelessWidget {
   final List tvSeries;
-  const UserTvSeries({Key? key, required this.tvSeries}) : super(key: key);
+  final List totalTvSeries;
+  const UserTvSeries(
+      {Key? key, required this.tvSeries, required this.totalTvSeries})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +130,7 @@ class UserTvSeries extends StatelessWidget {
             name: tvSeries[index]['name'],
             imageUrl: tvSeries[index]['imageUrl'],
             id: tvSeries[index]['id'],
+            totalList: totalTvSeries,
           );
         },
       ),
@@ -115,135 +144,56 @@ class UserAnimeTabs extends StatefulWidget {
 }
 
 class _UserAnimeTabsState extends State<UserAnimeTabs> {
-  List _watching = [];
-  List _planTow = [];
-  List _watched = [];
-  List _onHold = [];
-  List _drop = [];
-  bool _loading = true;
-
-  filler(val) {
-    val.docs.forEach((doc) {
-      if (doc['status'] == 'Watching') {
-        _watching
-            .add({'name': doc['name'], 'imageUrl': doc['image'], 'id': doc.id});
-      } else if (doc['status'] == 'Plan To Watch') {
-        _planTow
-            .add({'name': doc['name'], 'imageUrl': doc['image'], 'id': doc.id});
-      } else if (doc['status'] == 'Watched') {
-        _watched
-            .add({'name': doc['name'], 'imageUrl': doc['image'], 'id': doc.id});
-      } else if (doc['status'] == 'On Hold') {
-        _onHold
-            .add({'name': doc['name'], 'imageUrl': doc['image'], 'id': doc.id});
-      } else if (doc['status'] == 'Drop') {
-        _drop
-            .add({'name': doc['name'], 'imageUrl': doc['image'], 'id': doc.id});
-      }
-    });
-    setState(() {
-      print('object');
-      _loading = false;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    print('object');
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('anime')
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      filler(querySnapshot);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
       child: DefaultTabController(
         length: 5,
         child: Scaffold(
-          appBar: PreferredSize(
-            preferredSize: Size.fromHeight(50),
-            child: AppBar(
-              backgroundColor: kPrimaryColor,
-              bottom: TabBar(
-                indicatorColor: kSecondaryColor,
-                isScrollable: true,
-                tabs: [
-                  Tab(
-                    text: 'Wacthing',
-                  ),
-                  Tab(
-                    text: 'Plan to watch',
-                  ),
-                  Tab(
-                    text: 'Watched',
-                  ),
-                  Tab(
-                    text: 'On Hold',
-                  ),
-                  Tab(
-                    text: 'Drop',
-                  ),
-                ],
+            appBar: PreferredSize(
+              preferredSize: Size.fromHeight(50),
+              child: AppBar(
+                backgroundColor: kPrimaryColor,
+                bottom: TabBar(
+                  indicatorColor: kSecondaryColor,
+                  isScrollable: true,
+                  tabs: [
+                    Tab(
+                      text: 'Wacthing',
+                    ),
+                    Tab(
+                      text: 'Plan to watch',
+                    ),
+                    Tab(
+                      text: 'Watched',
+                    ),
+                    Tab(
+                      text: 'On Hold',
+                    ),
+                    Tab(
+                      text: 'Drop',
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          body: TabBarView(children: [
-            _loading
-                ? Center(
-                    child: CircularProgressIndicator(
-                      color: kSecondaryColor,
-                    ),
-                  )
-                : UserAnime(anime: _watching, status: 'Watching'),
-            _loading
-                ? Center(
-                    child: CircularProgressIndicator(
-                      color: kSecondaryColor,
-                    ),
-                  )
-                : UserAnime(
-                    anime: _planTow,
-                    status: 'Plan To Watch',
-                  ),
-            _loading
-                ? Center(
-                    child: CircularProgressIndicator(
-                      color: kSecondaryColor,
-                    ),
-                  )
-                : UserAnime(
-                    anime: _watched,
-                    status: 'Watched',
-                  ),
-            _loading
-                ? Center(
-                    child: CircularProgressIndicator(
-                      color: kSecondaryColor,
-                    ),
-                  )
-                : UserAnime(
-                    anime: _onHold,
-                    status: 'On Hold',
-                  ),
-            _loading
-                ? Center(
-                    child: CircularProgressIndicator(
-                      color: kSecondaryColor,
-                    ),
-                  )
-                : UserAnime(
-                    anime: _drop,
-                    status: 'Drop',
-                  )
-          ]),
-        ),
+            body: TabBarView(children: [
+              UserAnime(
+                status: 'Watching',
+              ),
+              UserAnime(
+                status: 'Plan To Watch',
+              ),
+              UserAnime(
+                status: 'Watched',
+              ),
+              UserAnime(
+                status: 'On Hold',
+              ),
+              UserAnime(
+                status: 'Drop',
+              )
+            ])),
       ),
     );
   }
@@ -259,10 +209,12 @@ class UserMovieTabs extends StatefulWidget {
 class _UserMovieTabsState extends State<UserMovieTabs> {
   List _planTow = [];
   List _watched = [];
+  List _all = [];
   bool _loading = true;
 
   filler(val) {
     val.docs.forEach((doc) {
+      _all.add({'name': doc['name'], 'imageUrl': doc['image']});
       if (doc['status'] == 'Plan To Watch') {
         _planTow.add({'name': doc['name'], 'imageUrl': doc['image']});
       } else if (doc['status'] == 'Watched') {
@@ -318,14 +270,20 @@ class _UserMovieTabsState extends State<UserMovieTabs> {
                       color: kSecondaryColor,
                     ),
                   )
-                : UserMovie(movie: _watched),
+                : UserMovie(
+                    movie: _watched,
+                    totalMovie: _all,
+                  ),
             _loading
                 ? Center(
                     child: CircularProgressIndicator(
                       color: kSecondaryColor,
                     ),
                   )
-                : UserMovie(movie: _planTow)
+                : UserMovie(
+                    movie: _planTow,
+                    totalMovie: _all,
+                  )
           ],
         ),
       ),
@@ -423,6 +381,7 @@ class _UserTvSeriesTabsState extends State<UserTvSeriesTabs> {
                   )
                 : UserTvSeries(
                     tvSeries: _watching,
+                    totalTvSeries: [],
                   ),
             _loading
                 ? Center(
@@ -432,6 +391,7 @@ class _UserTvSeriesTabsState extends State<UserTvSeriesTabs> {
                   )
                 : UserTvSeries(
                     tvSeries: _planTow,
+                    totalTvSeries: [],
                   ),
             _loading
                 ? Center(
@@ -441,6 +401,7 @@ class _UserTvSeriesTabsState extends State<UserTvSeriesTabs> {
                   )
                 : UserTvSeries(
                     tvSeries: _watched,
+                    totalTvSeries: [],
                   ),
             _loading
                 ? Center(
@@ -450,6 +411,7 @@ class _UserTvSeriesTabsState extends State<UserTvSeriesTabs> {
                   )
                 : UserTvSeries(
                     tvSeries: _onHold,
+                    totalTvSeries: [],
                   ),
             _loading
                 ? Center(
@@ -459,6 +421,7 @@ class _UserTvSeriesTabsState extends State<UserTvSeriesTabs> {
                   )
                 : UserTvSeries(
                     tvSeries: _drop,
+                    totalTvSeries: [],
                   )
           ]),
         ),
@@ -472,8 +435,14 @@ class UserSAMCard extends StatelessWidget {
   final String imageUrl;
   final String status;
   final String id;
+  final List totalList;
   const UserSAMCard(
-      {Key? key, required this.name, required this.imageUrl, this.status = '',required this.id})
+      {Key? key,
+      required this.name,
+      required this.imageUrl,
+      this.status = '',
+      required this.id,
+      required this.totalList})
       : super(key: key);
 
   @override
@@ -488,6 +457,7 @@ class UserSAMCard extends StatelessWidget {
               imageUrl: imageUrl,
               id: id,
               status: status,
+              totalAnime: totalList,
             );
           },
         );
