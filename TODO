@@ -4,8 +4,9 @@ Episodate
 https://www.episodate.com/api
 https://www.episodate.com/api/most-popular?page=1
 
+https://www.youtube.com/watch?v=Vs39uIJqKp4 api cache manager
 
 IN anime for you part first show top anime for and after some time show recommendations
 
-☐ Add Tabbar in anime page
+✔ Add Tabbar in anime page @done(21-07-17 13:08)
 ☐ use local storage to increase performance

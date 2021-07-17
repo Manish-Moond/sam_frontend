@@ -41,6 +41,7 @@ dependencies:
   cloud_firestore: ^2.3.0
   font_awesome_flutter: ^9.1.0
   localstorage: ^4.0.0+1
+  api_cache_manager: ^1.0.2
 
 dev_dependencies:
   flutter_test:
