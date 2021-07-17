@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:sam_frontend/Constant/Colors.dart';
 import 'package:sam_frontend/Widgets/Anime_Search.dart';
 import 'package:sam_frontend/Widgets/Anime_This_Season.dart';
-import 'package:sam_frontend/Widgets/Anime_Top_Slider.dart';
 import 'package:sam_frontend/Widgets/Anime_For_You.dart';
 
 class AnimeHomePage extends StatefulWidget {
@@ -24,18 +24,32 @@ class _AnimeHomePageState extends State<AnimeHomePage> {
   @override
   Widget build(BuildContext context) {
     return widget.searchParam == ''
-        ? Column(
-            children: [
-              AnimeTopSlider(
-                animeToggler: animeToggler,
-                selected: value,
+        ? DefaultTabController(
+            length: 2,
+            child: Scaffold(
+              appBar: PreferredSize(
+                preferredSize: Size.fromHeight(50),
+                child: AppBar(
+                  elevation: 0,
+                  backgroundColor: kPrimaryColor,
+                  bottom: TabBar(
+                    indicatorColor: kSecondaryColor,
+                    indicatorWeight: 3,
+                    tabs: [
+                      Tab(
+                        text: 'This Season',
+                      ),
+                      Tab(
+                        text: 'For You',
+                      )
+                    ],
+                  ),
+                ),
               ),
-              value == 'This Season'
-                  ? Expanded(child: AnimeThisSeason())
-                  : Expanded(child: AnimeForYou())
-            ],
-          )
+              body: TabBarView(
+                children: [AnimeThisSeason(), AnimeForYou()],
+              ),
+            ))
         : AnimeSearchedByName(search: widget.searchParam);
   }
 }
-
