@@ -400,7 +400,7 @@ class UserSAMCard extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              height: MediaQuery.of(context).size.height * 0.21,
+              height: MediaQuery.of(context).size.height * 0.205,
               width: Size.infinite.width,
               child: Image.network(
                 imageUrl,
