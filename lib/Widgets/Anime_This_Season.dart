@@ -58,53 +58,60 @@ class _AnimeThisSeasonState extends State<AnimeThisSeason> {
             List<Anime> erer = anime!.anime;
             return Container(
               color: kPrimaryColor,
-              child: GridView.count(
-                  childAspectRatio: (itemWidth / itemHeight),
-                  crossAxisSpacing: 5,
-                  mainAxisSpacing: 5,
-                  crossAxisCount: 2,
-                  children: [
-                    ...erer.map(
-                      (Anime ani) => AnimeCard(
-                        topOrNot: true,
-                        malId: ani.malId,
-                        imageUrl: ani.imageUrl,
-                        episodes: ani.episodes,
-                        aired: [
-                          convertToMonth(date: ani.airingStart.month) +
-                              ' ${ani.airingStart.day}'
-                        ],
-                        genres: ani.genres,
-                        status: 'Aring',
-                        title: ani.title,
-                        related: Related(adaptation: [
-                          Genre(malId: 1, type: '', name: '', url: '')
-                        ], alternativeVersion: [
-                          Genre(malId: -1, type: '', name: '', url: '')
-                        ], sideStory: [
-                          Genre(malId: -1, type: '', name: '', url: '')
-                        ], spinOff: [
-                          Genre(malId: -1, type: '', name: '', url: '')
-                        ], alternativeSetting: [
-                          Genre(malId: -1, type: '', name: '', url: '')
-                        ], sequel: [
-                          Genre(malId: -1, type: '', name: '', url: '')
-                        ], other: [
-                          Genre(malId: -1, type: '', name: '', url: '')
-                        ], prequel: [
-                          Genre(malId: -1, type: '', name: '', url: '')
-                        ], summary: [
-                          Genre(malId: -1, type: '', name: '', url: '')
-                        ], character: [
-                          Genre(malId: -1, type: '', name: '', url: '')
-                        ], parentStory: [
-                          Genre(malId: -1, type: '', name: '', url: '')
-                        ], fullStory: [
-                          Genre(malId: -1, type: '', name: '', url: '')
-                        ]),
-                      ),
-                    )
-                  ]),
+              child: RefreshIndicator(
+                color: kSecondaryColor,
+                backgroundColor: kPrimaryColor,
+                onRefresh: () {
+                  return _httpAnimeServices.getThisSeason(year: 2021, season: 'summer', isRefresh: true);
+                },
+                child: GridView.count(
+                    childAspectRatio: (itemWidth / itemHeight),
+                    crossAxisSpacing: 5,
+                    mainAxisSpacing: 5,
+                    crossAxisCount: 2,
+                    children: [
+                      ...erer.map(
+                        (Anime ani) => AnimeCard(
+                          topOrNot: true,
+                          malId: ani.malId,
+                          imageUrl: ani.imageUrl,
+                          episodes: ani.episodes,
+                          aired: [
+                            convertToMonth(date: ani.airingStart.month) +
+                                ' ${ani.airingStart.day}'
+                          ],
+                          genres: ani.genres,
+                          status: 'Aring',
+                          title: ani.title,
+                          related: Related(adaptation: [
+                            Genre(malId: 1, type: '', name: '', url: '')
+                          ], alternativeVersion: [
+                            Genre(malId: -1, type: '', name: '', url: '')
+                          ], sideStory: [
+                            Genre(malId: -1, type: '', name: '', url: '')
+                          ], spinOff: [
+                            Genre(malId: -1, type: '', name: '', url: '')
+                          ], alternativeSetting: [
+                            Genre(malId: -1, type: '', name: '', url: '')
+                          ], sequel: [
+                            Genre(malId: -1, type: '', name: '', url: '')
+                          ], other: [
+                            Genre(malId: -1, type: '', name: '', url: '')
+                          ], prequel: [
+                            Genre(malId: -1, type: '', name: '', url: '')
+                          ], summary: [
+                            Genre(malId: -1, type: '', name: '', url: '')
+                          ], character: [
+                            Genre(malId: -1, type: '', name: '', url: '')
+                          ], parentStory: [
+                            Genre(malId: -1, type: '', name: '', url: '')
+                          ], fullStory: [
+                            Genre(malId: -1, type: '', name: '', url: '')
+                          ]),
+                        ),
+                      )
+                    ]),
+              ),
             );
           } else if (snapshot.hasError) {
             return Text('No Anime');
