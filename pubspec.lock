@@ -85,6 +85,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.15.0"
+  cron:
+    dependency: "direct main"
+    description:
+      name: cron
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.0"
   crypto:
     dependency: transitive
     description:

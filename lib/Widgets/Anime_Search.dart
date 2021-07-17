@@ -84,19 +84,11 @@ class _AnimeSearchedByNameState extends State<AnimeSearchedByName> {
       child: _anime.length == 0
           ? Container(
               color: kPrimaryColor,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        CircularProgressIndicator(),
-                      ]),
-                ],
-              ),
-            )
+              child: Center(
+                child: CircularProgressIndicator(
+                  color: kSecondaryColor,
+                ),
+              ))
           : GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 childAspectRatio: (itemWidth / itemHeight),

@@ -32,7 +32,7 @@ class _TvSeriesTrendingState extends State<TvSeriesTrending> {
   void initState() {
     super.initState();
     _loading = true;
-    _httpTvSeriesServices.getTSTrending(_page).then((value) {
+    _httpTvSeriesServices.getTSTrending(page: _page).then((value) {
       filler(value);
     });
   }

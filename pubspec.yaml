@@ -42,6 +42,7 @@ dependencies:
   font_awesome_flutter: ^9.1.0
   localstorage: ^4.0.0+1
   api_cache_manager: ^1.0.2
+  cron: ^0.3.0
 
 dev_dependencies:
   flutter_test:

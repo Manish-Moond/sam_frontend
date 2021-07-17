@@ -220,18 +220,18 @@ class _AnimeGenresResultsState extends State<AnimeGenresResults> {
   }
 
   Map<int, String> _mon = {
-    1: 'Janua..',
-    2: 'Febru..',
+  1: 'Jan',
+    2: 'Febr',
     3: 'March',
     4: 'April',
     5: 'May',
     6: 'June',
     7: 'July',
     8: 'August',
-    9: 'Sept..',
-    10: 'Octob..',
-    11: 'Novem..',
-    12: 'Decem..'
+    9: 'Sept',
+    10: 'Octo',
+    11: 'Nove',
+    12: 'Dece'
   };
   convertToMonth({required date}) {
     return _mon[date];

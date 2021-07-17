@@ -2,16 +2,48 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:sam_frontend/Models/Movie_Model.dart';
+import 'package:api_cache_manager/api_cache_manager.dart';
+import 'package:api_cache_manager/models/cache_db_model.dart';
+import 'package:cron/cron.dart';
 
 class HttpMoviesServices {
   Future<MoviesModel> getTrending(type, page) async {
-    final res = await http.get(Uri.https(
-        'sam-api-flask.herokuapp.com', '/movie/trending/$type/$page'));
-    if (res.statusCode == 200) {
-      MoviesModel result = MoviesModel.fromJson(json.decode(res.body));
-      return result;
+    var isCacheExits =
+        await APICacheManager().isAPICacheKeyExist('MovieTrending');
+
+    // Run After every 15 min and update cache
+    var cron = new Cron();
+    cron.schedule(new Schedule.parse('*/15 * * * *'), () async {
+      final res = await http.get(Uri.https(
+          'sam-api-flask.herokuapp.com', '/movie/trending/$type/$page'));
+      if (res.statusCode == 200) {
+        // Adding data to local DB for performance
+        APICacheDBModel cacheDBModel =
+            new APICacheDBModel(key: 'MovieTrending', syncData: res.body);
+
+        APICacheManager().addCacheData(cacheDBModel);
+      }
+    });
+
+    if (!isCacheExits) {
+      final res = await http.get(Uri.https(
+          'sam-api-flask.herokuapp.com', '/movie/trending/$type/$page'));
+      if (res.statusCode == 200) {
+        // Adding data to local DB for performance
+        APICacheDBModel cacheDBModel =
+            new APICacheDBModel(key: 'MovieTrending', syncData: res.body);
+
+        APICacheManager().addCacheData(cacheDBModel);
+
+        MoviesModel result = MoviesModel.fromJson(json.decode(res.body));
+        return result;
+      }
+    } else {
+      var cacheData = await APICacheManager().getCacheData('MovieTrending');
+      return MoviesModel.fromJson(json.decode(cacheData.syncData));
     }
-    throw 'Error from now Latest';
+
+    throw 'Error from Trandin Movies';
   }
 
   Future<MoviesModel> getGenresMovies(genresId, page) async {

@@ -26,7 +26,7 @@ class _TvSeriesTopRatedState extends State<TvSeriesTopRated> {
       if (value.results.length < 10) {
         _page += 1;
         _httpTvSeriesServices
-            .getTSTopRated(_page)
+            .getTSTopRated(page: _page)
             .then((value) => filler(value));
       }
     });
@@ -36,7 +36,7 @@ class _TvSeriesTopRatedState extends State<TvSeriesTopRated> {
   void initState() {
     super.initState();
     _loading = true;
-    _httpTvSeriesServices.getTSTopRated(_page).then((value) {
+    _httpTvSeriesServices.getTSTopRated(page:_page).then((value) {
       filler(value);
     });
 
@@ -45,7 +45,7 @@ class _TvSeriesTopRatedState extends State<TvSeriesTopRated> {
           _scrollController.position.maxScrollExtent) {
         _page += 1;
         _loading = true;
-        _httpTvSeriesServices.getTSTopRated(_page).then((value) {
+        _httpTvSeriesServices.getTSTopRated(page: _page).then((value) {
           filler(value);
         });
       }
@@ -75,25 +75,34 @@ class _TvSeriesTopRatedState extends State<TvSeriesTopRated> {
                   child: CircularProgressIndicator(
                   color: kSecondaryColor,
                 ))
-              : ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  controller: _scrollController,
-                  itemCount: _tv.length,
-                  itemBuilder: (context, index) {
-                    return MTVCard(
-                      movieOrNot: false,
-                      genres: _tv[index].genreIds,
-                      id: _tv[index].id,
-                      originalTitle: _tv[index].name,
-                      originalLanguage: _tv[index].originalLanguage,
-                      overview: _tv[index].overview,
-                      backdropPath: _tv[index].backdropPath,
-                      posterPath: _tv[index].posterPath,
-                      releaseDate: _tv[index].firstAirDate,
-                      title: _tv[index].name,
-                      voteAverage: _tv[index].voteAverage,
-                    );
+              : RefreshIndicator(
+                  onRefresh: () {
+                    return _httpTvSeriesServices
+                        .getTSTopRated(page: _page)
+                        .then((value) {
+                      filler(value);
+                    });
                   },
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    controller: _scrollController,
+                    itemCount: _tv.length,
+                    itemBuilder: (context, index) {
+                      return MTVCard(
+                        movieOrNot: false,
+                        genres: _tv[index].genreIds,
+                        id: _tv[index].id,
+                        originalTitle: _tv[index].name,
+                        originalLanguage: _tv[index].originalLanguage,
+                        overview: _tv[index].overview,
+                        backdropPath: _tv[index].backdropPath,
+                        posterPath: _tv[index].posterPath,
+                        releaseDate: _tv[index].firstAirDate,
+                        title: _tv[index].name,
+                        voteAverage: _tv[index].voteAverage,
+                      );
+                    },
+                  ),
                 ),
         ),
       ],
