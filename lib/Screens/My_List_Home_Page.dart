@@ -32,7 +32,7 @@ class UserMovie extends StatelessWidget {
         stream: FirebaseFirestore.instance
             .collection('users')
             .doc(FirebaseAuth.instance.currentUser!.uid)
-            .collection('movie')
+            .collection('movies')
             .where('status', isEqualTo: status)
             .snapshots(),
         builder: (BuildContext context,
@@ -57,10 +57,10 @@ class UserMovie extends StatelessWidget {
                 children: snapshot.data!.docs.map(
                   (snap) {
                     return UserSAMCard(
+                      malOrMTVId: snap['mtvId'],
                       who: 'movie',
                       name: snap['name'],
                       imageUrl: snap['image'],
-                      id: snap.id,
                     );
                   },
                 ).toList(),
@@ -112,10 +112,10 @@ class UserAnime extends StatelessWidget {
                 children: snapshot.data!.docs.map(
                   (snap) {
                     return UserSAMCard(
+                      malOrMTVId: snap['malId'],
                       who: 'anime',
                       name: snap['name'],
                       imageUrl: snap['image'],
-                      id: snap.id,
                     );
                   },
                 ).toList(),
@@ -164,10 +164,10 @@ class UserTvSeries extends StatelessWidget {
                 children: snapshot.data!.docs.map(
                   (snap) {
                     return UserSAMCard(
+                      malOrMTVId: snap['mtvId'],
                       who: 'tvseries',
                       name: snap['name'],
                       imageUrl: snap['image'],
-                      id: snap.id,
                     );
                   },
                 ).toList(),
@@ -350,16 +350,16 @@ class _UserTvSeriesTabsState extends State<UserTvSeriesTabs> {
 }
 
 class UserSAMCard extends StatelessWidget {
+  final int malOrMTVId;
   final String name;
   final String imageUrl;
-  final String id;
   final String who;
   const UserSAMCard({
     Key? key,
     required this.name,
     required this.imageUrl,
-    required this.id,
     required this.who,
+    required this.malOrMTVId,
   }) : super(key: key);
 
   @override
@@ -371,21 +371,24 @@ class UserSAMCard extends StatelessWidget {
           builder: (BuildContext context) {
             if (who == 'movie') {
               return MovieModal(
+                mtvId: malOrMTVId,
                 name: name,
                 imageUrl: imageUrl,
-                id: id,
+                doUpdateOrNot: true,
               );
             } else if (who == 'anime') {
               return AnimeModal(
+                malId: malOrMTVId,
                 name: name,
                 imageUrl: imageUrl,
-                id: id,
+                doUpdateOrNot: true,
               );
             } else {
               return TvSeriesModal(
                 name: name,
                 imageUrl: imageUrl,
-                id: id,
+                mtvId: malOrMTVId,
+                doUpdateOrNot: true,
               );
             }
           },

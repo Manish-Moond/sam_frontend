@@ -4,14 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
 
 class AnimeModal extends StatefulWidget {
+  final int malId;
   final String name;
   final String imageUrl;
-  final String id;
+  final bool doUpdateOrNot;
   const AnimeModal({
     Key? key,
     required this.name,
     required this.imageUrl,
-    this.id = '',
+    required this.malId, this.doUpdateOrNot = false,
   }) : super(key: key);
 
   @override
@@ -20,7 +21,7 @@ class AnimeModal extends StatefulWidget {
 
 class _AnimeModalState extends State<AnimeModal> {
   addData(String _status) async {
-    widget.id == ''
+    !widget.doUpdateOrNot
         ? await FirebaseFirestore.instance
             .collection('users')
             .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -29,7 +30,9 @@ class _AnimeModalState extends State<AnimeModal> {
                 .collection('users')
                 .doc(FirebaseAuth.instance.currentUser!.uid)
                 .collection('anime')
-                .add({
+                .doc('${widget.malId}')
+                .set({
+                  'malId': widget.malId,
                   'name': widget.name,
                   'image': widget.imageUrl,
                   'status': _status
@@ -41,7 +44,7 @@ class _AnimeModalState extends State<AnimeModal> {
             .collection('users')
             .doc(FirebaseAuth.instance.currentUser!.uid)
             .collection('anime')
-            .doc(widget.id)
+            .doc('${widget.malId}')
             .update({'status': _status});
   }
 

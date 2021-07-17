@@ -6,9 +6,14 @@ import 'package:sam_frontend/Constant/Colors.dart';
 class MovieModal extends StatefulWidget {
   final String name;
   final String imageUrl;
-  final String id;
+  final bool doUpdateOrNot;
+  final int mtvId;
   const MovieModal(
-      {Key? key, required this.name, required this.imageUrl, this.id = ''})
+      {Key? key,
+      required this.name,
+      required this.imageUrl,
+      required this.mtvId,
+      this.doUpdateOrNot = false})
       : super(key: key);
 
   @override
@@ -17,28 +22,30 @@ class MovieModal extends StatefulWidget {
 
 class _MovieModalState extends State<MovieModal> {
   addData(String _status) async {
-    widget.id == ''
+    !widget.doUpdateOrNot
         ? await FirebaseFirestore.instance
             .collection('users')
             .doc(FirebaseAuth.instance.currentUser!.uid)
-            .set({'name': 'movie'}).then((value) {
+            .set({'name': 'movies'}).then((value) {
             FirebaseFirestore.instance
                 .collection('users')
                 .doc(FirebaseAuth.instance.currentUser!.uid)
-                .collection('movie')
-                .add({
+                .collection('movies')
+                .doc('${widget.mtvId}')
+                .set({
+                  'mtvId': widget.mtvId,
                   'name': widget.name,
                   'image': 'https://image.tmdb.org/t/p/w500/${widget.imageUrl}',
                   'status': _status
                 })
-                .then((value) => print('object'))
+                .then((value) => print('succesfully added to Movies'))
                 .catchError(throw 'Error');
           })
         : await FirebaseFirestore.instance
             .collection('users')
             .doc(FirebaseAuth.instance.currentUser!.uid)
-            .collection('movie')
-            .doc(widget.id)
+            .collection('movies')
+            .doc('${widget.mtvId}')
             .update({'status': _status});
   }
 

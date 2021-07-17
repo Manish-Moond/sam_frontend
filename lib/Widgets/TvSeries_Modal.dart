@@ -6,12 +6,14 @@ import 'package:sam_frontend/Constant/Colors.dart';
 class TvSeriesModal extends StatefulWidget {
   final String name;
   final String imageUrl;
-  final String id;
+  final bool doUpdateOrNot;
+  final int mtvId;
   const TvSeriesModal({
     Key? key,
     required this.name,
     required this.imageUrl,
-    this.id = '',
+    required this.mtvId,
+    this.doUpdateOrNot = false,
   }) : super(key: key);
 
   @override
@@ -20,7 +22,7 @@ class TvSeriesModal extends StatefulWidget {
 
 class _TvSeriesModalState extends State<TvSeriesModal> {
   addData(String _status) async {
-    widget.id == ''
+    !widget.doUpdateOrNot
         ? await FirebaseFirestore.instance
             .collection('users')
             .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -29,7 +31,9 @@ class _TvSeriesModalState extends State<TvSeriesModal> {
                 .collection('users')
                 .doc(FirebaseAuth.instance.currentUser!.uid)
                 .collection('tvseries')
-                .add({
+                .doc('${widget.mtvId}')
+                .set({
+                  'mtvId': widget.mtvId,
                   'name': widget.name,
                   'image': 'https://image.tmdb.org/t/p/w500/${widget.imageUrl}',
                   'status': _status
@@ -41,7 +45,7 @@ class _TvSeriesModalState extends State<TvSeriesModal> {
             .collection('users')
             .doc(FirebaseAuth.instance.currentUser!.uid)
             .collection('tvseries')
-            .doc(widget.id)
+            .doc('${widget.mtvId}')
             .update({'status': _status});
   }
 

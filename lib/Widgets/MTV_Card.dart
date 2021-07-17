@@ -67,14 +67,14 @@ class MTVCard extends StatelessWidget {
                   context: context,
                   builder: (BuildContext context) {
                     return MovieModal(
-                        name: originalTitle, imageUrl: posterPath);
+                        name: originalTitle, imageUrl: posterPath, mtvId: id,);
                   },
                 )
               : showModalBottomSheet<void>(
                   context: context,
                   builder: (BuildContext context) {
                     return TvSeriesModal(
-                        name: originalTitle, imageUrl: posterPath);
+                        name: originalTitle, imageUrl: posterPath, mtvId: id,);
                   },
                 );
         },
