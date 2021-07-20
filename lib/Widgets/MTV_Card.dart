@@ -67,14 +67,20 @@ class MTVCard extends StatelessWidget {
                   context: context,
                   builder: (BuildContext context) {
                     return MovieModal(
-                        name: originalTitle, imageUrl: posterPath, mtvId: id,);
+                      name: originalTitle,
+                      imageUrl: posterPath,
+                      mtvId: id,
+                    );
                   },
                 )
               : showModalBottomSheet<void>(
                   context: context,
                   builder: (BuildContext context) {
                     return TvSeriesModal(
-                        name: originalTitle, imageUrl: posterPath, mtvId: id,);
+                      name: originalTitle,
+                      imageUrl: posterPath,
+                      mtvId: id,
+                    );
                   },
                 );
         },
@@ -86,8 +92,9 @@ class MTVCard extends StatelessWidget {
                 width: searcedOrNot ? size.width * 0.48 : size.width * 0.41,
                 child: FadeInImage(
                   placeholder: AssetImage('assets/images/movieplaceholder.jpg'),
-                  image: NetworkImage(
-                      'https://image.tmdb.org/t/p/w500/$posterPath'),
+                  image: NetworkImage(posterPath != ' '
+                      ? 'https://image.tmdb.org/t/p/w500/$posterPath'
+                      : 'https://via.placeholder.com/150'),
                   fit: BoxFit.cover,
                 )),
             Container(

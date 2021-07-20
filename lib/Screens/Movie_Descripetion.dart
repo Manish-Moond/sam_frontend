@@ -84,6 +84,7 @@ class _MovieDescripationState extends State<MovieDescripation> {
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -102,16 +103,12 @@ class _MovieDescripationState extends State<MovieDescripation> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(2.0),
                 child: FadeInImage(
-                    placeholder:
-                        AssetImage('assets/images/movieplaceholder.jpg'),
-                    image: NetworkImage((() {
-                      if (widget.backdropPath != '') {
-                        return 'https://image.tmdb.org/t/p/w500/${widget.backdropPath}';
-                      } else if (widget.posterPath != '') {
-                        return 'https://image.tmdb.org/t/p/w500/${widget.posterPath}';
-                      }
-                      return 'http://placeimg.com/640/360/any.jpg';
-                    }()))),
+                  placeholder: AssetImage('assets/images/movieplaceholder.jpg'),
+                  image: NetworkImage(widget.backdropPath != ' '
+                      ? 'https://image.tmdb.org/t/p/w500/${widget.backdropPath}'
+                      : 'https://via.placeholder.com/500'),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             SizedBox(
@@ -220,6 +217,13 @@ class _MovieDescripationState extends State<MovieDescripation> {
                 )
               ],
             ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 24, 0, 12),
+              child: Text(
+                'Recommended',
+                style: TextStyle(color: kSecondaryColor, fontSize: 20),
+              ),
+            )
           ],
         ),
       ),

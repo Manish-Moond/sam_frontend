@@ -16,12 +16,14 @@ class _MovieNowPlayingState extends State<MovieNowPlaying> {
   List<Result> _movies = [];
   ScrollController _scrollController = ScrollController();
   int _page = 1;
+  bool _loading = true;
 
   void filler(value) {
     setState(() {
       for (int i = 0; i < value.results.length; i++) {
         _movies.add(value.results[i]);
       }
+      _loading = false;
     });
   }
 
@@ -63,8 +65,11 @@ class _MovieNowPlayingState extends State<MovieNowPlaying> {
         ),
         Container(
           height: size.height * 0.35,
-          child: _movies == []
-              ? CircularProgressIndicator()
+          child: _loading
+              ? Center(
+                  child: CircularProgressIndicator(
+                  color: kSecondaryColor,
+                ))
               : ListView.builder(
                   scrollDirection: Axis.horizontal,
                   controller: _scrollController,

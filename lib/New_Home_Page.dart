@@ -27,9 +27,8 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:sam_frontend/Constant/Colors.dart';
 import 'package:sam_frontend/Home_Page.dart';
-import 'package:sam_frontend/Provider/Google_Signin_Provider.dart';
 import 'package:sam_frontend/Screens/SignIn.dart';
 
 class NewHomePage extends StatelessWidget {
@@ -39,11 +38,9 @@ class NewHomePage extends StatelessWidget {
       body: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
-          final GoogleSignInProvider provider =
-              Provider.of<GoogleSignInProvider>(context);
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(color: kSecondaryColor,),
             );
           } else if (snapshot.hasData) {
             return HomePage();

@@ -81,7 +81,9 @@ class _TvSeriesTrendingState extends State<TvSeriesTrending> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              CircularProgressIndicator(),
+                              CircularProgressIndicator(
+                                color: kSecondaryColor,
+                              ),
                             ],
                           ),
                           height: MediaQuery.of(context).size.height / 3,

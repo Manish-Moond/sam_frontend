@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
-import 'package:sam_frontend/Provider/Google_Signin_Provider.dart';
 
 class SignUpWidget extends StatelessWidget {
   @override
@@ -19,8 +17,8 @@ class SignUpWidget extends StatelessWidget {
           icon: FaIcon(FontAwesomeIcons.google),
           label: Text("Sign Up With Google"),
           onPressed: () {
-            final provider =
-                Provider.of<GoogleSignInProvider>(context, listen: false);
+            // final provider =
+            //     Provider.of<GoogleSignInProvider>(context, listen: false);
             // provider.googleLogin();
           },
         ),

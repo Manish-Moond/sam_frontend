@@ -84,7 +84,7 @@ class _AnimeDescripationState extends State<AnimeDescripation> {
                     return Container(
                       color: kPrimaryColor,
                       child: Center(
-                        child: CircularProgressIndicator(),
+                        child: CircularProgressIndicator(color: kSecondaryColor,),
                       ),
                     );
                   },

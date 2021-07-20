@@ -112,41 +112,48 @@ class HttpAnimeServices {
       {required String genre,
       required int page,
       bool isRefresh = false}) async {
-    var isCacheExist =
-        await APICacheManager().isAPICacheKeyExist('AnimeGenre$genre');
+    final res = await http.get(
+        Uri.https('sam-api-flask.herokuapp.com', '/anime/genre/$genre/$page'));
+    if (res.statusCode == 200) {
+      AnimeThisSeasonModel result =
+          AnimeThisSeasonModel.fromJson(json.decode(res.body));
+      return result;
 
+      // ? This for using cache
+      // var isCacheExist =
+      //     await APICacheManager().isAPICacheKeyExist('AnimeGenre$genre');
 
-    if (isRefresh) {
-      final res = await http.get(Uri.https(
-          'sam-api-flask.herokuapp.com', '/anime/genre/$genre/$page'));
-      if (res.statusCode == 200) {
-        APICacheDBModel cacheDBModel =
-            new APICacheDBModel(key: 'AnimeGenre$genre', syncData: res.body);
-        APICacheManager().addCacheData(cacheDBModel);
+      // if (isRefresh) {
+      //   final res = await http.get(Uri.https(
+      //       'sam-api-flask.herokuapp.com', '/anime/genre/$genre/$page'));
+      //   if (res.statusCode == 200) {
+      //     APICacheDBModel cacheDBModel =
+      //         new APICacheDBModel(key: 'AnimeGenre$genre', syncData: res.body);
+      //     APICacheManager().addCacheData(cacheDBModel);
 
-        AnimeThisSeasonModel result =
-            AnimeThisSeasonModel.fromJson(json.decode(res.body));
-        return result;
-      }
-    }
+      //     AnimeThisSeasonModel result =
+      //         AnimeThisSeasonModel.fromJson(json.decode(res.body));
+      //     return result;
+      //   }
+      // }
 
-    if (!isCacheExist) {
-      {
-        final res = await http.get(Uri.https(
-            'sam-api-flask.herokuapp.com', '/anime/genre/$genre/$page'));
-        if (res.statusCode == 200) {
-          APICacheDBModel cacheDBModel =
-              new APICacheDBModel(key: 'AnimeGenre$genre', syncData: res.body);
-          APICacheManager().addCacheData(cacheDBModel);
+      // if (!isCacheExist) {
+      //   {
+      //     final res = await http.get(Uri.https(
+      //         'sam-api-flask.herokuapp.com', '/anime/genre/$genre/$page'));
+      //     if (res.statusCode == 200) {
+      //       APICacheDBModel cacheDBModel =
+      //           new APICacheDBModel(key: 'AnimeGenre$genre', syncData: res.body);
+      //       APICacheManager().addCacheData(cacheDBModel);
 
-          AnimeThisSeasonModel result =
-              AnimeThisSeasonModel.fromJson(json.decode(res.body));
-          return result;
-        }
-      }
-    } else {
-      var cacheData = await APICacheManager().getCacheData('AnimeGenre$genre');
-      return AnimeThisSeasonModel.fromJson(json.decode(cacheData.syncData));
+      //       AnimeThisSeasonModel result =
+      //           AnimeThisSeasonModel.fromJson(json.decode(res.body));
+      //       return result;
+      //     }
+      //   }
+      // } else {
+      //   var cacheData = await APICacheManager().getCacheData('AnimeGenre$genre');
+      //   return AnimeThisSeasonModel.fromJson(json.decode(cacheData.syncData));
     }
 
     throw Exception('Error');
@@ -154,8 +161,8 @@ class HttpAnimeServices {
 
   Future<AnimeSearchByNameModel> getSearchByName(
       {required String name, required int page}) async {
-    final res = await http.get(Uri.https(
-        ' ', '/anime/searchByName/$name/$page'));
+    final res =
+        await http.get(Uri.https(' ', '/anime/searchByName/$name/$page'));
     if (res.statusCode == 200) {
       AnimeSearchByNameModel result =
           AnimeSearchByNameModel.fromJson(json.decode(res.body));

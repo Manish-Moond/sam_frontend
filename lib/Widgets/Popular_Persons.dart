@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
 import 'package:sam_frontend/Models/Popular_Person_Model.dart';
+import 'package:sam_frontend/Screens/Person_Descripetion.dart';
 import 'package:sam_frontend/Services/Person_Servies.dart';
 
 class PopularPersons extends StatefulWidget {
@@ -78,24 +79,41 @@ class _PopularPersonsState extends State<PopularPersons> {
                   itemCount: _person.length,
                   itemBuilder: (context, index) {
                     return Container(
-                      height: 180,
-                      width: 200,
                       child: Column(
                         children: [
-                          Card(
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          PersonDescripetion(
+                                              personId: _person[index].id,
+                                              profilePath:
+                                                  _person[index].profilePath)));
+                            },
+                            child: Card(
+                              elevation: 2,
+                              clipBehavior: Clip.hardEdge,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0)),
                               child: FadeInImage(
-                            placeholder: AssetImage(
-                                'assets/images/movieplaceholder.jpg'),
-                            image: NetworkImage(
-                              'https://image.tmdb.org/t/p/w500/${_person[index].profilePath!}',
+                                height: 220,
+                                width: 150,
+                                placeholder: AssetImage(
+                                    'assets/images/movieplaceholder.jpg'),
+                                image: NetworkImage(
+                                  'https://image.tmdb.org/t/p/w500/${_person[index].profilePath}',
+                                ),
+                                fit: BoxFit.cover,
+                              ),
                             ),
-                            fit: BoxFit.fill,
-                          )),
+                          ),
                           Text(
-                            _person[index].name!,
+                            _person[index].name,
                             style: TextStyle(
                                 color: kSecondaryColor,
-                                fontWeight: FontWeight.bold,
+                                // fontWeight: FontWeight.bold,
                                 fontSize: 15),
                           )
                         ],
