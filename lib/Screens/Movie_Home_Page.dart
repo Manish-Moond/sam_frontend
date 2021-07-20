@@ -8,6 +8,7 @@ import 'package:sam_frontend/Widgets/Movie_Trending.dart';
 import 'package:sam_frontend/Widgets/Movie_Now_Playing.dart';
 import 'package:sam_frontend/Widgets/Movie_Top_Rated.dart';
 import 'package:sam_frontend/Widgets/Movie_Search.dart';
+import 'package:sam_frontend/Widgets/Popular_Persons.dart';
 
 class MovieHomePage extends StatefulWidget {
   final String searchParam;
@@ -67,6 +68,7 @@ class _MovieHomePageState extends State<MovieHomePage> {
                     MovieGT(selected: selected),
                     MovieNowPlaying(),
                     // MoviePopular(),
+                    PopularPersons()
                   ],
                 ),
               ),

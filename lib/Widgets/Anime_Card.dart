@@ -148,9 +148,14 @@ class AnimeCard extends StatelessWidget {
                             child: IconButton(
                               onPressed: () {
                                 showModalBottomSheet<void>(
+                                  isScrollControlled: true,
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return AnimeModal(name: title, imageUrl: imageUrl, malId: malId,);
+                                    return AnimeModal(
+                                      name: title,
+                                      imageUrl: imageUrl,
+                                      malId: malId,
+                                    );
                                   },
                                 );
                               },

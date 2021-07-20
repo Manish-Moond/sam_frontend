@@ -1,0 +1,110 @@
+import 'package:flutter/material.dart';
+import 'package:sam_frontend/Constant/Colors.dart';
+import 'package:sam_frontend/Models/Popular_Person_Model.dart';
+import 'package:sam_frontend/Services/Person_Servies.dart';
+
+class PopularPersons extends StatefulWidget {
+  const PopularPersons({Key? key}) : super(key: key);
+
+  @override
+  _PopularPersonsState createState() => _PopularPersonsState();
+}
+
+class _PopularPersonsState extends State<PopularPersons> {
+  HttpPersonServices _httpPersonServices = HttpPersonServices();
+
+  List<Result> _person = [];
+  ScrollController _scrollController = ScrollController();
+  int _page = 1;
+  bool _loading = true;
+
+  void filler(value) {
+    setState(() {
+      for (int i = 0; i < value.results.length; i++) {
+        _person.add(value.results[i]);
+      }
+      _loading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loading = true;
+    _httpPersonServices.getPopularPerson(_page).then((value) {
+      filler(value);
+    });
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        _page += 1;
+        _loading = true;
+        _httpPersonServices.getPopularPerson(_page).then((value) {
+          filler(value);
+        });
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: size.height * 0.02,
+        ),
+        Text(
+          'Popular',
+          style: TextStyle(
+              fontSize: 18,
+              color: kSecondaryColor,
+              fontWeight: FontWeight.w400),
+        ),
+        SizedBox(
+          height: size.height * 0.011,
+        ),
+        Container(
+          height: size.height * 0.4,
+          child: _loading
+              ? Center(
+                  child: CircularProgressIndicator(
+                  color: kSecondaryColor,
+                ))
+              : ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  controller: _scrollController,
+                  itemCount: _person.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      height: 180,
+                      width: 200,
+                      child: Column(
+                        children: [
+                          Card(
+                              child: FadeInImage(
+                            placeholder: AssetImage(
+                                'assets/images/movieplaceholder.jpg'),
+                            image: NetworkImage(
+                              'https://image.tmdb.org/t/p/w500/${_person[index].profilePath!}',
+                            ),
+                            fit: BoxFit.fill,
+                          )),
+                          Text(
+                            _person[index].name!,
+                            style: TextStyle(
+                                color: kSecondaryColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15),
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                ),
+        ),
+      ],
+    );
+  }
+}

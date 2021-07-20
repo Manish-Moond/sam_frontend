@@ -12,7 +12,8 @@ class AnimeModal extends StatefulWidget {
     Key? key,
     required this.name,
     required this.imageUrl,
-    required this.malId, this.doUpdateOrNot = false,
+    required this.malId,
+    this.doUpdateOrNot = false,
   }) : super(key: key);
 
   @override
@@ -48,11 +49,13 @@ class _AnimeModalState extends State<AnimeModal> {
             .update({'status': _status});
   }
 
+  final ratingList = List<String>.generate(10, (index) => '${index + 1}');
+  String dropDownValue = '-1';
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Container(
-      height: 420,
       color: kSecondaryColor,
       child: Padding(
         padding: const EdgeInsets.all(18.0),
@@ -66,81 +69,138 @@ class _AnimeModalState extends State<AnimeModal> {
             SizedBox(
               height: size.height * 0.08,
             ),
-            Column(
+            Wrap(
+              direction: Axis.horizontal,
+              spacing: 10.0,
+              children: [
+                ElevatedButton(
+                    onPressed: () {
+                      addData('Watching');
+                    },
+                    style: ElevatedButton.styleFrom(primary: kPrimaryColor),
+                    child: Text(
+                      "Watching",
+                      style: TextStyle(color: kSecondaryColor),
+                    )),
+                ElevatedButton(
+                    onPressed: () {
+                      addData('Watched');
+                    },
+                    style: ElevatedButton.styleFrom(primary: kPrimaryColor),
+                    child: Text(
+                      "Watched",
+                      style: TextStyle(color: kSecondaryColor),
+                    )),
+                ElevatedButton(
+                    onPressed: () {
+                      addData('On Hold');
+                    },
+                    style: ElevatedButton.styleFrom(primary: kPrimaryColor),
+                    child: Text(
+                      "On Hold",
+                      style: TextStyle(color: kSecondaryColor),
+                    )),
+                ElevatedButton(
+                    onPressed: () {
+                      addData('Drop');
+                    },
+                    style: ElevatedButton.styleFrom(primary: kPrimaryColor),
+                    child: Text(
+                      "Drop",
+                      style: TextStyle(color: kSecondaryColor),
+                    )),
+                ElevatedButton(
+                    onPressed: () {
+                      addData('Plan To Watch');
+                    },
+                    style: ElevatedButton.styleFrom(primary: kPrimaryColor),
+                    child: Text(
+                      "Plan To Watch",
+                      style: TextStyle(color: kSecondaryColor),
+                    )),
+              ],
+            ),
+            // Container(
+            //   width: 200,
+            //   height: 50,
+            //   child: ListView.builder(
+            //       scrollDirection: Axis.horizontal,
+            //       itemCount: ratingList.length,
+            //       itemBuilder: (context, index) {
+            //         return Padding(
+            //           padding: const EdgeInsets.fromLTRB(8, 0, 8, 3),
+            //           child: TextButton(
+            //               onPressed: () {},
+            //               child: Text(
+            //                 ratingList[index],
+            //                 style: TextStyle(color: kPrimaryColor),
+            //               )),
+            //         );
+            //       }),
+            // ),
+            // Container(
+            //   color: kPrimaryColor,
+            //   child: DropdownButton<String>(
+            //     value: dropDownValue,
+            //     dropdownColor: kPrimaryColor,
+            //     items: <String>[
+            //       '1',
+            //       '2',
+            //       '3',
+            //       '4',
+            //       '5',
+            //       '6',
+            //       '7',
+            //       '8',
+            //       '9',
+            //       '10'
+            //     ].map((String value) {
+            //       return DropdownMenuItem<String>(
+            //         value: value,
+            //         child: new Text(
+            //           value,
+            //           style: TextStyle(color: kSecondaryColor),
+            //         ),
+            //       );
+            //     }).toList(),
+            //     onChanged: (String? value) {
+            //       setState(() {
+            //         dropDownValue = value!;
+            //       });
+            //     },
+            //   ),
+            // ),
+            SingleChildScrollView(
+              child: Container(
+                child: TextField(
+                  cursorColor: kPrimaryColor,
+                  maxLines: 5,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: kPrimaryColor)),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: kPrimaryColor)),
+                    border: OutlineInputBorder(),
+                    labelText: 'Thoughts',
+                    hintText:
+                        'You want to write some thing? like what you enjoyed or what you have learn',
+                    labelStyle: TextStyle(color: kPrimaryColor),
+                  ),
+                ),
+              ),
+            ),
+            Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                        onPressed: () {
-                          addData('Watching');
-                        },
-                        style: ElevatedButton.styleFrom(primary: kPrimaryColor),
-                        child: Text(
-                          "Watching",
-                          style: TextStyle(color: kSecondaryColor),
-                        )),
-                    ElevatedButton(
-                        onPressed: () {
-                          addData('Watched');
-                        },
-                        style: ElevatedButton.styleFrom(primary: kPrimaryColor),
-                        child: Text(
-                          "Watched",
-                          style: TextStyle(color: kSecondaryColor),
-                        )),
-                    ElevatedButton(
-                        onPressed: () {
-                          addData('On Hold');
-                        },
-                        style: ElevatedButton.styleFrom(primary: kPrimaryColor),
-                        child: Text(
-                          "On Hold",
-                          style: TextStyle(color: kSecondaryColor),
-                        )),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                        onPressed: () {
-                          addData('Plan To Watch');
-                        },
-                        style: ElevatedButton.styleFrom(primary: kPrimaryColor),
-                        child: Text(
-                          "Plan To Watch",
-                          style: TextStyle(color: kSecondaryColor),
-                        )),
-                    ElevatedButton(
-                        onPressed: () {
-                          addData('Drop');
-                        },
-                        style: ElevatedButton.styleFrom(primary: kPrimaryColor),
-                        child: Text(
-                          "Drop",
-                          style: TextStyle(color: kSecondaryColor),
-                        )),
-                  ],
-                ),
-                SizedBox(
-                  height: size.height * 0.10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(primary: kPrimaryColor),
-                        child: Text(
-                          "Save",
-                          style: TextStyle(color: kSecondaryColor),
-                        )),
-                  ],
-                ),
+                ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(primary: kPrimaryColor),
+                    child: Text(
+                      "Save",
+                      style: TextStyle(color: kSecondaryColor),
+                    )),
               ],
-            )
+            ),
           ],
         ),
       ),
