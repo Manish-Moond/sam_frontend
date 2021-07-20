@@ -12,8 +12,15 @@ class MyListHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: TabBarView(
-        children: [UserMovieTabs(), UserAnimeTabs(), UserTvSeriesTabs()],
+      child: ScrollConfiguration(
+        behavior: ScrollBehavior(),
+        child: GlowingOverscrollIndicator(
+          axisDirection: AxisDirection.right,
+          color: kSecondaryColor,
+          child: TabBarView(
+            children: [UserMovieTabs(), UserAnimeTabs(), UserTvSeriesTabs()],
+          ),
+        ),
       ),
     );
   }
@@ -239,23 +246,30 @@ class _UserAnimeTabsState extends State<UserAnimeTabs> {
                 ),
               ),
             ),
-            body: TabBarView(children: [
-              UserAnime(
-                status: 'Watching',
+            body: ScrollConfiguration(
+              behavior: ScrollBehavior(),
+              child: GlowingOverscrollIndicator(
+                axisDirection: AxisDirection.right,
+                color: kSecondaryColor,
+                child: TabBarView(children: [
+                  UserAnime(
+                    status: 'Watching',
+                  ),
+                  UserAnime(
+                    status: 'Plan To Watch',
+                  ),
+                  UserAnime(
+                    status: 'Watched',
+                  ),
+                  UserAnime(
+                    status: 'On Hold',
+                  ),
+                  UserAnime(
+                    status: 'Drop',
+                  )
+                ]),
               ),
-              UserAnime(
-                status: 'Plan To Watch',
-              ),
-              UserAnime(
-                status: 'Watched',
-              ),
-              UserAnime(
-                status: 'On Hold',
-              ),
-              UserAnime(
-                status: 'Drop',
-              )
-            ])),
+            )),
       ),
     );
   }
@@ -291,15 +305,22 @@ class _UserMovieTabsState extends State<UserMovieTabs> {
             ),
           ),
         ),
-        body: TabBarView(
-          children: [
-            UserMovie(
-              status: 'Watched',
+        body: ScrollConfiguration(
+          behavior: ScrollBehavior(),
+          child: GlowingOverscrollIndicator(
+            axisDirection: AxisDirection.right,
+            color: kSecondaryColor,
+            child: TabBarView(
+              children: [
+                UserMovie(
+                  status: 'Watched',
+                ),
+                UserMovie(
+                  status: 'Plan To Watch',
+                )
+              ],
             ),
-            UserMovie(
-              status: 'Plan To Watch',
-            )
-          ],
+          ),
         ),
       ),
     );
@@ -347,23 +368,30 @@ class _UserTvSeriesTabsState extends State<UserTvSeriesTabs> {
               ),
             ),
           ),
-          body: TabBarView(children: [
-            UserTvSeries(
-              status: 'Watching',
+          body: ScrollConfiguration(
+            behavior: ScrollBehavior(),
+            child: GlowingOverscrollIndicator(
+              axisDirection: AxisDirection.right,
+              color: kSecondaryColor,
+              child: TabBarView(children: [
+                UserTvSeries(
+                  status: 'Watching',
+                ),
+                UserTvSeries(
+                  status: 'Plan To Watch',
+                ),
+                UserTvSeries(
+                  status: 'Watched',
+                ),
+                UserTvSeries(
+                  status: 'On Hold',
+                ),
+                UserTvSeries(
+                  status: 'Drop',
+                )
+              ]),
             ),
-            UserTvSeries(
-              status: 'Plan To Watch',
-            ),
-            UserTvSeries(
-              status: 'Watched',
-            ),
-            UserTvSeries(
-              status: 'On Hold',
-            ),
-            UserTvSeries(
-              status: 'Drop',
-            )
-          ]),
+          ),
         ),
       ),
     );

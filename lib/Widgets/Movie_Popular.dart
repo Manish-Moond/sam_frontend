@@ -74,7 +74,6 @@ class _MoviePopularState extends State<MoviePopular> {
                 ))
               : ScrollConfiguration(
                   behavior: ScrollBehavior(),
-
                 child: GlowingOverscrollIndicator(
                     axisDirection: AxisDirection.right,
                     color: kSecondaryColor,

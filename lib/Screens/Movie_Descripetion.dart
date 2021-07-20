@@ -84,7 +84,6 @@ class _MovieDescripationState extends State<MovieDescripation> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -227,23 +226,23 @@ class _MovieDescripationState extends State<MovieDescripation> {
           ],
         ),
       ),
-      floatingActionButton: ExpandableFab(
-        distance: 112.0,
-        children: [
-          ActionButton(
-            onPressed: () => _showAction(context, 0),
-            icon: const Icon(Icons.add),
-          ),
-          ActionButton(
-            icon: Icon(Icons.remove),
-            onPressed: () => _showAction(context, 1),
-          ),
-          ActionButton(
-            onPressed: () => _showAction(context, 2),
-            icon: const Icon(Icons.done),
-          ),
-        ],
-      ),
+      // floatingActionButton: ExpandableFab(
+      //   distance: 112.0,
+      //   children: [
+      //     ActionButton(
+      //       onPressed: () => _showAction(context, 0),
+      //       icon: const Icon(Icons.add),
+      //     ),
+      //     ActionButton(
+      //       icon: Icon(Icons.remove),
+      //       onPressed: () => _showAction(context, 1),
+      //     ),
+      //     ActionButton(
+      //       onPressed: () => _showAction(context, 2),
+      //       icon: const Icon(Icons.done),
+      //     ),
+      //   ],
+      // ),
     );
   }
 }

@@ -86,6 +86,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                         ],
                 )
               : TextField(
+                cursorColor: kSecondaryColor,
                   controller: myController,
                   style: TextStyle(color: kFourthColor),
                   decoration: InputDecoration(

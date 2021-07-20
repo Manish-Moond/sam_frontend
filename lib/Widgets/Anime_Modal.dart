@@ -122,7 +122,7 @@ class _AnimeModalState extends State<AnimeModal> {
             ),
             // Container(
             ScrollConfiguration(
-                  behavior: ScrollBehavior(),
+              behavior: ScrollBehavior(),
               child: GlowingOverscrollIndicator(
                 axisDirection: AxisDirection.down,
                 color: kSecondaryColor,

@@ -46,8 +46,15 @@ class _AnimeHomePageState extends State<AnimeHomePage> {
                   ),
                 ),
               ),
-              body: TabBarView(
-                children: [AnimeThisSeason(), AnimeForYou()],
+              body: ScrollConfiguration(
+                  behavior: ScrollBehavior(),
+                child: GlowingOverscrollIndicator(
+                  axisDirection: AxisDirection.right,
+                  color: kSecondaryColor,
+                  child: TabBarView(
+                    children: [AnimeThisSeason(), AnimeForYou()],
+                  ),
+                ),
               ),
             ))
         : AnimeSearchedByName(search: widget.searchParam);
