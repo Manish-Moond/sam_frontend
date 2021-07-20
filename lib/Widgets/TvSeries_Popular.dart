@@ -74,26 +74,33 @@ class _TvSeriesPopularState extends State<TvSeriesPopular> {
                   child: CircularProgressIndicator(
                   color: kSecondaryColor,
                 ))
-              : ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  controller: _scrollController,
-                  itemCount: _tv.length,
-                  itemBuilder: (context, index) {
-                    return MTVCard(
-                      movieOrNot: false,
-                      genres: _tv[index].genreIds,
-                      id: _tv[index].id,
-                      originalTitle: _tv[index].name,
-                      originalLanguage: _tv[index].originalLanguage,
-                      overview: _tv[index].overview,
-                      backdropPath: _tv[index].backdropPath,
-                      posterPath: _tv[index].posterPath,
-                      releaseDate: _tv[index].firstAirDate,
-                      title: _tv[index].name,
-                      voteAverage: _tv[index].voteAverage,
-                    );
-                  },
+              : ScrollConfiguration(
+                behavior: ScrollBehavior(),
+                child: GlowingOverscrollIndicator(
+                  axisDirection: AxisDirection.right,
+                    color: kSecondaryColor,
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      controller: _scrollController,
+                      itemCount: _tv.length,
+                      itemBuilder: (context, index) {
+                        return MTVCard(
+                          movieOrNot: false,
+                          genres: _tv[index].genreIds,
+                          id: _tv[index].id,
+                          originalTitle: _tv[index].name,
+                          originalLanguage: _tv[index].originalLanguage,
+                          overview: _tv[index].overview,
+                          backdropPath: _tv[index].backdropPath,
+                          posterPath: _tv[index].posterPath,
+                          releaseDate: _tv[index].firstAirDate,
+                          title: _tv[index].name,
+                          voteAverage: _tv[index].voteAverage,
+                        );
+                      },
+                    ),
                 ),
+              ),
         ),
       ],
     );

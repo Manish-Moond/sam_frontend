@@ -67,59 +67,67 @@ class _PopularPersonsState extends State<PopularPersons> {
           height: size.height * 0.011,
         ),
         Container(
-          height: size.height * 0.4,
+          height: size.height * 0.32,
           child: _loading
               ? Center(
                   child: CircularProgressIndicator(
                   color: kSecondaryColor,
                 ))
-              : ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  controller: _scrollController,
-                  itemCount: _person.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      child: Column(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          PersonDescripetion(
-                                              personId: _person[index].id,
-                                              profilePath:
-                                                  _person[index].profilePath)));
-                            },
-                            child: Card(
-                              elevation: 2,
-                              clipBehavior: Clip.hardEdge,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.0)),
-                              child: FadeInImage(
-                                height: 220,
-                                width: 150,
-                                placeholder: AssetImage(
-                                    'assets/images/movieplaceholder.jpg'),
-                                image: NetworkImage(
-                                  'https://image.tmdb.org/t/p/w500/${_person[index].profilePath}',
+              : ScrollConfiguration(
+                  behavior: ScrollBehavior(),
+                  child: GlowingOverscrollIndicator(
+                    axisDirection: AxisDirection.right,
+                    color: kSecondaryColor,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      controller: _scrollController,
+                      itemCount: _person.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          child: Column(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              PersonDescripetion(
+                                                  personId: _person[index].id,
+                                                  profilePath: _person[index]
+                                                      .profilePath)));
+                                },
+                                child: Card(
+                                  elevation: 2,
+                                  clipBehavior: Clip.hardEdge,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(15.0)),
+                                  child: FadeInImage(
+                                    height: 220,
+                                    width: 150,
+                                    placeholder: AssetImage(
+                                        'assets/images/movieplaceholder.jpg'),
+                                    image: NetworkImage(
+                                      'https://image.tmdb.org/t/p/w500/${_person[index].profilePath}',
+                                    ),
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
-                                fit: BoxFit.cover,
                               ),
-                            ),
+                              Text(
+                                _person[index].name,
+                                style: TextStyle(
+                                    color: kSecondaryColor,
+                                    // fontWeight: FontWeight.bold,
+                                    fontSize: 15),
+                              )
+                            ],
                           ),
-                          Text(
-                            _person[index].name,
-                            style: TextStyle(
-                                color: kSecondaryColor,
-                                // fontWeight: FontWeight.bold,
-                                fontSize: 15),
-                          )
-                        ],
-                      ),
-                    );
-                  },
+                        );
+                      },
+                    ),
+                  ),
                 ),
         ),
       ],

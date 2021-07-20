@@ -23,53 +23,61 @@ class MTVSGenres extends StatelessWidget {
         ),
         Container(
             height: 60,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 12, 6),
-                  child: GestureDetector(
-                    onTap: () {
-                      selectedFunction('All');
-                    },
-                    child: Chip(
-                      label: Text(
-                        'All',
-                        style: TextStyle(
-                            color: selectedValue == 'All'
-                                ? kPrimaryColor
-                                : kSecondaryColor),
-                      ),
-                      backgroundColor: selectedValue == 'All'
-                          ? kSecondaryColor
-                          : kPrimaryColor,
-                    ),
-                  ),
-                ),
-                ...genres.map((e) => Padding(
+            child: ScrollConfiguration(
+                  behavior: ScrollBehavior(),
+
+              child: GlowingOverscrollIndicator(
+                axisDirection: AxisDirection.right,
+                color: kSecondaryColor,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    Padding(
                       padding: const EdgeInsets.fromLTRB(0, 0, 12, 6),
                       child: GestureDetector(
                         onTap: () {
-                          selectedFunction(e);
+                          selectedFunction('All');
                         },
                         child: Chip(
-                          elevation: 0,
-                          shadowColor: kPrimaryColor,
-                          clipBehavior: Clip.antiAlias,
-                          backgroundColor: selectedValue == e
-                              ? kSecondaryColor
-                              : kPrimaryColor,
                           label: Text(
-                            e,
+                            'All',
                             style: TextStyle(
-                                color: selectedValue == e
+                                color: selectedValue == 'All'
                                     ? kPrimaryColor
                                     : kSecondaryColor),
                           ),
+                          backgroundColor: selectedValue == 'All'
+                              ? kSecondaryColor
+                              : kPrimaryColor,
                         ),
                       ),
-                    ))
-              ],
+                    ),
+                    ...genres.map((e) => Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 12, 6),
+                          child: GestureDetector(
+                            onTap: () {
+                              selectedFunction(e);
+                            },
+                            child: Chip(
+                              elevation: 0,
+                              shadowColor: kPrimaryColor,
+                              clipBehavior: Clip.antiAlias,
+                              backgroundColor: selectedValue == e
+                                  ? kSecondaryColor
+                                  : kPrimaryColor,
+                              label: Text(
+                                e,
+                                style: TextStyle(
+                                    color: selectedValue == e
+                                        ? kPrimaryColor
+                                        : kSecondaryColor),
+                              ),
+                            ),
+                          ),
+                        ))
+                  ],
+                ),
+              ),
             )),
       ],
     );

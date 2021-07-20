@@ -48,21 +48,28 @@ class _TvSeriesHomePageState extends State<TvSeriesHomePage> {
     return widget.searchParam == ''
         ? Container(
             color: kPrimaryColor,
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(6.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TvSeriesTrending(),
-                    MTVSGenres(
-                      selectedFunction: selectFunction,
-                      selectedValue: selected,
-                      genres: genres,
+            child: ScrollConfiguration(
+              behavior: ScrollBehavior(),
+              child: GlowingOverscrollIndicator(
+                axisDirection: AxisDirection.down,
+                color: kSecondaryColor,
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(6.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TvSeriesTrending(),
+                        MTVSGenres(
+                          selectedFunction: selectFunction,
+                          selectedValue: selected,
+                          genres: genres,
+                        ),
+                        TvSeriesGT(selected: selected),
+                        TvSeriesPopular(),
+                      ],
                     ),
-                    TvSeriesGT(selected: selected),
-                    TvSeriesPopular(),
-                  ],
+                  ),
                 ),
               ),
             ),
@@ -184,25 +191,32 @@ class _TvSeriesGenresResultState extends State<TvSeriesGenresResult> {
         ),
         Container(
           height: size.height * 0.35,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            controller: _scrollController,
-            itemCount: _movies.length,
-            itemBuilder: (context, index) {
-              return MTVCard(
-                movieOrNot: false,
-                genres: _movies[index].genreIds,
-                id: _movies[index].id,
-                originalTitle: _movies[index].name,
-                originalLanguage: _movies[index].originalLanguage,
-                overview: _movies[index].overview,
-                backdropPath: _movies[index].backdropPath,
-                posterPath: _movies[index].posterPath,
-                releaseDate: _movies[index].firstAirDate,
-                title: _movies[index].name,
-                voteAverage: _movies[index].voteAverage,
-              );
-            },
+          child: ScrollConfiguration(
+            behavior: ScrollBehavior(),
+            child: GlowingOverscrollIndicator(
+              axisDirection: AxisDirection.right,
+              color: kSecondaryColor,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                controller: _scrollController,
+                itemCount: _movies.length,
+                itemBuilder: (context, index) {
+                  return MTVCard(
+                    movieOrNot: false,
+                    genres: _movies[index].genreIds,
+                    id: _movies[index].id,
+                    originalTitle: _movies[index].name,
+                    originalLanguage: _movies[index].originalLanguage,
+                    overview: _movies[index].overview,
+                    backdropPath: _movies[index].backdropPath,
+                    posterPath: _movies[index].posterPath,
+                    releaseDate: _movies[index].firstAirDate,
+                    title: _movies[index].name,
+                    voteAverage: _movies[index].voteAverage,
+                  );
+                },
+              ),
+            ),
           ),
         ),
       ],

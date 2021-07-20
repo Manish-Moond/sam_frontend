@@ -28,7 +28,7 @@ class _MovieTopRatedState extends State<MovieTopRated> {
   @override
   void initState() {
     super.initState();
-    _loading = true;  
+    _loading = true;
     _httpMoviesServices.getTopMovie(_page).then((value) {
       filler(value);
     });
@@ -67,25 +67,32 @@ class _MovieTopRatedState extends State<MovieTopRated> {
                   child: CircularProgressIndicator(
                   color: kSecondaryColor,
                 ))
-              : ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  controller: _scrollController,
-                  itemCount: _movies.length,
-                  itemBuilder: (context, index) {
-                    return MTVCard(
-                      movieOrNot: true,
-                      genres: _movies[index].genreIds,
-                      id: _movies[index].id,
-                      originalTitle: _movies[index].originalTitle,
-                      originalLanguage: _movies[index].originalLanguage,
-                      overview: _movies[index].overview,
-                      backdropPath: _movies[index].backdropPath,
-                      posterPath: _movies[index].posterPath,
-                      releaseDate: _movies[index].releaseDate,
-                      title: _movies[index].title,
-                      voteAverage: _movies[index].voteAverage,
-                    );
-                  },
+              : ScrollConfiguration(
+                  behavior: ScrollBehavior(),
+                  child: GlowingOverscrollIndicator(
+                    axisDirection: AxisDirection.right,
+                    color: kSecondaryColor,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      controller: _scrollController,
+                      itemCount: _movies.length,
+                      itemBuilder: (context, index) {
+                        return MTVCard(
+                          movieOrNot: true,
+                          genres: _movies[index].genreIds,
+                          id: _movies[index].id,
+                          originalTitle: _movies[index].originalTitle,
+                          originalLanguage: _movies[index].originalLanguage,
+                          overview: _movies[index].overview,
+                          backdropPath: _movies[index].backdropPath,
+                          posterPath: _movies[index].posterPath,
+                          releaseDate: _movies[index].releaseDate,
+                          title: _movies[index].title,
+                          voteAverage: _movies[index].voteAverage,
+                        );
+                      },
+                    ),
+                  ),
                 ),
         ),
       ],

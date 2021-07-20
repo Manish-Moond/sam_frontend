@@ -89,53 +89,61 @@ class _AnimeSearchedByNameState extends State<AnimeSearchedByName> {
                   color: kSecondaryColor,
                 ),
               ))
-          : GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                childAspectRatio: (itemWidth / itemHeight),
-                crossAxisCount: 2,
+          : ScrollConfiguration(
+              behavior: ScrollBehavior(),
+              child: GlowingOverscrollIndicator(
+                axisDirection: AxisDirection.down,
+                color: kSecondaryColor,
+                child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      childAspectRatio: (itemWidth / itemHeight),
+                      crossAxisCount: 2,
+                    ),
+                    controller: _scrollController,
+                    itemCount: _anime.length,
+                    itemBuilder: (context, index) {
+                      return AnimeCard(
+                          topOrNot: true,
+                          malId: _anime[index].malId,
+                          title: _anime[index].title,
+                          episodes: _anime[index].episodes,
+                          genres: [''],
+                          status: 'Dont Know',
+                          imageUrl: _anime[index].imageUrl,
+                          score: _anime[index].score,
+                          aired: [
+                            convertToMonth(
+                                    date: _anime[index].startDate.month) +
+                                ' ${_anime[index].startDate.year}'
+                          ],
+                          related: Related(adaptation: [
+                            Genre(malId: 1, name: '', type: '', url: '')
+                          ], alternativeVersion: [
+                            Genre(malId: -1, type: '', name: '', url: '')
+                          ], sideStory: [
+                            Genre(malId: -1, type: '', name: '', url: '')
+                          ], spinOff: [
+                            Genre(malId: -1, type: '', name: '', url: '')
+                          ], alternativeSetting: [
+                            Genre(malId: -1, type: '', name: '', url: '')
+                          ], sequel: [
+                            Genre(malId: -1, type: '', name: '', url: '')
+                          ], other: [
+                            Genre(malId: -1, type: '', name: '', url: '')
+                          ], prequel: [
+                            Genre(malId: -1, type: '', name: '', url: '')
+                          ], summary: [
+                            Genre(malId: -1, type: '', name: '', url: '')
+                          ], character: [
+                            Genre(malId: -1, type: '', name: '', url: '')
+                          ], parentStory: [
+                            Genre(malId: -1, type: '', name: '', url: '')
+                          ], fullStory: [
+                            Genre(malId: -1, type: '', name: '', url: '')
+                          ]));
+                    }),
               ),
-              controller: _scrollController,
-              itemCount: _anime.length,
-              itemBuilder: (context, index) {
-                return AnimeCard(
-                    topOrNot: true,
-                    malId: _anime[index].malId,
-                    title: _anime[index].title,
-                    episodes: _anime[index].episodes,
-                    genres: [''],
-                    status: 'Dont Know',
-                    imageUrl: _anime[index].imageUrl,
-                    score: _anime[index].score,
-                    aired: [
-                      convertToMonth(date: _anime[index].startDate.month) +
-                          ' ${_anime[index].startDate.year}'
-                    ],
-                    related: Related(adaptation: [
-                      Genre(malId: 1, name: '', type: '', url: '')
-                    ], alternativeVersion: [
-                      Genre(malId: -1, type: '', name: '', url: '')
-                    ], sideStory: [
-                      Genre(malId: -1, type: '', name: '', url: '')
-                    ], spinOff: [
-                      Genre(malId: -1, type: '', name: '', url: '')
-                    ], alternativeSetting: [
-                      Genre(malId: -1, type: '', name: '', url: '')
-                    ], sequel: [
-                      Genre(malId: -1, type: '', name: '', url: '')
-                    ], other: [
-                      Genre(malId: -1, type: '', name: '', url: '')
-                    ], prequel: [
-                      Genre(malId: -1, type: '', name: '', url: '')
-                    ], summary: [
-                      Genre(malId: -1, type: '', name: '', url: '')
-                    ], character: [
-                      Genre(malId: -1, type: '', name: '', url: '')
-                    ], parentStory: [
-                      Genre(malId: -1, type: '', name: '', url: '')
-                    ], fullStory: [
-                      Genre(malId: -1, type: '', name: '', url: '')
-                    ]));
-              }),
+            ),
     );
   }
 }

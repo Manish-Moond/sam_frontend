@@ -62,43 +62,52 @@ class _MovieSearchState extends State<MovieSearch> {
 
   @override
   Widget build(BuildContext context) {
-    return _loading
-        ? Container(
+    if (_loading) {
+      return Container(
             color: kPrimaryColor,
             child: Center(
                 child: CircularProgressIndicator(
               color: kSecondaryColor,
             )),
-          )
-        : Container(
+          );
+    } else {
+      return Container(
             padding: EdgeInsets.fromLTRB(4, 4, 4, 4),
             color: kPrimaryColor,
-            child: GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 8,
-                childAspectRatio: MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.height / 1.4),
+            child: ScrollConfiguration(
+                  behavior: ScrollBehavior(),
+              child: GlowingOverscrollIndicator(
+                    axisDirection: AxisDirection.down,
+                color: kSecondaryColor,
+                child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 8,
+                    childAspectRatio: MediaQuery.of(context).size.width /
+                        (MediaQuery.of(context).size.height / 1.4),
+                  ),
+                  controller: _scrollController,
+                  itemCount: _movies.length,
+                  itemBuilder: (context, index) {
+                    return MTVCard(
+                      movieOrNot: true,
+                      searcedOrNot: true,
+                      genres: _movies[index].genreIds,
+                      id: _movies[index].id,
+                      originalTitle: _movies[index].originalTitle,
+                      originalLanguage: _movies[index].originalLanguage,
+                      overview: _movies[index].overview,
+                      backdropPath: _movies[index].backdropPath,
+                      posterPath: _movies[index].posterPath,
+                      releaseDate: _movies[index].releaseDate,
+                      title: _movies[index].title,
+                      voteAverage: _movies[index].voteAverage,
+                    );
+                  },
+                ),
               ),
-              controller: _scrollController,
-              itemCount: _movies.length,
-              itemBuilder: (context, index) {
-                return MTVCard(
-                  movieOrNot: true,
-                  searcedOrNot: true,
-                  genres: _movies[index].genreIds,
-                  id: _movies[index].id,
-                  originalTitle: _movies[index].originalTitle,
-                  originalLanguage: _movies[index].originalLanguage,
-                  overview: _movies[index].overview,
-                  backdropPath: _movies[index].backdropPath,
-                  posterPath: _movies[index].posterPath,
-                  releaseDate: _movies[index].releaseDate,
-                  title: _movies[index].title,
-                  voteAverage: _movies[index].voteAverage,
-                );
-              },
             ),
           );
+    }
   }
 }

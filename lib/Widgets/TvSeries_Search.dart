@@ -73,30 +73,37 @@ class _TvSeriesSearchState extends State<TvSeriesSearch> {
               child: CircularProgressIndicator(
               color: kSecondaryColor,
             ))
-          : GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.height / 1.4),
+          : ScrollConfiguration(
+              behavior: ScrollBehavior(),
+              child: GlowingOverscrollIndicator(
+                axisDirection: AxisDirection.down,
+                color: kSecondaryColor,
+                child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: MediaQuery.of(context).size.width /
+                        (MediaQuery.of(context).size.height / 1.4),
+                  ),
+                  controller: _scrollController,
+                  itemCount: _tvseries.length,
+                  itemBuilder: (context, index) {
+                    return MTVCard(
+                      movieOrNot: false,
+                      searcedOrNot: true,
+                      genres: _tvseries[index].genreIds,
+                      id: _tvseries[index].id,
+                      originalTitle: _tvseries[index].name,
+                      originalLanguage: _tvseries[index].originalLanguage,
+                      overview: _tvseries[index].overview,
+                      backdropPath: _tvseries[index].backdropPath,
+                      posterPath: _tvseries[index].posterPath,
+                      releaseDate: _tvseries[index].firstAirDate,
+                      title: _tvseries[index].name,
+                      voteAverage: _tvseries[index].voteAverage,
+                    );
+                  },
+                ),
               ),
-              controller: _scrollController,
-              itemCount: _tvseries.length,
-              itemBuilder: (context, index) {
-                return MTVCard(
-                  movieOrNot: false,
-                  searcedOrNot: true,
-                  genres: _tvseries[index].genreIds,
-                  id: _tvseries[index].id,
-                  originalTitle: _tvseries[index].name,
-                  originalLanguage: _tvseries[index].originalLanguage,
-                  overview: _tvseries[index].overview,
-                  backdropPath: _tvseries[index].backdropPath,
-                  posterPath: _tvseries[index].posterPath,
-                  releaseDate: _tvseries[index].firstAirDate,
-                  title: _tvseries[index].name,
-                  voteAverage: _tvseries[index].voteAverage,
-                );
-              },
             ),
     );
   }

@@ -121,70 +121,28 @@ class _AnimeModalState extends State<AnimeModal> {
               ],
             ),
             // Container(
-            //   width: 200,
-            //   height: 50,
-            //   child: ListView.builder(
-            //       scrollDirection: Axis.horizontal,
-            //       itemCount: ratingList.length,
-            //       itemBuilder: (context, index) {
-            //         return Padding(
-            //           padding: const EdgeInsets.fromLTRB(8, 0, 8, 3),
-            //           child: TextButton(
-            //               onPressed: () {},
-            //               child: Text(
-            //                 ratingList[index],
-            //                 style: TextStyle(color: kPrimaryColor),
-            //               )),
-            //         );
-            //       }),
-            // ),
-            // Container(
-            //   color: kPrimaryColor,
-            //   child: DropdownButton<String>(
-            //     value: dropDownValue,
-            //     dropdownColor: kPrimaryColor,
-            //     items: <String>[
-            //       '1',
-            //       '2',
-            //       '3',
-            //       '4',
-            //       '5',
-            //       '6',
-            //       '7',
-            //       '8',
-            //       '9',
-            //       '10'
-            //     ].map((String value) {
-            //       return DropdownMenuItem<String>(
-            //         value: value,
-            //         child: new Text(
-            //           value,
-            //           style: TextStyle(color: kSecondaryColor),
-            //         ),
-            //       );
-            //     }).toList(),
-            //     onChanged: (String? value) {
-            //       setState(() {
-            //         dropDownValue = value!;
-            //       });
-            //     },
-            //   ),
-            // ),
-            SingleChildScrollView(
-              child: Container(
-                child: TextField(
-                  cursorColor: kPrimaryColor,
-                  maxLines: 5,
-                  decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: kPrimaryColor)),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: kPrimaryColor)),
-                    border: OutlineInputBorder(),
-                    labelText: 'Thoughts',
-                    hintText:
-                        'You want to write some thing? like what you enjoyed or what you have learn',
-                    labelStyle: TextStyle(color: kPrimaryColor),
+            ScrollConfiguration(
+                  behavior: ScrollBehavior(),
+              child: GlowingOverscrollIndicator(
+                axisDirection: AxisDirection.down,
+                color: kSecondaryColor,
+                child: SingleChildScrollView(
+                  child: Container(
+                    child: TextField(
+                      cursorColor: kPrimaryColor,
+                      maxLines: 5,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: kPrimaryColor)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: kPrimaryColor)),
+                        border: OutlineInputBorder(),
+                        labelText: 'Thoughts',
+                        hintText:
+                            'You want to write some thing? like what you enjoyed or what you have learn',
+                        labelStyle: TextStyle(color: kPrimaryColor),
+                      ),
+                    ),
                   ),
                 ),
               ),

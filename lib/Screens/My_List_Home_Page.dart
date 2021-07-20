@@ -48,22 +48,29 @@ class UserMovie extends StatelessWidget {
                 ),
               );
             default:
-              return GridView.count(
-                crossAxisCount: 3,
-                crossAxisSpacing: 4,
-                mainAxisSpacing: 3,
-                childAspectRatio: MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.height / 1.25),
-                children: snapshot.data!.docs.map(
-                  (snap) {
-                    return UserSAMCard(
-                      malOrMTVId: snap['mtvId'],
-                      who: 'movie',
-                      name: snap['name'],
-                      imageUrl: snap['image'],
-                    );
-                  },
-                ).toList(),
+              return ScrollConfiguration(
+                behavior: ScrollBehavior(),
+                child: GlowingOverscrollIndicator(
+                  axisDirection: AxisDirection.down,
+                  color: kSecondaryColor,
+                  child: GridView.count(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 4,
+                    mainAxisSpacing: 3,
+                    childAspectRatio: MediaQuery.of(context).size.width /
+                        (MediaQuery.of(context).size.height / 1.25),
+                    children: snapshot.data!.docs.map(
+                      (snap) {
+                        return UserSAMCard(
+                          malOrMTVId: snap['mtvId'],
+                          who: 'movie',
+                          name: snap['name'],
+                          imageUrl: snap['image'],
+                        );
+                      },
+                    ).toList(),
+                  ),
+                ),
               );
           }
         },
@@ -103,22 +110,29 @@ class UserAnime extends StatelessWidget {
                 ),
               );
             default:
-              return GridView.count(
-                crossAxisCount: 3,
-                crossAxisSpacing: 4,
-                mainAxisSpacing: 3,
-                childAspectRatio: MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.height / 1.25),
-                children: snapshot.data!.docs.map(
-                  (snap) {
-                    return UserSAMCard(
-                      malOrMTVId: snap['malId'],
-                      who: 'anime',
-                      name: snap['name'],
-                      imageUrl: snap['image'],
-                    );
-                  },
-                ).toList(),
+              return ScrollConfiguration(
+                behavior: ScrollBehavior(),
+                child: GlowingOverscrollIndicator(
+                  axisDirection: AxisDirection.down,
+                  color: kSecondaryColor,
+                  child: GridView.count(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 4,
+                    mainAxisSpacing: 3,
+                    childAspectRatio: MediaQuery.of(context).size.width /
+                        (MediaQuery.of(context).size.height / 1.25),
+                    children: snapshot.data!.docs.map(
+                      (snap) {
+                        return UserSAMCard(
+                          malOrMTVId: snap['malId'],
+                          who: 'anime',
+                          name: snap['name'],
+                          imageUrl: snap['image'],
+                        );
+                      },
+                    ).toList(),
+                  ),
+                ),
               );
           }
         },
@@ -155,22 +169,29 @@ class UserTvSeries extends StatelessWidget {
                 ),
               );
             default:
-              return GridView.count(
-                crossAxisCount: 3,
-                crossAxisSpacing: 4,
-                mainAxisSpacing: 3,
-                childAspectRatio: MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.height / 1.25),
-                children: snapshot.data!.docs.map(
-                  (snap) {
-                    return UserSAMCard(
-                      malOrMTVId: snap['mtvId'],
-                      who: 'tvseries',
-                      name: snap['name'],
-                      imageUrl: snap['image'],
-                    );
-                  },
-                ).toList(),
+              return ScrollConfiguration(
+                behavior: ScrollBehavior(),
+                child: GlowingOverscrollIndicator(
+                  axisDirection: AxisDirection.down,
+                  color: kSecondaryColor,
+                  child: GridView.count(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 4,
+                    mainAxisSpacing: 3,
+                    childAspectRatio: MediaQuery.of(context).size.width /
+                        (MediaQuery.of(context).size.height / 1.25),
+                    children: snapshot.data!.docs.map(
+                      (snap) {
+                        return UserSAMCard(
+                          malOrMTVId: snap['mtvId'],
+                          who: 'tvseries',
+                          name: snap['name'],
+                          imageUrl: snap['image'],
+                        );
+                      },
+                    ).toList(),
+                  ),
+                ),
               );
           }
         },
