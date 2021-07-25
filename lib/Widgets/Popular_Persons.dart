@@ -67,7 +67,7 @@ class _PopularPersonsState extends State<PopularPersons> {
           height: size.height * 0.011,
         ),
         Container(
-          height: size.height * 0.32,
+          height: size.height * 0.358,
           child: _loading
               ? Center(
                   child: CircularProgressIndicator(
