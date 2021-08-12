@@ -162,7 +162,7 @@ class HttpAnimeServices {
   Future<AnimeSearchByNameModel> getSearchByName(
       {required String name, required int page}) async {
     final res =
-        await http.get(Uri.https(' ', '/anime/searchByName/$name/$page'));
+        await http.get(Uri.https('sam-api-flask.herokuapp.com', '/anime/searchByName/$name/$page'));
     if (res.statusCode == 200) {
       AnimeSearchByNameModel result =
           AnimeSearchByNameModel.fromJson(json.decode(res.body));
