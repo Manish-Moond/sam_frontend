@@ -70,14 +70,15 @@ class _MoviePopularState extends State<MoviePopular> {
           child: _loading
               ? Center(
                   child: CircularProgressIndicator(
-                  color: kSecondaryColor,
-                ))
+                    color: kSecondaryColor,
+                  ),
+                )
               : ScrollConfiguration(
                   behavior: ScrollBehavior(),
-                child: GlowingOverscrollIndicator(
+                  child: GlowingOverscrollIndicator(
                     axisDirection: AxisDirection.right,
                     color: kSecondaryColor,
-                  child: ListView.builder(
+                    child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       controller: _scrollController,
                       itemCount: _movies.length,
@@ -97,8 +98,8 @@ class _MoviePopularState extends State<MoviePopular> {
                         );
                       },
                     ),
+                  ),
                 ),
-              ),
         ),
       ],
     );

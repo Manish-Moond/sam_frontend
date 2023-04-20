@@ -6,14 +6,14 @@ import 'package:sam_frontend/Widgets/ADMore.dart';
 
 class AnimeDescripation extends StatefulWidget {
   final bool topOrNot;
-  final List<String> aired;
+  final List<String>? aired;
   final int episodes;
-  final List<String> genres;
+  // final List<String>? genres;
   final String imageUrl;
-  final int malId;
+  final int? malId;
   final int popularity;
   final int rank;
-  final Related related;
+  // final Related related;
   final double score;
   final String source;
   final String status;
@@ -23,14 +23,14 @@ class AnimeDescripation extends StatefulWidget {
 
   AnimeDescripation({
     this.topOrNot = false,
-    required this.malId,
-    required this.aired,
+     this.malId = 0,
+     this.aired,
     required this.episodes,
-    required this.genres,
+    // required this.genres,
     required this.imageUrl,
     required this.popularity,
     required this.rank,
-    required this.related,
+    // required this.related,
     required this.score,
     required this.source,
     required this.status,
@@ -50,7 +50,7 @@ class _AnimeDescripationState extends State<AnimeDescripation> {
   @override
   void initState() {
     super.initState();
-    _animeDec = _animeServices.getAnime(malId: widget.malId);
+    _animeDec = _animeServices.getAnime(malId: 0);
   }
 
   @override
@@ -77,8 +77,8 @@ class _AnimeDescripationState extends State<AnimeDescripation> {
                         score: _anime.score,
                         synopsis: _anime.synopsis,
                         popularity: _anime.popularity,
-                        genre: _anime.genres,
-                        related: _anime.related,
+                        // genre: _anime.genres,
+                        // related: _anime.related,
                       );
                     }
                     return Container(
@@ -96,14 +96,14 @@ class _AnimeDescripationState extends State<AnimeDescripation> {
                   episodes: widget.episodes,
                   type: widget.type,
                   popularity: widget.popularity,
-                  aired: widget.aired,
+                  aired: widget.aired!,
                   rank: widget.rank,
                   imageUrl: widget.imageUrl,
                   score: widget.score,
                   synopsis: widget.synopsis,
                   title: widget.title,
-                  genre: widget.genres,
-                  related: widget.related,
+                  // genre: widget.genres,
+                  // related: widget.related,
                 ),
               ),
       ),

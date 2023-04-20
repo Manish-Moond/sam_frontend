@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
-import 'package:sam_frontend/Models/Anime_Model.dart';
-import 'package:sam_frontend/Models/Anime_This_Season_Model.dart';
+import 'package:sam_frontend/Models/anime_by_season_model.dart';
 import 'package:sam_frontend/Services/Anime_Servies.dart';
-import 'package:sam_frontend/Widgets/Anime_Card.dart';
+
+import 'Anime_Card.dart';
 
 class AnimeThisSeason extends StatefulWidget {
   const AnimeThisSeason({Key? key}) : super(key: key);
@@ -14,13 +14,19 @@ class AnimeThisSeason extends StatefulWidget {
 
 class _AnimeThisSeasonState extends State<AnimeThisSeason> {
   final HttpAnimeServices _httpAnimeServices = HttpAnimeServices();
-  late Future<AnimeThisSeasonModel> _thisSeason;
+  late Future<AnimeBySeasonModel> _thisSeason;
+  // final AnimeHTTPServices animesHTTPServices = AnimeHTTPServices();
 
   @override
   void initState() {
     super.initState();
-    _thisSeason =
-        _httpAnimeServices.getThisSeason(year: 2021, season: 'summer');
+    _thisSeason = AnimeHTTPServices().getAnimeBySeason();
+    // getData();
+  }
+
+  getData() async {
+    print(_thisSeason);
+    // print(_thisSeason.data![0].title);
   }
 
   Map<int, String> _mon = {
@@ -51,18 +57,19 @@ class _AnimeThisSeasonState extends State<AnimeThisSeason> {
       height: 200,
       child: FutureBuilder(
         future: _thisSeason,
-        builder: (BuildContext context,
-            AsyncSnapshot<AnimeThisSeasonModel> snapshot) {
+        builder:
+            (BuildContext context, AsyncSnapshot<AnimeBySeasonModel> snapshot) {
           if (snapshot.hasData) {
-            AnimeThisSeasonModel? anime = snapshot.data;
-            List<Anime> erer = anime!.anime;
+            List<Datum> animes = snapshot.data!.data!;
+            print(animes);
             return Container(
               color: kPrimaryColor,
               child: RefreshIndicator(
                 color: kSecondaryColor,
                 backgroundColor: kPrimaryColor,
                 onRefresh: () {
-                  return _httpAnimeServices.getThisSeason(year: 2021, season: 'summer', isRefresh: true);
+                  return _httpAnimeServices.getThisSeason(
+                      year: 2021, season: 'summer', isRefresh: true);
                 },
                 child: ScrollConfiguration(
                   behavior: ScrollBehavior(),
@@ -70,52 +77,30 @@ class _AnimeThisSeasonState extends State<AnimeThisSeason> {
                     axisDirection: AxisDirection.down,
                     color: kSecondaryColor,
                     child: GridView.count(
-                        childAspectRatio: (itemWidth / itemHeight),
-                        crossAxisSpacing: 5,
-                        mainAxisSpacing: 5,
-                        crossAxisCount: 2,
-                        children: [
-                          ...erer.map(
-                            (Anime ani) => AnimeCard(
-                              topOrNot: true,
-                              malId: ani.malId,
-                              imageUrl: ani.imageUrl,
-                              episodes: ani.episodes,
-                              aired: [
-                                convertToMonth(date: ani.airingStart.month) +
-                                    ' ${ani.airingStart.day}'
-                              ],
-                              genres: ani.genres,
-                              status: 'Aring',
-                              title: ani.title,
-                              related: Related(adaptation: [
-                                Genre(malId: 1, type: '', name: '', url: '')
-                              ], alternativeVersion: [
-                                Genre(malId: -1, type: '', name: '', url: '')
-                              ], sideStory: [
-                                Genre(malId: -1, type: '', name: '', url: '')
-                              ], spinOff: [
-                                Genre(malId: -1, type: '', name: '', url: '')
-                              ], alternativeSetting: [
-                                Genre(malId: -1, type: '', name: '', url: '')
-                              ], sequel: [
-                                Genre(malId: -1, type: '', name: '', url: '')
-                              ], other: [
-                                Genre(malId: -1, type: '', name: '', url: '')
-                              ], prequel: [
-                                Genre(malId: -1, type: '', name: '', url: '')
-                              ], summary: [
-                                Genre(malId: -1, type: '', name: '', url: '')
-                              ], character: [
-                                Genre(malId: -1, type: '', name: '', url: '')
-                              ], parentStory: [
-                                Genre(malId: -1, type: '', name: '', url: '')
-                              ], fullStory: [
-                                Genre(malId: -1, type: '', name: '', url: '')
-                              ]),
-                            ),
-                          )
-                        ]),
+                      childAspectRatio: (itemWidth / itemHeight),
+                      crossAxisSpacing: 5,
+                      mainAxisSpacing: 5,
+                      crossAxisCount: 2,
+                      children: [
+                        ...animes.map(
+                          (Datum _anime) => AnimeCard(
+                            topOrNot: true,
+                            malId: _anime.malId,
+                            imageUrl: _anime.images!['jpg']!.imageUrl,
+                            score: _anime.score!,
+                            episodes: _anime.episodes!,
+                            aired: [
+                              convertToMonth(
+                                  date: _anime.aired?.prop?.from?.month),
+                              "${_anime.aired?.prop?.from?.day}"
+                            ],
+                            // genres: ani.genres,
+                            // status:  _anime.status!,
+                            title: _anime.title!,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),

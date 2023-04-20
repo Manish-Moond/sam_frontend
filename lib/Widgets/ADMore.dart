@@ -1,37 +1,36 @@
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
-import 'package:sam_frontend/Models/Anime_Model.dart';
-import 'Anime_RR.dart';
 
 class ADMore extends StatelessWidget {
   final int rank;
   final String title;
-  final int malId;
+  final int? malId;
   final String imageUrl;
   final String type;
   final int episodes;
-  final List aired;
+  // final List aired;
   final double score;
   final String synopsis;
   final int popularity;
-  final List<String> genre;
-  final Related related;
+  // final List<String> genre;
+  // final Related related;
 
   const ADMore({
     Key? key,
-    required this.malId,
+    this.malId = 0,
     required this.rank,
     required this.title,
     required this.imageUrl,
     required this.type,
     required this.episodes,
-    required this.aired,
+    // required this.aired,
     required this.score,
     required this.synopsis,
     required this.popularity,
-    required this.genre,
-    required this.related,
+    required List<String> aired,
+    // required this.genre,
+    // required this.related,
   }) : super(key: key);
 
   String _g(genre) {
@@ -218,7 +217,7 @@ class ADMore extends StatelessWidget {
                             child: SizedBox(
                               width: size.width * 0.8,
                               child: Text(
-                                _g(genre),
+                                _g("genre"),
                                 overflow: TextOverflow.fade,
                                 style: TextStyle(
                                     fontSize: 13,
@@ -249,7 +248,7 @@ class ADMore extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  _date(aired),
+                                  _date("aired"),
                                   style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.normal,
@@ -281,39 +280,39 @@ class ADMore extends StatelessWidget {
                             child: SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Row(
-                                children: [
-                                  ...related.adaptation.map((e) => RRAnime(
-                                      malId: e.type == 'anime' ? e.malId : -1)),
-                                  ...related.alternativeSetting.map((e) =>
-                                      RRAnime(
-                                          malId: e.type == 'anime'
-                                              ? e.malId
-                                              : -1)),
-                                  ...related.alternativeVersion.map((e) =>
-                                      RRAnime(
-                                          malId: e.type == 'anime'
-                                              ? e.malId
-                                              : -1)),
-                                  ...related.other.map((e) => RRAnime(
-                                      malId: e.type == 'anime' ? e.malId : -1)),
-                                  ...related.character.map((e) => RRAnime(
-                                      malId: e.type == 'anime' ? e.malId : -1)),
-                                  ...related.parentStory.map((e) => RRAnime(
-                                      malId: e.type == 'anime' ? e.malId : -1)),
-                                  ...related.prequel.map((e) => RRAnime(
-                                      malId: e.type == 'anime' ? e.malId : -1)),
-                                  ...related.sequel.map((e) => RRAnime(
-                                      malId: e.type == 'anime' ? e.malId : -1)),
-                                  ...related.spinOff.map((e) => RRAnime(
-                                      malId: e.type == 'anime' ? e.malId : -1)),
-                                  ...related.sideStory.map((e) => RRAnime(
-                                      malId: e.type == 'anime' ? e.malId : -1)),
-                                  ...related.summary.map((e) => RRAnime(
-                                      malId: e.type == 'anime' ? e.malId : -1)),
-                                  ...related.fullStory.map((e) => RRAnime(
-                                      malId: e.type == 'anime' ? e.malId : -1)),
-                                ],
-                              ),
+                                  // children: [
+                                  //   ...related.adaptation.map((e) => RRAnime(
+                                  //       malId: e.type == 'anime' ? e.malId : -1)),
+                                  //   ...related.alternativeSetting.map((e) =>
+                                  //       RRAnime(
+                                  //           malId: e.type == 'anime'
+                                  //               ? e.malId
+                                  //               : -1)),
+                                  //   ...related.alternativeVersion.map((e) =>
+                                  //       RRAnime(
+                                  //           malId: e.type == 'anime'
+                                  //               ? e.malId
+                                  //               : -1)),
+                                  //   ...related.other.map((e) => RRAnime(
+                                  //       malId: e.type == 'anime' ? e.malId : -1)),
+                                  //   ...related.character.map((e) => RRAnime(
+                                  //       malId: e.type == 'anime' ? e.malId : -1)),
+                                  //   ...related.parentStory.map((e) => RRAnime(
+                                  //       malId: e.type == 'anime' ? e.malId : -1)),
+                                  //   ...related.prequel.map((e) => RRAnime(
+                                  //       malId: e.type == 'anime' ? e.malId : -1)),
+                                  //   ...related.sequel.map((e) => RRAnime(
+                                  //       malId: e.type == 'anime' ? e.malId : -1)),
+                                  //   ...related.spinOff.map((e) => RRAnime(
+                                  //       malId: e.type == 'anime' ? e.malId : -1)),
+                                  //   ...related.sideStory.map((e) => RRAnime(
+                                  //       malId: e.type == 'anime' ? e.malId : -1)),
+                                  //   ...related.summary.map((e) => RRAnime(
+                                  //       malId: e.type == 'anime' ? e.malId : -1)),
+                                  //   ...related.fullStory.map((e) => RRAnime(
+                                  //       malId: e.type == 'anime' ? e.malId : -1)),
+                                  // ],
+                                  ),
                             ),
                           ),
                         ),

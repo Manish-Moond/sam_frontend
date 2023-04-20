@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
-import 'package:sam_frontend/Models/Anime_Model.dart';
 import 'package:sam_frontend/Models/Anime_This_Season_Model.dart';
 import 'package:sam_frontend/Models/Anime_Top_Model.dart';
 import 'package:sam_frontend/Services/Anime_Servies.dart';
@@ -271,45 +270,45 @@ class _AnimeGenresResultsState extends State<AnimeGenresResults> {
                           itemCount: _anime.length,
                           itemBuilder: (context, index) {
                             return AnimeCard(
-                                topOrNot: true,
-                                malId: _anime[index].malId,
-                                title: _anime[index].title,
-                                episodes: _anime[index].episodes,
-                                genres: _anime[index].genres,
-                                status: 'Dont Know',
-                                imageUrl: _anime[index].imageUrl,
-                                score: _anime[index].score,
-                                aired: [
-                                  convertToMonth(
-                                          date:
-                                              _anime[index].airingStart.month) +
-                                      ' ${_anime[index].airingStart.year}'
-                                ],
-                                related: Related(adaptation: [
-                                  Genre(malId: 1, name: '', type: '', url: '')
-                                ], alternativeVersion: [
-                                  Genre(malId: -1, type: '', name: '', url: '')
-                                ], sideStory: [
-                                  Genre(malId: -1, type: '', name: '', url: '')
-                                ], spinOff: [
-                                  Genre(malId: -1, type: '', name: '', url: '')
-                                ], alternativeSetting: [
-                                  Genre(malId: -1, type: '', name: '', url: '')
-                                ], sequel: [
-                                  Genre(malId: -1, type: '', name: '', url: '')
-                                ], other: [
-                                  Genre(malId: -1, type: '', name: '', url: '')
-                                ], prequel: [
-                                  Genre(malId: -1, type: '', name: '', url: '')
-                                ], summary: [
-                                  Genre(malId: -1, type: '', name: '', url: '')
-                                ], character: [
-                                  Genre(malId: -1, type: '', name: '', url: '')
-                                ], parentStory: [
-                                  Genre(malId: -1, type: '', name: '', url: '')
-                                ], fullStory: [
-                                  Genre(malId: -1, type: '', name: '', url: '')
-                                ]));
+                              topOrNot: true,
+                              malId: _anime[index].malId,
+                              title: _anime[index].title,
+                              episodes: _anime[index].episodes,
+                              genres: _anime[index].genres,
+                              status: 'Dont Know',
+                              imageUrl: _anime[index].imageUrl,
+                              score: _anime[index].score,
+                              aired: [
+                                convertToMonth(
+                                        date: _anime[index].airingStart.month) +
+                                    ' ${_anime[index].airingStart.year}'
+                              ],
+                              // related: Related(adaptation: [
+                              //   Genre(malId: 1, name: '', type: '', url: '')
+                              // ], alternativeVersion: [
+                              //   Genre(malId: -1, type: '', name: '', url: '')
+                              // ], sideStory: [
+                              //   Genre(malId: -1, type: '', name: '', url: '')
+                              // ], spinOff: [
+                              //   Genre(malId: -1, type: '', name: '', url: '')
+                              // ], alternativeSetting: [
+                              //   Genre(malId: -1, type: '', name: '', url: '')
+                              // ], sequel: [
+                              //   Genre(malId: -1, type: '', name: '', url: '')
+                              // ], other: [
+                              //   Genre(malId: -1, type: '', name: '', url: '')
+                              // ], prequel: [
+                              //   Genre(malId: -1, type: '', name: '', url: '')
+                              // ], summary: [
+                              //   Genre(malId: -1, type: '', name: '', url: '')
+                              // ], character: [
+                              //   Genre(malId: -1, type: '', name: '', url: '')
+                              // ], parentStory: [
+                              //   Genre(malId: -1, type: '', name: '', url: '')
+                              // ], fullStory: [
+                              //   Genre(malId: -1, type: '', name: '', url: '')
+                              // ])
+                            );
                           }),
                     ),
                   ),
@@ -378,42 +377,42 @@ class _AnimeTopRatedState extends State<AnimeTopRated> {
                                   genres: [],
                                   aired: [ani.startDate],
                                   status: '',
-                                  related: Related(adaptation: [
-                                    Genre(malId: 1, type: '', name: '', url: '')
-                                  ], alternativeVersion: [
-                                    Genre(
-                                        malId: -1, type: '', name: '', url: '')
-                                  ], sideStory: [
-                                    Genre(
-                                        malId: -1, type: '', name: '', url: '')
-                                  ], spinOff: [
-                                    Genre(
-                                        malId: -1, type: '', name: '', url: '')
-                                  ], alternativeSetting: [
-                                    Genre(
-                                        malId: -1, type: '', name: '', url: '')
-                                  ], sequel: [
-                                    Genre(
-                                        malId: -1, type: '', name: '', url: '')
-                                  ], other: [
-                                    Genre(
-                                        malId: -1, type: '', name: '', url: '')
-                                  ], prequel: [
-                                    Genre(
-                                        malId: -1, type: '', name: '', url: '')
-                                  ], summary: [
-                                    Genre(
-                                        malId: -1, type: '', name: '', url: '')
-                                  ], character: [
-                                    Genre(
-                                        malId: -1, type: '', name: '', url: '')
-                                  ], parentStory: [
-                                    Genre(
-                                        malId: -1, type: '', name: '', url: '')
-                                  ], fullStory: [
-                                    Genre(
-                                        malId: -1, type: '', name: '', url: '')
-                                  ]),
+                                  // related: Related(adaptation: [
+                                  //   Genre(malId: 1, type: '', name: '', url: '')
+                                  // ], alternativeVersion: [
+                                  //   Genre(
+                                  //       malId: -1, type: '', name: '', url: '')
+                                  // ], sideStory: [
+                                  //   Genre(
+                                  //       malId: -1, type: '', name: '', url: '')
+                                  // ], spinOff: [
+                                  //   Genre(
+                                  //       malId: -1, type: '', name: '', url: '')
+                                  // ], alternativeSetting: [
+                                  //   Genre(
+                                  //       malId: -1, type: '', name: '', url: '')
+                                  // ], sequel: [
+                                  //   Genre(
+                                  //       malId: -1, type: '', name: '', url: '')
+                                  // ], other: [
+                                  //   Genre(
+                                  //       malId: -1, type: '', name: '', url: '')
+                                  // ], prequel: [
+                                  //   Genre(
+                                  //       malId: -1, type: '', name: '', url: '')
+                                  // ], summary: [
+                                  //   Genre(
+                                  //       malId: -1, type: '', name: '', url: '')
+                                  // ], character: [
+                                  //   Genre(
+                                  //       malId: -1, type: '', name: '', url: '')
+                                  // ], parentStory: [
+                                  //   Genre(
+                                  //       malId: -1, type: '', name: '', url: '')
+                                  // ], fullStory: [
+                                  //   Genre(
+                                  //       malId: -1, type: '', name: '', url: '')
+                                  // ]),
                                 )),
                           ]),
                     ),

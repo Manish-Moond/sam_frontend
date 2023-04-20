@@ -7,6 +7,7 @@ import 'package:sam_frontend/Models/Anime_RR_Model.dart';
 import 'package:sam_frontend/Models/Anime_Search_By_Name_Model.dart';
 import 'package:sam_frontend/Models/Anime_This_Season_Model.dart';
 import 'package:sam_frontend/Models/Anime_Top_Model.dart';
+import 'package:sam_frontend/Models/anime_by_season_model.dart';
 
 class HttpAnimeServices {
   Future<AnimeTopModel> getTopAnime({bool isRefresh = false}) async {
@@ -161,13 +162,105 @@ class HttpAnimeServices {
 
   Future<AnimeSearchByNameModel> getSearchByName(
       {required String name, required int page}) async {
-    final res =
-        await http.get(Uri.https('sam-api-flask.herokuapp.com', '/anime/searchByName/$name/$page'));
+    final res = await http.get(Uri.https(
+        'sam-api-flask.herokuapp.com', '/anime/searchByName/$name/$page'));
     if (res.statusCode == 200) {
       AnimeSearchByNameModel result =
           AnimeSearchByNameModel.fromJson(json.decode(res.body));
       return result;
     }
     throw Exception('Error');
+  }
+}
+
+class AnimeHTTPServices {
+  Future<AnimeBySeasonModel> getAnimeBySeason(
+      {int year = 0,
+      String season = "",
+      int page = 0,
+      bool isRefreshed = false}) async {
+    if (year != 0) {
+      var _isCacheExist =
+          await APICacheManager().isAPICacheKeyExist('animeSeason$year$season');
+
+      if (isRefreshed) {
+        final res = await http.get(Uri.parse(
+            "https://api.jikan.moe/v4/seasons/$year/$season?page=$page"));
+
+        if (res.statusCode == 200) {
+          APICacheDBModel cacheDBModel = new APICacheDBModel(
+              key: 'animeSeason$year$season', syncData: res.body);
+          APICacheManager().addCacheData(cacheDBModel);
+
+          print(AnimeBySeasonModelFromJson(res.body).data![0].title);
+
+          return AnimeBySeasonModelFromJson(res.body);
+        } else {
+          throw Exception("Error");
+        }
+      }
+
+      if (!_isCacheExist) {
+        final res = await http.get(Uri.parse(
+            "https://api.jikan.moe/v4/seasons/$year/$season?page=$page"));
+
+        if (res.statusCode == 200) {
+          APICacheDBModel cacheDBModel = new APICacheDBModel(
+              key: 'animeSeason$year$season', syncData: res.body);
+          APICacheManager().addCacheData(cacheDBModel);
+
+          print(AnimeBySeasonModelFromJson(res.body).data![0].title);
+
+          return AnimeBySeasonModelFromJson(res.body);
+        } else {
+          throw Exception("Error");
+        }
+      } else {
+        final cacheData =
+            await APICacheManager().getCacheData('animeSeason$year$season');
+        return AnimeBySeasonModelFromJson(cacheData.syncData);
+      }
+    } else {
+      var _isCacheExist =
+          await APICacheManager().isAPICacheKeyExist('animeSeasonNow');
+
+      if (isRefreshed) {
+        var res = await http
+            .get(Uri.parse("https://api.jikan.moe/v4/seasons/now?page=$page"));
+
+        // Adding data to local DB for performance
+        if (res.statusCode == 200) {
+          APICacheDBModel cacheDBModel =
+              new APICacheDBModel(key: 'animeSeasonNow', syncData: res.body);
+          APICacheManager().addCacheData(cacheDBModel);
+
+          print(AnimeBySeasonModelFromJson(res.body).data![0].title);
+
+          return AnimeBySeasonModelFromJson(res.body);
+        } else {
+          throw Exception("Error");
+        }
+      }
+      if (!_isCacheExist) {
+        var res = await http
+            .get(Uri.parse("https://api.jikan.moe/v4/seasons/now?page=$page"));
+
+        // Adding data to local DB for performance
+        if (res.statusCode == 200) {
+          APICacheDBModel cacheDBModel =
+              new APICacheDBModel(key: 'animeSeasonNow', syncData: res.body);
+          APICacheManager().addCacheData(cacheDBModel);
+
+          print(AnimeBySeasonModelFromJson(res.body).data![0].title);
+
+          return AnimeBySeasonModelFromJson(res.body);
+        } else {
+          throw Exception("Error");
+        }
+      } else {
+        var cacheData = await APICacheManager().getCacheData('animeSeasonNow');
+        return AnimeBySeasonModelFromJson(cacheData.syncData);
+      }
+    }
   }
 }

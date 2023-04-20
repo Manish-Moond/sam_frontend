@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
 
 class AnimeModal extends StatefulWidget {
-  final int malId;
+  final int? malId;
   final String name;
-  final String imageUrl;
+  final String? imageUrl;
   final bool doUpdateOrNot;
   const AnimeModal({
     Key? key,
     required this.name,
-    required this.imageUrl,
-    required this.malId,
+     this.imageUrl,
+     this.malId = 0,
     this.doUpdateOrNot = false,
   }) : super(key: key);
 
