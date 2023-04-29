@@ -43,24 +43,6 @@ class _AnimeThisSeasonState extends State<AnimeThisSeason> {
     });
   }
 
-  Map<int, String> _mon = {
-    1: 'January',
-    2: 'February',
-    3: 'March',
-    4: 'April',
-    5: 'May',
-    6: 'June',
-    7: 'July',
-    8: 'August',
-    9: 'September',
-    10: 'October',
-    11: 'November',
-    12: 'December'
-  };
-  convertToMonth({required date}) {
-    return _mon[date];
-  }
-
 // make genre list from List<Map>
   List<String?> _convertGenreToList(List<Demographic> genres) {
     List<String?> _gList = [];
@@ -122,12 +104,6 @@ class _AnimeThisSeasonState extends State<AnimeThisSeason> {
                         genres: _convertGenreToList(_data[index].genres!),
                         aired: [
                           _data[index].aired?.string
-                          // convertToMonth(
-                          //     date: _data[index].aired?.prop?.from?.month),
-                          // "${_data[index].aired?.prop?.from?.day}",
-                          // convertToMonth(
-                          //     date: _data[index].aired?.prop?.to?.month),
-                          // "${_data[index].aired?.prop?.to?.day}"
                         ],
                         // status:  _anime.status!,
                       );

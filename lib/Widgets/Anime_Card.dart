@@ -39,9 +39,6 @@ class AnimeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    print("ANime card");
-    print(genres);
-    print(aired);
     return Container(
       child: Card(
         color: kSecondaryColor,

@@ -57,11 +57,6 @@ class _AnimeDescripationState extends State<AnimeDescripation> {
 
   @override
   Widget build(BuildContext context) {
-    print("Anime Descripation page");
-    print(widget.aired);
-    print(widget.topOrNot);
-    print(widget.type);
-    print(widget.episodes);
     var size = MediaQuery.of(context).size;
     return Scaffold(
       body: CustomPaint(

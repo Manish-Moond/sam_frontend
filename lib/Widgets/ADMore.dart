@@ -43,14 +43,6 @@ class ADMore extends StatelessWidget {
     return genreString;
   }
 
-  String _date(_d) {
-    if (topOrNot == false) {
-      return "${_d[0]} ${_d[1]}";
-    } else {
-      return "${_d[0]} ${_d[1]} to ${_d[2]} ${_d[3]}";
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     print("ADMore page ");
