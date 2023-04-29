@@ -3,50 +3,57 @@ import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
 
 class ADMore extends StatelessWidget {
+  final bool topOrNot;
   final int rank;
   final String title;
   final int? malId;
   final String imageUrl;
+
   final String type;
   final int episodes;
-  // final List aired;
+  final List aired;
   final double score;
   final String synopsis;
   final int popularity;
-  // final List<String> genre;
+  final List<String?> genre;
   // final Related related;
 
   const ADMore({
     Key? key,
     this.malId = 0,
+    this.topOrNot = false,
     required this.rank,
     required this.title,
     required this.imageUrl,
     required this.type,
     required this.episodes,
-    // required this.aired,
+    required this.aired,
     required this.score,
     required this.synopsis,
     required this.popularity,
-    required List<String> aired,
-    // required this.genre,
+    required this.genre,
     // required this.related,
   }) : super(key: key);
 
-  String _g(genre) {
-    String gnere = '';
-    for (int i = 0; i < genre.length; i++) {
-      gnere += genre[i] + '   ';
+  String _convertGenresFromListToString(genreList) {
+    String genreString = '';
+    for (int i = 0; i < genreList.length; i++) {
+      genreString += genreList[i] + '   ';
     }
-    return gnere;
+    return genreString;
   }
 
   String _date(_d) {
-    return episodes == 1 ? '${_d[0]}' : '${_d[0]}   to   ${_d[1]}';
+    if (topOrNot == false) {
+      return "${_d[0]} ${_d[1]}";
+    } else {
+      return "${_d[0]} ${_d[1]} to ${_d[2]} ${_d[3]}";
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    print("ADMore page ");
     var size = MediaQuery.of(context).size;
     return ScrollConfiguration(
       behavior: ScrollBehavior(),
@@ -84,8 +91,9 @@ class ADMore extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(28, 24, 0, 10),
+                          padding: const EdgeInsets.fromLTRB(58, 24, 0, 10),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 'Score',
@@ -96,9 +104,9 @@ class ADMore extends StatelessWidget {
                               ),
                               Row(
                                 children: [
-                                  SizedBox(
-                                    width: size.width * 0.07,
-                                  ),
+                                  // SizedBox(
+                                  //   width: size.width * 0.07,
+                                  // ),
                                   Icon(
                                     Icons.star,
                                     size: 15,
@@ -217,7 +225,7 @@ class ADMore extends StatelessWidget {
                             child: SizedBox(
                               width: size.width * 0.8,
                               child: Text(
-                                _g("genre"),
+                                _convertGenresFromListToString(genre),
                                 overflow: TextOverflow.fade,
                                 style: TextStyle(
                                     fontSize: 13,
@@ -248,7 +256,8 @@ class ADMore extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  _date("aired"),
+                                  "$aired[0]}",
+                                  // _date(aired),
                                   style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.normal,

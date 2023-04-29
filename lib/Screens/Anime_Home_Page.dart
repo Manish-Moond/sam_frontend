@@ -47,7 +47,7 @@ class _AnimeHomePageState extends State<AnimeHomePage> {
                 ),
               ),
               body: ScrollConfiguration(
-                  behavior: ScrollBehavior(),
+                behavior: ScrollBehavior(),
                 child: GlowingOverscrollIndicator(
                   axisDirection: AxisDirection.right,
                   color: kSecondaryColor,

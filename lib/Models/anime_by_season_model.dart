@@ -1,8 +1,12 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:convert';
 
-// ignore: non_constant_identifier_names
 AnimeBySeasonModel AnimeBySeasonModelFromJson(String str) =>
     AnimeBySeasonModel.fromJson(json.decode(str));
+
+Demographic DemographicFromJson(String str) =>
+    Demographic.fromJson(json.decode(str));
 
 class AnimeBySeasonModel {
   AnimeBySeasonModel({
@@ -11,7 +15,7 @@ class AnimeBySeasonModel {
   });
 
   Pagination? pagination;
-  List<Datum>? data;
+  List<AnimeDataList>? data;
 
   factory AnimeBySeasonModel.fromJson(Map<String, dynamic> json) =>
       AnimeBySeasonModel(
@@ -20,12 +24,16 @@ class AnimeBySeasonModel {
             : Pagination.fromJson(json["pagination"]),
         data: json["data"] == null
             ? []
-            : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+            : List<AnimeDataList>.from(
+                json["data"]!.map((x) => AnimeDataList.fromJson(x))),
       );
 }
 
-class Datum {
-  Datum({
+AnimeDataList AnimeDataListFromJson(String str) =>
+    AnimeDataList.fromJson(json.decode(str));
+
+class AnimeDataList {
+  AnimeDataList({
     this.malId,
     this.url,
     this.images,
@@ -101,7 +109,7 @@ class Datum {
   List<Demographic>? themes;
   List<Demographic>? demographics;
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory AnimeDataList.fromJson(Map<String, dynamic> json) => AnimeDataList(
         malId: json["mal_id"],
         url: json["url"],
         images: Map.from(json["images"]!)
@@ -126,7 +134,8 @@ class Datum {
         aired: json["aired"] == null ? null : Aired.fromJson(json["aired"]),
         duration: json["duration"],
         rating: json["rating"],
-        score: json["score"]?.toDouble() == null ? 0.0 : json['score']?.toDouble(),
+        score:
+            json["score"]?.toDouble() == null ? 0.0 : json['score']?.toDouble(),
         scoredBy: json["scored_by"],
         rank: json["rank"] == null ? 0 : json["rank"],
         popularity: json["popularity"],
@@ -186,7 +195,7 @@ class Aired {
         from: json["from"] == null ? null : DateTime.parse(json["from"]),
         to: json["to"],
         prop: json["prop"] == null ? null : Prop.fromJson(json["prop"]),
-        string: json["string"],
+        string: json["string"] == null ? "" : json["string"],
       );
 }
 

@@ -1,4 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+
 import 'package:sam_frontend/Constant/Colors.dart';
 import 'package:sam_frontend/Models/Anime_Model.dart';
 import 'package:sam_frontend/Services/Anime_Servies.dart';
@@ -6,9 +8,9 @@ import 'package:sam_frontend/Widgets/ADMore.dart';
 
 class AnimeDescripation extends StatefulWidget {
   final bool topOrNot;
-  final List<String>? aired;
+  final List<String?>? aired;
   final int episodes;
-  // final List<String>? genres;
+  final List<String?> genres;
   final String imageUrl;
   final int? malId;
   final int popularity;
@@ -22,22 +24,22 @@ class AnimeDescripation extends StatefulWidget {
   final String type;
 
   AnimeDescripation({
+    Key? key,
     this.topOrNot = false,
-     this.malId = 0,
-     this.aired,
+    this.aired,
     required this.episodes,
-    // required this.genres,
+    required this.genres,
     required this.imageUrl,
+    this.malId = 0,
     required this.popularity,
     required this.rank,
-    // required this.related,
     required this.score,
     required this.source,
     required this.status,
     required this.synopsis,
     required this.title,
     required this.type,
-  });
+  }) : super(key: key);
 
   @override
   _AnimeDescripationState createState() => _AnimeDescripationState();
@@ -55,6 +57,11 @@ class _AnimeDescripationState extends State<AnimeDescripation> {
 
   @override
   Widget build(BuildContext context) {
+    print("Anime Descripation page");
+    print(widget.aired);
+    print(widget.topOrNot);
+    print(widget.type);
+    print(widget.episodes);
     var size = MediaQuery.of(context).size;
     return Scaffold(
       body: CustomPaint(
@@ -77,14 +84,16 @@ class _AnimeDescripationState extends State<AnimeDescripation> {
                         score: _anime.score,
                         synopsis: _anime.synopsis,
                         popularity: _anime.popularity,
-                        // genre: _anime.genres,
+                        genre: _anime.genres,
                         // related: _anime.related,
                       );
                     }
                     return Container(
                       color: kPrimaryColor,
                       child: Center(
-                        child: CircularProgressIndicator(color: kSecondaryColor,),
+                        child: CircularProgressIndicator(
+                          color: kSecondaryColor,
+                        ),
                       ),
                     );
                   },
@@ -92,6 +101,7 @@ class _AnimeDescripationState extends State<AnimeDescripation> {
               )
             : Container(
                 child: ADMore(
+                  topOrNot: widget.topOrNot,
                   malId: widget.malId,
                   episodes: widget.episodes,
                   type: widget.type,
@@ -102,7 +112,7 @@ class _AnimeDescripationState extends State<AnimeDescripation> {
                   score: widget.score,
                   synopsis: widget.synopsis,
                   title: widget.title,
-                  // genre: widget.genres,
+                  genre: widget.genres,
                   // related: widget.related,
                 ),
               ),

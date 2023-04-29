@@ -179,7 +179,7 @@ class AnimeHTTPServices {
       String season = "",
       int page = 1,
       bool isRefreshed = false}) async {
-    print(page);
+    // TODO: cache refreshing after some time 
     if (year != 0) {
       var _isCacheExist =
           await APICacheManager().isAPICacheKeyExist('animeSeason$year$season');
@@ -269,8 +269,6 @@ class AnimeHTTPServices {
               new APICacheDBModel(key: 'animeSeasonNow', syncData: res.body);
           APICacheManager().addCacheData(cacheDBModel);
 
-          print(AnimeBySeasonModelFromJson(res.body).data![0].title);
-
           return AnimeBySeasonModelFromJson(res.body);
         } else {
           throw Exception("Error");
@@ -280,6 +278,17 @@ class AnimeHTTPServices {
         print("YEs");
         return AnimeBySeasonModelFromJson(cacheData.syncData);
       }
+    }
+  }
+
+  Future<AnimeDataList> getAnime({required int malId}) async {
+    final res =
+        await http.get(Uri.parse("https://api.jikan.moe/v4/anime/$malId"));
+
+    if (res.statusCode == 200) {
+      return AnimeDataListFromJson(res.body);
+    } else {
+      throw Exception("Error");
     }
   }
 }

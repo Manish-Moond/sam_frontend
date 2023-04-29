@@ -13,8 +13,7 @@ class AnimeThisSeason extends StatefulWidget {
 }
 
 class _AnimeThisSeasonState extends State<AnimeThisSeason> {
-  final HttpAnimeServices _httpAnimeServices = HttpAnimeServices();
-  final List<Datum> _data = [];
+  final List<AnimeDataList> _data = [];
   final ScrollController _scrollController = ScrollController();
   int _page = 1;
   bool _loading = true;
@@ -62,6 +61,15 @@ class _AnimeThisSeasonState extends State<AnimeThisSeason> {
     return _mon[date];
   }
 
+// make genre list from List<Map>
+  List<String?> _convertGenreToList(List<Demographic> genres) {
+    List<String?> _gList = [];
+    for (int i = 0; i < genres.length; i++) {
+      _gList.add(genres[i].name);
+    }
+    return _gList;
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -102,19 +110,26 @@ class _AnimeThisSeasonState extends State<AnimeThisSeason> {
                     itemCount: _data.length,
                     itemBuilder: (context, index) {
                       return AnimeCard(
-                        topOrNot: true,
+                        topOrNot: false,
                         malId: _data[index].malId,
+                        title: _data[index].title!,
                         imageUrl: _data[index].images!['jpg']!.imageUrl,
                         score: _data[index].score!,
                         episodes: _data[index].episodes!,
+                        type: _data[index].type!,
+                        rank: _data[index].rank!,
+                        popularity: _data[index].popularity!,
+                        genres: _convertGenreToList(_data[index].genres!),
                         aired: [
-                          convertToMonth(
-                              date: _data[index].aired?.prop?.from?.month),
-                          "${_data[index].aired?.prop?.from?.day}"
+                          _data[index].aired?.string
+                          // convertToMonth(
+                          //     date: _data[index].aired?.prop?.from?.month),
+                          // "${_data[index].aired?.prop?.from?.day}",
+                          // convertToMonth(
+                          //     date: _data[index].aired?.prop?.to?.month),
+                          // "${_data[index].aired?.prop?.to?.day}"
                         ],
-                        // genres: ani.genres,
                         // status:  _anime.status!,
-                        title: _data[index].title!,
                       );
                     },
                   ),
