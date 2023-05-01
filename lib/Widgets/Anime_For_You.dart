@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
 import 'package:sam_frontend/Models/Anime_This_Season_Model.dart';
-import 'package:sam_frontend/Models/Anime_Top_Model.dart';
+import 'package:sam_frontend/Models/anime_by_season_model.dart';
 import 'package:sam_frontend/Services/Anime_Servies.dart';
 
 import 'Anime_Card.dart';
@@ -33,7 +33,7 @@ class _AnimeForYouState extends State<AnimeForYou> {
             ? AnimeTopRated()
             : AnimeGenresResults(
                 selected: selected,
-              )
+              ),
       ],
     );
   }
@@ -103,55 +103,56 @@ class AnimeGenres extends StatelessWidget {
             height: size.height * 0.01,
           ),
           Container(
-              height: 60,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 12, 6),
-                    child: GestureDetector(
-                      onTap: () {
-                        selectedFunction('All');
-                      },
-                      child: Chip(
-                        label: Text(
-                          'All',
-                          style: TextStyle(
-                              color: selectedValue == 'All'
-                                  ? kPrimaryColor
-                                  : kSecondaryColor),
-                        ),
-                        backgroundColor: selectedValue == 'All'
-                            ? kSecondaryColor
-                            : kPrimaryColor,
+            height: 60,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 12, 6),
+                  child: GestureDetector(
+                    onTap: () {
+                      selectedFunction('All');
+                    },
+                    child: Chip(
+                      label: Text(
+                        'All',
+                        style: TextStyle(
+                            color: selectedValue == 'All'
+                                ? kPrimaryColor
+                                : kSecondaryColor),
                       ),
+                      backgroundColor: selectedValue == 'All'
+                          ? kSecondaryColor
+                          : kPrimaryColor,
                     ),
                   ),
-                  ..._genre.map((e) => Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 12, 6),
-                        child: GestureDetector(
-                          onTap: () {
-                            selectedFunction(e);
-                          },
-                          child: Chip(
-                            elevation: 0,
-                            shadowColor: kPrimaryColor,
-                            clipBehavior: Clip.antiAlias,
-                            backgroundColor: selectedValue == e
-                                ? kSecondaryColor
-                                : kPrimaryColor,
-                            label: Text(
-                              e,
-                              style: TextStyle(
-                                  color: selectedValue == e
-                                      ? kPrimaryColor
-                                      : kSecondaryColor),
-                            ),
+                ),
+                ..._genre.map((e) => Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 12, 6),
+                      child: GestureDetector(
+                        onTap: () {
+                          selectedFunction(e);
+                        },
+                        child: Chip(
+                          elevation: 0,
+                          shadowColor: kPrimaryColor,
+                          clipBehavior: Clip.antiAlias,
+                          backgroundColor: selectedValue == e
+                              ? kSecondaryColor
+                              : kPrimaryColor,
+                          label: Text(
+                            e,
+                            style: TextStyle(
+                                color: selectedValue == e
+                                    ? kPrimaryColor
+                                    : kSecondaryColor),
                           ),
                         ),
-                      ))
-                ],
-              )),
+                      ),
+                    ))
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -228,9 +229,9 @@ class _AnimeGenresResultsState extends State<AnimeGenresResults> {
     7: 'July',
     8: 'August',
     9: 'Sept',
-    10: 'Octo',
-    11: 'Nove',
-    12: 'Dece'
+    10: 'Oct',
+    11: 'Nov',
+    12: 'Dec'
   };
   convertToMonth({required date}) {
     return _mon[date];
@@ -270,7 +271,6 @@ class _AnimeGenresResultsState extends State<AnimeGenresResults> {
                           itemCount: _anime.length,
                           itemBuilder: (context, index) {
                             return AnimeCard(
-                              topOrNot: true,
                               malId: _anime[index].malId,
                               title: _anime[index].title,
                               episodes: _anime[index].episodes,
@@ -283,31 +283,6 @@ class _AnimeGenresResultsState extends State<AnimeGenresResults> {
                                         date: _anime[index].airingStart.month) +
                                     ' ${_anime[index].airingStart.year}'
                               ],
-                              // related: Related(adaptation: [
-                              //   Genre(malId: 1, name: '', type: '', url: '')
-                              // ], alternativeVersion: [
-                              //   Genre(malId: -1, type: '', name: '', url: '')
-                              // ], sideStory: [
-                              //   Genre(malId: -1, type: '', name: '', url: '')
-                              // ], spinOff: [
-                              //   Genre(malId: -1, type: '', name: '', url: '')
-                              // ], alternativeSetting: [
-                              //   Genre(malId: -1, type: '', name: '', url: '')
-                              // ], sequel: [
-                              //   Genre(malId: -1, type: '', name: '', url: '')
-                              // ], other: [
-                              //   Genre(malId: -1, type: '', name: '', url: '')
-                              // ], prequel: [
-                              //   Genre(malId: -1, type: '', name: '', url: '')
-                              // ], summary: [
-                              //   Genre(malId: -1, type: '', name: '', url: '')
-                              // ], character: [
-                              //   Genre(malId: -1, type: '', name: '', url: '')
-                              // ], parentStory: [
-                              //   Genre(malId: -1, type: '', name: '', url: '')
-                              // ], fullStory: [
-                              //   Genre(malId: -1, type: '', name: '', url: '')
-                              // ])
                             );
                           }),
                     ),
@@ -323,12 +298,12 @@ class AnimeTopRated extends StatefulWidget {
 }
 
 class _AnimeTopRatedState extends State<AnimeTopRated> {
-  final HttpAnimeServices _httpTopAnimeServices = HttpAnimeServices();
-  late Future<AnimeTopModel> _topAnime;
+  final AnimeHTTPServices _animeHTTPServices = AnimeHTTPServices();
+  late Future<AnimeBySeasonModel> _topAnime;
   @override
   void initState() {
     super.initState();
-    _topAnime = _httpTopAnimeServices.getTopAnime();
+    _topAnime = _animeHTTPServices.getAnimeTop(page: 1);
   }
 
   @override
@@ -342,18 +317,18 @@ class _AnimeTopRatedState extends State<AnimeTopRated> {
       child: Container(
         child: FutureBuilder(
           future: _topAnime,
-          builder:
-              (BuildContext context, AsyncSnapshot<AnimeTopModel> snapshot) {
+          builder: (BuildContext context,
+              AsyncSnapshot<AnimeBySeasonModel> snapshot) {
             if (snapshot.hasData) {
-              AnimeTopModel? anime = snapshot.data;
-              List<Top> erer = anime!.top;
+              List<AnimeDataList>? anime = snapshot.data!.data;
+              print(anime![10].title);
               return Container(
                 color: kPrimaryColor,
                 child: RefreshIndicator(
                   color: kSecondaryColor,
                   backgroundColor: kPrimaryColor,
                   onRefresh: () {
-                    return _httpTopAnimeServices.getTopAnime(isRefresh: true);
+                    return _animeHTTPServices.getAnimeTop(page: 1);
                   },
                   child: ScrollConfiguration(
                     behavior: ScrollBehavior(),
@@ -361,60 +336,27 @@ class _AnimeTopRatedState extends State<AnimeTopRated> {
                       axisDirection: AxisDirection.down,
                       color: kSecondaryColor,
                       child: GridView.count(
-                          childAspectRatio: (itemWidth / itemHeight),
-                          crossAxisSpacing: 5,
-                          mainAxisSpacing: 5,
-                          crossAxisCount: 2,
-                          children: [
-                            ...erer.map((Top ani) => AnimeCard(
-                                  topOrNot: true,
-                                  imageUrl: ani.imageUrl,
-                                  malId: ani.malId,
-                                  rank: ani.rank,
-                                  title: ani.title,
-                                  score: ani.score,
-                                  episodes: ani.episodes,
-                                  genres: [],
-                                  aired: [ani.startDate],
-                                  status: '',
-                                  // related: Related(adaptation: [
-                                  //   Genre(malId: 1, type: '', name: '', url: '')
-                                  // ], alternativeVersion: [
-                                  //   Genre(
-                                  //       malId: -1, type: '', name: '', url: '')
-                                  // ], sideStory: [
-                                  //   Genre(
-                                  //       malId: -1, type: '', name: '', url: '')
-                                  // ], spinOff: [
-                                  //   Genre(
-                                  //       malId: -1, type: '', name: '', url: '')
-                                  // ], alternativeSetting: [
-                                  //   Genre(
-                                  //       malId: -1, type: '', name: '', url: '')
-                                  // ], sequel: [
-                                  //   Genre(
-                                  //       malId: -1, type: '', name: '', url: '')
-                                  // ], other: [
-                                  //   Genre(
-                                  //       malId: -1, type: '', name: '', url: '')
-                                  // ], prequel: [
-                                  //   Genre(
-                                  //       malId: -1, type: '', name: '', url: '')
-                                  // ], summary: [
-                                  //   Genre(
-                                  //       malId: -1, type: '', name: '', url: '')
-                                  // ], character: [
-                                  //   Genre(
-                                  //       malId: -1, type: '', name: '', url: '')
-                                  // ], parentStory: [
-                                  //   Genre(
-                                  //       malId: -1, type: '', name: '', url: '')
-                                  // ], fullStory: [
-                                  //   Genre(
-                                  //       malId: -1, type: '', name: '', url: '')
-                                  // ]),
-                                )),
-                          ]),
+                        childAspectRatio: (itemWidth / itemHeight),
+                        crossAxisSpacing: 5,
+                        mainAxisSpacing: 5,
+                        crossAxisCount: 2,
+                        children: [
+                          ...anime.map(
+                            (AnimeDataList ani) => AnimeCard(
+                              imageUrl: ani.images!['jpg']!.imageUrl,
+                              malId: ani.malId,
+                              title: ani.title!,
+                              rank: ani.rank!,
+                              score: ani.score!,
+                              episodes: ani.episodes!,
+                              genres: [],
+                              aired: [ani.aired!.string],
+                              status: '',
+                              popularity: ani.popularity!,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

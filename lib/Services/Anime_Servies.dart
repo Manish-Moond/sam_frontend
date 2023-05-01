@@ -179,7 +179,7 @@ class AnimeHTTPServices {
       String season = "",
       int page = 1,
       bool isRefreshed = false}) async {
-    // TODO: cache refreshing after some time 
+    // TODO: cache refreshing after some time
     if (year != 0) {
       var _isCacheExist =
           await APICacheManager().isAPICacheKeyExist('animeSeason$year$season');
@@ -275,7 +275,6 @@ class AnimeHTTPServices {
         }
       } else {
         var cacheData = await APICacheManager().getCacheData('animeSeasonNow');
-        print("YEs");
         return AnimeBySeasonModelFromJson(cacheData.syncData);
       }
     }
@@ -287,6 +286,26 @@ class AnimeHTTPServices {
 
     if (res.statusCode == 200) {
       return AnimeDataListFromJson(res.body);
+    } else {
+      throw Exception("Error");
+    }
+  }
+
+  Future<AnimeBySeasonModel> getAnimeTop({required int page}) async {
+    final res = await http
+        .get(Uri.parse("https://api.jikan.moe/v4/top/anime?page=$page"));
+    if (res.statusCode == 200) {
+      return AnimeBySeasonModelFromJson(res.body);
+    } else {
+      throw Exception("Error");
+    }
+  }
+
+  Future<AnimeBySeasonModel> getAnimeByGenres({required int genreNum}) async {
+    final res = await http
+        .get(Uri.parse("https://api.jikan.moe/v4/anime?genres=$genreNum"));
+    if (res.statusCode == 200) {
+      return AnimeBySeasonModelFromJson(res.body);
     } else {
       throw Exception("Error");
     }

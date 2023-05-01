@@ -21,7 +21,6 @@ class RRAnime extends StatelessWidget {
               if (snapshot.hasData) {
                 AnimeModel? _anime = snapshot.data;
                 return AnimeCard(
-                  topOrNot: false,
                   imageUrl: _anime!.imageUrl,
                   malId: _anime.malId,
                   rank: _anime.rank,

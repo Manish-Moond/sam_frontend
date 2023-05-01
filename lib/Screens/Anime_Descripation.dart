@@ -2,12 +2,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:sam_frontend/Constant/Colors.dart';
-import 'package:sam_frontend/Models/Anime_Model.dart';
-import 'package:sam_frontend/Services/Anime_Servies.dart';
 import 'package:sam_frontend/Widgets/ADMore.dart';
 
-class AnimeDescripation extends StatefulWidget {
-  final bool topOrNot;
+class AnimeDescripation extends StatelessWidget {
   final List<String?>? aired;
   final int episodes;
   final List<String?> genres;
@@ -15,7 +12,6 @@ class AnimeDescripation extends StatefulWidget {
   final int? malId;
   final int popularity;
   final int rank;
-  // final Related related;
   final double score;
   final String source;
   final String status;
@@ -25,7 +21,6 @@ class AnimeDescripation extends StatefulWidget {
 
   AnimeDescripation({
     Key? key,
-    this.topOrNot = false,
     this.aired,
     required this.episodes,
     required this.genres,
@@ -42,75 +37,27 @@ class AnimeDescripation extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _AnimeDescripationState createState() => _AnimeDescripationState();
-}
-
-class _AnimeDescripationState extends State<AnimeDescripation> {
-  final HttpAnimeServices _animeServices = HttpAnimeServices();
-
-  late Future<AnimeModel> _animeDec;
-  @override
-  void initState() {
-    super.initState();
-    _animeDec = _animeServices.getAnime(malId: 0);
-  }
-
-  @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
       body: CustomPaint(
         painter: BackgroundPainter(size),
-        child: widget.topOrNot == true
-            ? Container(
-                child: FutureBuilder(
-                  future: _animeDec,
-                  builder: (context, AsyncSnapshot<AnimeModel> snapshot) {
-                    if (snapshot.hasData) {
-                      AnimeModel? _anime = snapshot.data;
-                      return ADMore(
-                        malId: _anime!.malId,
-                        rank: _anime.rank,
-                        title: _anime.title,
-                        imageUrl: _anime.imageUrl,
-                        type: _anime.type,
-                        episodes: _anime.episodes,
-                        aired: _anime.aired,
-                        score: _anime.score,
-                        synopsis: _anime.synopsis,
-                        popularity: _anime.popularity,
-                        genre: _anime.genres,
-                        // related: _anime.related,
-                      );
-                    }
-                    return Container(
-                      color: kPrimaryColor,
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          color: kSecondaryColor,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              )
-            : Container(
-                child: ADMore(
-                  topOrNot: widget.topOrNot,
-                  malId: widget.malId,
-                  episodes: widget.episodes,
-                  type: widget.type,
-                  popularity: widget.popularity,
-                  aired: widget.aired!,
-                  rank: widget.rank,
-                  imageUrl: widget.imageUrl,
-                  score: widget.score,
-                  synopsis: widget.synopsis,
-                  title: widget.title,
-                  genre: widget.genres,
-                  // related: widget.related,
-                ),
-              ),
+        child: Container(
+          child: ADMore(
+            malId: malId,
+            episodes: episodes,
+            type: type,
+            popularity: popularity,
+            aired: aired!,
+            rank: rank,
+            imageUrl: imageUrl,
+            score: score,
+            synopsis: synopsis,
+            title: title,
+            genre: genres,
+            // related: widget.related,
+          ),
+        ),
       ),
     );
   }

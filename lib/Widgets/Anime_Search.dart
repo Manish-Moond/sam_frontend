@@ -103,7 +103,6 @@ class _AnimeSearchedByNameState extends State<AnimeSearchedByName> {
                     itemCount: _anime.length,
                     itemBuilder: (context, index) {
                       return AnimeCard(
-                          topOrNot: true,
                           malId: _anime[index].malId,
                           title: _anime[index].title,
                           episodes: _anime[index].episodes,

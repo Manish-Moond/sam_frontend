@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
 
 class ADMore extends StatelessWidget {
-  final bool topOrNot;
   final int rank;
   final String title;
   final int? malId;
@@ -21,7 +20,6 @@ class ADMore extends StatelessWidget {
   const ADMore({
     Key? key,
     this.malId = 0,
-    this.topOrNot = false,
     required this.rank,
     required this.title,
     required this.imageUrl,
@@ -248,8 +246,7 @@ class ADMore extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  "$aired[0]}",
-                                  // _date(aired),
+                                  "${aired[0]}",
                                   style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.normal,

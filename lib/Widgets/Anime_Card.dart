@@ -4,7 +4,6 @@ import 'package:sam_frontend/Screens/Anime_Descripation.dart';
 import 'package:sam_frontend/Widgets/Anime_Modal.dart';
 
 class AnimeCard extends StatelessWidget {
-  final bool topOrNot;
   final List<String?> aired;
   final int episodes;
   final List<String?> genres;
@@ -20,7 +19,7 @@ class AnimeCard extends StatelessWidget {
   final String title;
   final String type;
   const AnimeCard(
-      {this.topOrNot = false,
+      {
       this.malId = 0,
       this.imageUrl = '',
       this.title = '',
@@ -51,7 +50,6 @@ class AnimeCard extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (BuildContext context) => AnimeDescripation(
-                    topOrNot: topOrNot,
                     title: title,
                     malId: malId,
                     imageUrl: imageUrl!,

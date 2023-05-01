@@ -92,7 +92,6 @@ class _AnimeThisSeasonState extends State<AnimeThisSeason> {
                     itemCount: _data.length,
                     itemBuilder: (context, index) {
                       return AnimeCard(
-                        topOrNot: false,
                         malId: _data[index].malId,
                         title: _data[index].title!,
                         imageUrl: _data[index].images!['jpg']!.imageUrl,
@@ -102,9 +101,7 @@ class _AnimeThisSeasonState extends State<AnimeThisSeason> {
                         rank: _data[index].rank!,
                         popularity: _data[index].popularity!,
                         genres: _convertGenreToList(_data[index].genres!),
-                        aired: [
-                          _data[index].aired?.string
-                        ],
+                        aired: [_data[index].aired?.string],
                         // status:  _anime.status!,
                       );
                     },
