@@ -299,11 +299,37 @@ class AnimeTopRated extends StatefulWidget {
 
 class _AnimeTopRatedState extends State<AnimeTopRated> {
   final AnimeHTTPServices _animeHTTPServices = AnimeHTTPServices();
-  late Future<AnimeBySeasonModel> _topAnime;
+  ScrollController _scrollController = ScrollController();
+  List<AnimeDataList> _animeList = [];
+  int _page = 1;
+  bool _isLodingMore = false;
+
+  filler(value) {
+    setState(() {
+      _animeList.addAll(value.data);
+      _isLodingMore = false;
+    });
+  }
+
+  Future<void> _scrolleListener() async {
+    if (_isLodingMore) return;
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      setState(() {
+        _isLodingMore = true;
+      });
+      _page += 1;
+      await _animeHTTPServices
+          .getAnimeTop(page: _page)
+          .then((value) => filler(value));
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    _topAnime = _animeHTTPServices.getAnimeTop(page: 1);
+    _animeHTTPServices.getAnimeTop(page: 1).then((value) => filler(value));
+    _scrollController.addListener(_scrolleListener);
   }
 
   @override
@@ -315,64 +341,53 @@ class _AnimeTopRatedState extends State<AnimeTopRated> {
 
     return Expanded(
       child: Container(
-        child: FutureBuilder(
-          future: _topAnime,
-          builder: (BuildContext context,
-              AsyncSnapshot<AnimeBySeasonModel> snapshot) {
-            if (snapshot.hasData) {
-              List<AnimeDataList>? anime = snapshot.data!.data;
-              print(anime![10].title);
-              return Container(
-                color: kPrimaryColor,
-                child: RefreshIndicator(
-                  color: kSecondaryColor,
-                  backgroundColor: kPrimaryColor,
-                  onRefresh: () {
-                    return _animeHTTPServices.getAnimeTop(page: 1);
-                  },
-                  child: ScrollConfiguration(
-                    behavior: ScrollBehavior(),
-                    child: GlowingOverscrollIndicator(
-                      axisDirection: AxisDirection.down,
-                      color: kSecondaryColor,
-                      child: GridView.count(
-                        childAspectRatio: (itemWidth / itemHeight),
-                        crossAxisSpacing: 5,
-                        mainAxisSpacing: 5,
-                        crossAxisCount: 2,
-                        children: [
-                          ...anime.map(
-                            (AnimeDataList ani) => AnimeCard(
-                              imageUrl: ani.images!['jpg']!.imageUrl,
-                              malId: ani.malId,
-                              title: ani.title!,
-                              rank: ani.rank!,
-                              score: ani.score!,
-                              episodes: ani.episodes!,
-                              genres: [],
-                              aired: [ani.aired!.string],
-                              status: '',
-                              popularity: ani.popularity!,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            } else if (snapshot.hasError) {
-              return Text('No Anime');
-            }
-            return Container(
-              color: kPrimaryColor,
-              child: Center(
-                child: CircularProgressIndicator(
-                  color: kSecondaryColor,
-                ),
-              ),
-            );
+        color: kPrimaryColor,
+        child: RefreshIndicator(
+          color: kSecondaryColor,
+          backgroundColor: kPrimaryColor,
+          onRefresh: () async {
+            _animeList = [];
+            await _animeHTTPServices
+                .getAnimeTop(page: 1)
+                .then((value) => filler(value));
+            throw Exception("manish");
           },
+          child: _animeList.isEmpty
+              ? Center(
+                  child: CircularProgressIndicator(color: kSecondaryColor),
+                )
+              : GridView.builder(
+                  controller: _scrollController,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 5,
+                      mainAxisSpacing: 5,
+                      childAspectRatio: (itemWidth / itemHeight)),
+                  itemCount:
+                      _isLodingMore ? _animeList.length + 1 : _animeList.length,
+                  itemBuilder: (context, index) {
+                    if (index < _animeList.length) {
+                      return AnimeCard(
+                        imageUrl: _animeList[index].images!['jpg']!.imageUrl,
+                        malId: _animeList[index].malId,
+                        title: _animeList[index].title!,
+                        rank: _animeList[index].rank!,
+                        score: _animeList[index].score!,
+                        episodes: _animeList[index].episodes!,
+                        genres: [],
+                        aired: [_animeList[index].aired!.string],
+                        status: '',
+                        popularity: _animeList[index].popularity!,
+                      );
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: kSecondaryColor,
+                        ),
+                      );
+                    }
+                  },
+                ),
         ),
       ),
     );

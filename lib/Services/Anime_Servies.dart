@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:api_cache_manager/api_cache_manager.dart';
 import 'package:api_cache_manager/models/cache_db_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
 import 'package:sam_frontend/Models/Anime_Model.dart';
 import 'package:sam_frontend/Models/Anime_RR_Model.dart';
@@ -292,9 +293,24 @@ class AnimeHTTPServices {
   }
 
   Future<AnimeBySeasonModel> getAnimeTop({required int page}) async {
+    var _isCacheExist = await APICacheManager().isAPICacheKeyExist('animeTop');
+    final now = DateTime.now();
+
+    if (_isCacheExist && page == 1) {
+      var cacheData = await APICacheManager().getCacheData('animeTop');
+      Timestamp timestampNow = Timestamp.fromDate(now);
+      if (timestampNow.seconds - (cacheData.syncTime!) ~/ 1000 < 130000)
+        return AnimeBySeasonModelFromJson(cacheData.syncData);
+    }
+
     final res = await http
         .get(Uri.parse("https://api.jikan.moe/v4/top/anime?page=$page"));
     if (res.statusCode == 200) {
+      if (page == 1) {
+        APICacheDBModel cacheDBModel =
+            new APICacheDBModel(key: 'animeTop', syncData: res.body);
+        APICacheManager().addCacheData(cacheDBModel);
+      }
       return AnimeBySeasonModelFromJson(res.body);
     } else {
       throw Exception("Error");
