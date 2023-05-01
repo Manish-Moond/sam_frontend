@@ -317,9 +317,10 @@ class AnimeHTTPServices {
     }
   }
 
-  Future<AnimeBySeasonModel> getAnimeByGenres({required int genreNum}) async {
-    final res = await http
-        .get(Uri.parse("https://api.jikan.moe/v4/anime?genres=$genreNum"));
+  Future<AnimeBySeasonModel> getAnimeByGenres(
+      {required int genreNum, required int page}) async {
+    final res = await http.get(Uri.parse(
+        "https://api.jikan.moe/v4/anime?genres=$genreNum&page=$page"));
     if (res.statusCode == 200) {
       return AnimeBySeasonModelFromJson(res.body);
     } else {

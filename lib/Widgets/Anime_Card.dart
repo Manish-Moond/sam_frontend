@@ -11,7 +11,6 @@ class AnimeCard extends StatelessWidget {
   final int? malId;
   final int popularity;
   final int rank;
-  // final Related related;
   final double score;
   final String source;
   final String status;
@@ -19,8 +18,7 @@ class AnimeCard extends StatelessWidget {
   final String title;
   final String type;
   const AnimeCard(
-      {
-      this.malId = 0,
+      {this.malId = 0,
       this.imageUrl = '',
       this.title = '',
       this.type = '',
@@ -31,12 +29,17 @@ class AnimeCard extends StatelessWidget {
       this.rank = -1,
       this.popularity = -1,
       this.synopsis = '',
-      // required this.related,
       required this.genres,
       this.status = ""});
 
   @override
   Widget build(BuildContext context) {
+    var _aired = aired[0]!.split(" ");
+    if (_aired.length < 3) {
+      for (int i = 0; i < 3; i++) {
+        _aired.add(" ");
+      }
+    }
     var size = MediaQuery.of(context).size;
     return Container(
       child: Card(
@@ -106,7 +109,7 @@ class AnimeCard extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                Text("${aired[0]}".substring(0, 11)),
+                                Text("${_aired[0]} ${_aired[1]} ${_aired[2]}"),
                                 SizedBox(
                                   width: size.width * 0.03,
                                 ),
