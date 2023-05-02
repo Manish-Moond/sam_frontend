@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
-import 'package:sam_frontend/Models/Anime_Model.dart';
-import 'package:sam_frontend/Models/Anime_Search_By_Name_Model.dart';
+import 'package:sam_frontend/Models/anime_by_season_model.dart';
 import 'package:sam_frontend/Services/Anime_Servies.dart';
 import 'package:sam_frontend/Widgets/Anime_Card.dart';
 
@@ -15,33 +14,41 @@ class AnimeSearchedByName extends StatefulWidget {
 }
 
 class _AnimeSearchedByNameState extends State<AnimeSearchedByName> {
-  final HttpAnimeServices _httpAnimeServices = HttpAnimeServices();
-  List<SearchAnimeResult> _anime = [];
+  AnimeHTTPServices _animeHTTPServices = AnimeHTTPServices();
   ScrollController _scrollController = ScrollController();
+  List<AnimeDataList> _anime = [];
+  bool _isLodingMore = false;
+  bool _hasMore = true;
   int _page = 1;
   void filler(value) {
     setState(() {
-      for (int i = 0; i < value.searchAnimeResult.length; i++) {
-        _anime.add(value.searchAnimeResult[i]);
-      }
+      _hasMore = value.pagination.hasNextPage!;
+      _anime.addAll(value.data);
     });
+  }
+
+  Future<void> _scrolleListener() async {
+    if (!_hasMore) return;
+    if (_isLodingMore) return;
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      setState(() {
+        _isLodingMore = true;
+      });
+      _page += 1;
+      await _animeHTTPServices
+          .getAnimeBySeasch(name: widget.search, page: _page)
+          .then((value) => filler(value));
+    }
   }
 
   @override
   void initState() {
     super.initState();
-    _httpAnimeServices
-        .getSearchByName(name: widget.search, page: _page)
+    _animeHTTPServices
+        .getAnimeBySeasch(name: widget.search, page: _page)
         .then((value) => filler(value));
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        _page += 1;
-        _httpAnimeServices
-            .getSearchByName(name: widget.search, page: _page)
-            .then((value) => filler(value));
-      }
-    });
+    _scrollController.addListener(_scrolleListener);
   }
 
   @override
@@ -49,29 +56,11 @@ class _AnimeSearchedByNameState extends State<AnimeSearchedByName> {
     if (this.widget.search != oldWidget.search) {
       _anime = [];
       _page = 1;
-      _httpAnimeServices
-          .getSearchByName(name: widget.search, page: _page)
+      _animeHTTPServices
+          .getAnimeBySeasch(name: widget.search, page: _page)
           .then((value) => filler(value));
     }
     super.didUpdateWidget(oldWidget);
-  }
-
-  Map<int, String> _mon = {
-    1: 'Jan',
-    2: 'Febr',
-    3: 'March',
-    4: 'April',
-    5: 'May',
-    6: 'June',
-    7: 'July',
-    8: 'August',
-    9: 'Sept',
-    10: 'Octo',
-    11: 'Nove',
-    12: 'Dece'
-  };
-  convertToMonth({required date}) {
-    return _mon[date];
   }
 
   @override
@@ -88,60 +77,40 @@ class _AnimeSearchedByNameState extends State<AnimeSearchedByName> {
                 child: CircularProgressIndicator(
                   color: kSecondaryColor,
                 ),
-              ))
-          : ScrollConfiguration(
-              behavior: ScrollBehavior(),
-              child: GlowingOverscrollIndicator(
-                axisDirection: AxisDirection.down,
-                color: kSecondaryColor,
-                child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      childAspectRatio: (itemWidth / itemHeight),
-                      crossAxisCount: 2,
-                    ),
-                    controller: _scrollController,
-                    itemCount: _anime.length,
-                    itemBuilder: (context, index) {
-                      return AnimeCard(
-                          malId: _anime[index].malId,
-                          title: _anime[index].title,
-                          episodes: _anime[index].episodes,
-                          genres: [''],
-                          status: 'Dont Know',
-                          imageUrl: _anime[index].imageUrl,
-                          score: _anime[index].score,
-                          aired: [
-                            convertToMonth(
-                                    date: _anime[index].startDate.month) +
-                                ' ${_anime[index].startDate.year}'
-                          ],
-                          // related: Related(adaptation: [
-                          //   Genre(malId: 1, name: '', type: '', url: '')
-                          // ], alternativeVersion: [
-                          //   Genre(malId: -1, type: '', name: '', url: '')
-                          // ], sideStory: [
-                          //   Genre(malId: -1, type: '', name: '', url: '')
-                          // ], spinOff: [
-                          //   Genre(malId: -1, type: '', name: '', url: '')
-                          // ], alternativeSetting: [
-                          //   Genre(malId: -1, type: '', name: '', url: '')
-                          // ], sequel: [
-                          //   Genre(malId: -1, type: '', name: '', url: '')
-                          // ], other: [
-                          //   Genre(malId: -1, type: '', name: '', url: '')
-                          // ], prequel: [
-                          //   Genre(malId: -1, type: '', name: '', url: '')
-                          // ], summary: [
-                          //   Genre(malId: -1, type: '', name: '', url: '')
-                          // ], character: [
-                          //   Genre(malId: -1, type: '', name: '', url: '')
-                          // ], parentStory: [
-                          //   Genre(malId: -1, type: '', name: '', url: '')
-                          // ], fullStory: [
-                          //   Genre(malId: -1, type: '', name: '', url: '')
-                          // ])
-                          );
-                    }),
+              ),
+            )
+          : GlowingOverscrollIndicator(
+              axisDirection: AxisDirection.down,
+              color: kSecondaryColor,
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  childAspectRatio: (itemWidth / itemHeight),
+                  crossAxisCount: 2,
+                ),
+                controller: _scrollController,
+                itemCount: _isLodingMore ? _anime.length + 1 : _anime.length,
+                itemBuilder: (context, index) {
+                  if (index < _anime.length) {
+                    return AnimeCard(
+                      malId: _anime[index].malId,
+                      title: _anime[index].title!,
+                      imageUrl: _anime[index].images!['jpg']!.imageUrl,
+                      rank: _anime[index].rank!,
+                      score: _anime[index].score!,
+                      episodes: _anime[index].episodes!,
+                      genres: [],
+                      aired: [_anime[index].aired!.string],
+                      status: '',
+                      popularity: _anime[index].popularity!,
+                    );
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: kSecondaryColor,
+                      ),
+                    );
+                  }
+                },
               ),
             ),
     );

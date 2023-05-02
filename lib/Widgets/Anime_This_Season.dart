@@ -13,34 +13,43 @@ class AnimeThisSeason extends StatefulWidget {
 }
 
 class _AnimeThisSeasonState extends State<AnimeThisSeason> {
-  final List<AnimeDataList> _data = [];
+  AnimeHTTPServices _animeHTTPServices = AnimeHTTPServices();
   final ScrollController _scrollController = ScrollController();
+  final List<AnimeDataList> _anime = [];
+  bool _isLodingMore = false;
+  bool _hasMore = true;
   int _page = 1;
-  bool _loading = true;
 
-  Future<AnimeBySeasonModel> getData({isRefreshed = false}) async {
-    var res = await AnimeHTTPServices()
-        .getAnimeBySeason(page: _page, isRefreshed: isRefreshed);
-    _data.addAll(res.data!);
+  void filler(value) {
     setState(() {
-      _loading = false;
+      _hasMore = value.pagination.hasNextPage!;
+      _anime.addAll(value.data);
+      _isLodingMore = false;
     });
-    return res;
+  }
+
+  Future<void> _scrolleListener() async {
+    if (!_hasMore) return;
+    if (_isLodingMore) return;
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      setState(() {
+        _isLodingMore = true;
+      });
+      _page += 1;
+      await _animeHTTPServices
+          .getAnimeBySeason(page: _page)
+          .then((value) => filler(value));
+    }
   }
 
   @override
   void initState() {
     super.initState();
-    _loading = true;
-    getData();
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        _page += 1;
-        _loading = true;
-        getData();
-      }
-    });
+    _animeHTTPServices
+        .getAnimeBySeason(page: _page)
+        .then((value) => filler(value));
+    _scrollController.addListener(_scrolleListener);
   }
 
 // make genre list from List<Map>
@@ -57,7 +66,7 @@ class _AnimeThisSeasonState extends State<AnimeThisSeason> {
     var size = MediaQuery.of(context).size;
     final double itemHeight = (size.height - size.height * 0.14) / 2;
     final double itemWidth = size.width / 2;
-    return _loading
+    return _anime.isEmpty
         ? Container(
             color: kPrimaryColor,
             child: Center(
@@ -69,44 +78,40 @@ class _AnimeThisSeasonState extends State<AnimeThisSeason> {
         : Container(
             color: kPrimaryColor,
             height: 200,
-            child: RefreshIndicator(
+            child: GlowingOverscrollIndicator(
+              axisDirection: AxisDirection.down,
               color: kSecondaryColor,
-              backgroundColor: kPrimaryColor,
-              onRefresh: () {
-                _page = 1;
-                // _loading = true;
-                return getData(isRefreshed: true);
-              },
-              child: ScrollConfiguration(
-                behavior: ScrollBehavior(),
-                child: GlowingOverscrollIndicator(
-                  axisDirection: AxisDirection.down,
-                  color: kSecondaryColor,
-                  child: GridView.builder(
-                    controller: _scrollController,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 5,
-                        mainAxisSpacing: 5,
-                        childAspectRatio: (itemWidth / itemHeight)),
-                    itemCount: _data.length,
-                    itemBuilder: (context, index) {
-                      return AnimeCard(
-                        malId: _data[index].malId,
-                        title: _data[index].title!,
-                        imageUrl: _data[index].images!['jpg']!.imageUrl,
-                        score: _data[index].score!,
-                        episodes: _data[index].episodes!,
-                        type: _data[index].type!,
-                        rank: _data[index].rank!,
-                        popularity: _data[index].popularity!,
-                        genres: _convertGenreToList(_data[index].genres!),
-                        aired: [_data[index].aired?.string],
-                        // status:  _anime.status!,
-                      );
-                    },
-                  ),
-                ),
+              child: GridView.builder(
+                controller: _scrollController,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 5,
+                    mainAxisSpacing: 5,
+                    childAspectRatio: (itemWidth / itemHeight)),
+                itemCount: _isLodingMore ? _anime.length + 1 : _anime.length,
+                itemBuilder: (context, index) {
+                  if (index < _anime.length) {
+                    return AnimeCard(
+                      malId: _anime[index].malId,
+                      title: _anime[index].title!,
+                      imageUrl: _anime[index].images!['jpg']!.imageUrl,
+                      score: _anime[index].score!,
+                      episodes: _anime[index].episodes!,
+                      type: _anime[index].type!,
+                      rank: _anime[index].rank!,
+                      popularity: _anime[index].popularity!,
+                      genres: _convertGenreToList(_anime[index].genres!),
+                      aired: [_anime[index].aired?.string],
+                      // status:  _anime.status!,
+                    );
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: kSecondaryColor,
+                      ),
+                    );
+                  }
+                },
               ),
             ),
           );

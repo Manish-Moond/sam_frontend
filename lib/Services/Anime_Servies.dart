@@ -176,108 +176,54 @@ class HttpAnimeServices {
 
 class AnimeHTTPServices {
   Future<AnimeBySeasonModel> getAnimeBySeason(
-      {int year = 0,
-      String season = "",
-      int page = 1,
-      bool isRefreshed = false}) async {
-    // TODO: cache refreshing after some time
+      {int year = 0, String season = "", int page = 1}) async {
     if (year != 0) {
       var _isCacheExist =
           await APICacheManager().isAPICacheKeyExist('animeSeason$year$season');
+      final now = DateTime.now();
 
-      if (isRefreshed) {
-        final res = await http.get(Uri.parse(
-            "https://api.jikan.moe/v4/seasons/$year/$season?page=$page"));
-
-        if (res.statusCode == 200) {
-          APICacheDBModel cacheDBModel = new APICacheDBModel(
-              key: 'animeSeason$year$season', syncData: res.body);
-          APICacheManager().addCacheData(cacheDBModel);
-
-          print(AnimeBySeasonModelFromJson(res.body).data![0].title);
-
-          return AnimeBySeasonModelFromJson(res.body);
-        } else {
-          throw Exception("Error");
-        }
-      }
-
-      if (!_isCacheExist) {
-        final res = await http.get(Uri.parse(
-            "https://api.jikan.moe/v4/seasons/$year/$season?page=$page"));
-
-        if (res.statusCode == 200) {
-          APICacheDBModel cacheDBModel = new APICacheDBModel(
-              key: 'animeSeason$year$season', syncData: res.body);
-          APICacheManager().addCacheData(cacheDBModel);
-
-          print(AnimeBySeasonModelFromJson(res.body).data![0].title);
-
-          return AnimeBySeasonModelFromJson(res.body);
-        } else {
-          throw Exception("Error");
-        }
-      } else {
-        final cacheData =
+      if (_isCacheExist) {
+        var cacheData =
             await APICacheManager().getCacheData('animeSeason$year$season');
-        return AnimeBySeasonModelFromJson(cacheData.syncData);
+        Timestamp timestampNow = Timestamp.fromDate(now);
+        if (timestampNow.seconds - (cacheData.syncTime!) ~/ 1000 < 130000)
+          return AnimeBySeasonModelFromJson(cacheData.syncData);
       }
+
+      final res = await http.get(Uri.parse(
+          "https://api.jikan.moe/v4/seasons/$year/$season?page=$page"));
+      if (res.statusCode == 200) {
+        if (page == 1) {
+          APICacheDBModel cacheDBModel = new APICacheDBModel(
+              key: 'animeSeason$year$season', syncData: res.body);
+          APICacheManager().addCacheData(cacheDBModel);
+        }
+        return AnimeBySeasonModelFromJson(res.body);
+      }
+      throw Exception("Error from get anime by year and seasom");
     } else {
       var _isCacheExist =
           await APICacheManager().isAPICacheKeyExist('animeSeasonNow');
+      final now = DateTime.now();
 
-      if (isRefreshed) {
-        var res = await http
-            .get(Uri.parse("https://api.jikan.moe/v4/seasons/now?page=$page"));
-
-        // Adding data to local DB for performance
-        if (res.statusCode == 200) {
-          APICacheDBModel cacheDBModel =
-              new APICacheDBModel(key: 'animeSeasonNow', syncData: res.body);
-          APICacheManager().addCacheData(cacheDBModel);
-
-          return AnimeBySeasonModelFromJson(res.body);
-        } else {
-          throw Exception("Error");
-        }
-      }
-      if (page > 1) {
-        var res = await http
-            .get(Uri.parse("https://api.jikan.moe/v4/seasons/now?page=$page"));
-        if (res.statusCode == 200) {
-          return AnimeBySeasonModelFromJson(res.body);
-        } else {
-          throw Exception("Error");
-        }
-      }
-      //  else {
-      //   var res = await http
-      //       .get(Uri.parse("https://api.jikan.moe/v4/seasons/now?page=$page"));
-      //   if (res.statusCode == 200) {
-      //     return AnimeBySeasonModelFromJson(res.body);
-      //   } else {
-      //     throw Exception("Error");
-      //   }
-      // }
-
-      if (!_isCacheExist) {
-        var res = await http
-            .get(Uri.parse("https://api.jikan.moe/v4/seasons/now?page=$page"));
-
-        // Adding data to local DB for performance
-        if (res.statusCode == 200) {
-          APICacheDBModel cacheDBModel =
-              new APICacheDBModel(key: 'animeSeasonNow', syncData: res.body);
-          APICacheManager().addCacheData(cacheDBModel);
-
-          return AnimeBySeasonModelFromJson(res.body);
-        } else {
-          throw Exception("Error");
-        }
-      } else {
+      if (_isCacheExist && page == 1) {
         var cacheData = await APICacheManager().getCacheData('animeSeasonNow');
-        return AnimeBySeasonModelFromJson(cacheData.syncData);
+        Timestamp timestampNow = Timestamp.fromDate(now);
+        if (timestampNow.seconds - (cacheData.syncTime!) ~/ 1000 < 130000)
+          return AnimeBySeasonModelFromJson(cacheData.syncData);
       }
+
+      final res = await http
+          .get(Uri.parse("https://api.jikan.moe/v4/seasons/now?page=$page"));
+      if (res.statusCode == 200) {
+        if (page == 1) {
+          APICacheDBModel cacheDBModel =
+              new APICacheDBModel(key: 'animeSeasonNow', syncData: res.body);
+          APICacheManager().addCacheData(cacheDBModel);
+        }
+        return AnimeBySeasonModelFromJson(res.body);
+      }
+      throw Exception("Error from get anime by season now");
     }
   }
 
@@ -313,7 +259,7 @@ class AnimeHTTPServices {
       }
       return AnimeBySeasonModelFromJson(res.body);
     } else {
-      throw Exception("Error");
+      throw Exception("Error from get anime top");
     }
   }
 
@@ -326,5 +272,16 @@ class AnimeHTTPServices {
     } else {
       throw Exception("Error");
     }
+  }
+
+  Future<AnimeBySeasonModel> getAnimeBySeasch(
+      {required String name, required int page}) async {
+    print(name);
+    final res = await http
+        .get(Uri.parse("https://api.jikan.moe/v4/anime?letter=$name"));
+    if (res.statusCode == 200) {
+      return AnimeBySeasonModelFromJson(res.body);
+    }
+    throw Exception("Error from get anime by search");
   }
 }

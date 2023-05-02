@@ -440,15 +440,18 @@ class _AnimeGenresResultsState extends State<AnimeGenresResults> {
   List<AnimeDataList> _anime = [];
   int _page = 1;
   bool _isLodingMore = true;
+  bool _hasMore = true;
 
   void filler(value) {
     setState(() {
+      _hasMore = value.pagination.hasNextPage!;
       _anime.addAll(value.data);
       _isLodingMore = false;
     });
   }
 
   Future<void> _scrolleListener() async {
+    if (!_hasMore) return;
     if (_isLodingMore) return;
     if (_scrollController.position.pixels ==
         _scrollController.position.maxScrollExtent) {
@@ -547,17 +550,20 @@ class _AnimeTopRatedState extends State<AnimeTopRated> {
   final AnimeHTTPServices _animeHTTPServices = AnimeHTTPServices();
   ScrollController _scrollController = ScrollController();
   List<AnimeDataList> _animeList = [];
-  int _page = 1;
   bool _isLodingMore = false;
+  bool _hasMore = true;
+  int _page = 1;
 
   filler(value) {
     setState(() {
+      _hasMore = value.pagination.hasNextPage!;
       _animeList.addAll(value.data);
       _isLodingMore = false;
     });
   }
 
   Future<void> _scrolleListener() async {
+    if (!_hasMore) return;
     if (_isLodingMore) return;
     if (_scrollController.position.pixels ==
         _scrollController.position.maxScrollExtent) {
