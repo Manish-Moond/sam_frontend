@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
-import 'package:sam_frontend/Models/TvSeries_Model.dart';
+import 'package:sam_frontend/Models/Movies_Tv_Series_Model.dart';
 import 'package:sam_frontend/Services/TvSeries_Servies.dart';
 import 'package:sam_frontend/Widgets/MTVS_Genres.dart';
 import 'package:sam_frontend/Widgets/MTV_Card.dart';
@@ -110,7 +110,7 @@ class TvSeriesGenresResult extends StatefulWidget {
 
 class _TvSeriesGenresResultState extends State<TvSeriesGenresResult> {
   final HttpTvSeriesServices _httpTvSeriesServices = HttpTvSeriesServices();
-  List<Result> _movies = [];
+  List<MTSResultList> _tvSeries = [];
   ScrollController _scrollController = ScrollController();
   int _page = 1;
   Map<String, int> _genre = {
@@ -134,7 +134,7 @@ class _TvSeriesGenresResultState extends State<TvSeriesGenresResult> {
   void filler(value) {
     setState(() {
       for (int i = 0; i < value.results.length; i++) {
-        _movies.add(value.results[i]);
+        _tvSeries.add(value.results[i]);
       }
     });
   }
@@ -163,7 +163,7 @@ class _TvSeriesGenresResultState extends State<TvSeriesGenresResult> {
   @override
   void didUpdateWidget(covariant TvSeriesGenresResult oldWidget) {
     if (this.widget.selected != oldWidget.selected) {
-      _movies = [];
+      _tvSeries = [];
       _page = 1;
       _httpTvSeriesServices
           .getTSGenreResult(page: _page, genreId: _genre[widget.selected])
@@ -189,36 +189,45 @@ class _TvSeriesGenresResultState extends State<TvSeriesGenresResult> {
         SizedBox(
           height: size.height * 0.011,
         ),
-        Container(
-          height: size.height * 0.35,
-          child: ScrollConfiguration(
-            behavior: ScrollBehavior(),
-            child: GlowingOverscrollIndicator(
-              axisDirection: AxisDirection.right,
-              color: kSecondaryColor,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                controller: _scrollController,
-                itemCount: _movies.length,
-                itemBuilder: (context, index) {
-                  return MTVCard(
-                    movieOrNot: false,
-                    genres: _movies[index].genreIds,
-                    id: _movies[index].id,
-                    originalTitle: _movies[index].name,
-                    originalLanguage: _movies[index].originalLanguage,
-                    overview: _movies[index].overview,
-                    backdropPath: _movies[index].backdropPath,
-                    posterPath: _movies[index].posterPath,
-                    releaseDate: _movies[index].firstAirDate,
-                    title: _movies[index].name,
-                    voteAverage: _movies[index].voteAverage,
-                  );
-                },
+        _tvSeries.isEmpty
+            ? Container(
+                height: size.height * 0.35,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: kSecondaryColor,
+                  ),
+                ),
+              )
+            : Container(
+                height: size.height * 0.35,
+                child: ScrollConfiguration(
+                  behavior: ScrollBehavior(),
+                  child: GlowingOverscrollIndicator(
+                    axisDirection: AxisDirection.right,
+                    color: kSecondaryColor,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      controller: _scrollController,
+                      itemCount: _tvSeries.length,
+                      itemBuilder: (context, index) {
+                        return MTVCard(
+                          movieOrNot: false,
+                          genres: _tvSeries[index].genreIds,
+                          id: _tvSeries[index].id,
+                          originalTitle: _tvSeries[index].name,
+                          originalLanguage: _tvSeries[index].originalLanguage,
+                          overview: _tvSeries[index].overview,
+                          backdropPath: _tvSeries[index].backdropPath,
+                          posterPath: _tvSeries[index].posterPath,
+                          releaseDate: _tvSeries[index].firstAirDate,
+                          title: _tvSeries[index].name,
+                          voteAverage: _tvSeries[index].voteAverage,
+                        );
+                      },
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ),
-        ),
       ],
     );
   }
