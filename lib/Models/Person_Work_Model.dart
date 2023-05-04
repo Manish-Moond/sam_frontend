@@ -8,56 +8,159 @@ PersonWorkModel personWorkModelFromJson(String str) =>
     PersonWorkModel.fromJson(json.decode(str));
 
 class PersonWorkModel {
-  PersonWorkModel({
-    required this.work,
-  });
+  List<Work>? work;
+  List<Crew>? crew;
+  int? id;
 
-  final List<Work> work;
+  PersonWorkModel({
+    this.work,
+    this.crew,
+    this.id,
+  });
 
   factory PersonWorkModel.fromJson(Map<String, dynamic> json) =>
       PersonWorkModel(
-        work: List<Work>.from(json["work"].map((x) => Work.fromJson(x))),
+        work: json["cast"] == null
+            ? []
+            : List<Work>.from(json["cast"]!.map((x) => Work.fromJson(x))),
+        crew: json["crew"] == null
+            ? []
+            : List<Crew>.from(json["crew"]!.map((x) => Crew.fromJson(x))),
+        id: json["id"],
       );
 }
 
 class Work {
+  bool? adult;
+  String? backdropPath;
+  List<int>? genreIds;
+  int? id;
+  String? originalLanguage;
+  String? originalTitle;
+  String? overview;
+  double? popularity;
+  dynamic posterPath;
+  DateTime? releaseDate;
+  String? title;
+  bool? video;
+  double? voteAverage;
+  int? voteCount;
+  String? character;
+  String? creditId;
+  int? order;
+
   Work({
-    required this.adult,
-    required this.backdropPath,
-    required this.genreIds,
-    required this.id,
-    required this.originalLanguage,
-    required this.originalTitle,
-    required this.overview,
-    required this.posterPath,
-    required this.releaseDate,
-    required this.title,
-    required this.voteAverage,
+    this.adult,
+    this.backdropPath,
+    this.genreIds,
+    this.id,
+    this.originalLanguage,
+    this.originalTitle,
+    this.overview,
+    this.popularity,
+    this.posterPath,
+    this.releaseDate,
+    this.title,
+    this.video,
+    this.voteAverage,
+    this.voteCount,
+    this.character,
+    this.creditId,
+    this.order,
   });
 
-  final bool adult;
-  final String backdropPath;
-  final List<int> genreIds;
-  final int id;
-  final String originalLanguage;
-  final String originalTitle;
-  final String overview;
-  final String posterPath;
-  final DateTime releaseDate;
-  final String title;
-  final double voteAverage;
-
   factory Work.fromJson(Map<String, dynamic> json) => Work(
+        adult: json["adult"] == null ? true : json['adult'],
+        backdropPath:
+            json["backdrop_path"] == null ? "" : json["backdrop_path"],
+        genreIds: json["genre_ids"] == null
+            ? []
+            : List<int>.from(json["genre_ids"]!.map((x) => x)),
+        id: json["id"],
+        originalLanguage:
+            json["original_language"] == null ? "" : json["original_language"],
+        originalTitle:
+            json["original_title"] == null ? "" : json["original_title"],
+        overview: json["overview"] == null ? "" : json["overview"],
+        popularity: json["popularity"]?.toDouble() == null
+            ? 0.0
+            : json["popularity"]?.toDouble(),
+        posterPath: json["poster_path"] == null ? "" : json["poster_path"],
+        releaseDate: json["release_date"] == ""
+            ? DateTime.parse("2012-02-27 13:27:00,123456789z")
+            : DateTime.parse(json["release_date"]),
+        title: json["title"] == null ? "" : json["title"],
+        video: json["video"] == null ? false : json["video"],
+        voteAverage: json["vote_average"]?.toDouble() == null
+            ? 0.0
+            : json["vote_average"]?.toDouble(),
+        voteCount: json["vote_count"] == null ? 0 : json["vote_count"],
+        character: json["character"] == null ? "" : json["character"],
+        creditId: json["credit_id"] == null ? "" : json["credite_id"],
+        order: json["order"] == null ? 0 : json["order"],
+      );
+}
+
+class Crew {
+  bool? adult;
+  String? backdropPath;
+  List<int>? genreIds;
+  int? id;
+  String? originalLanguage;
+  String? originalTitle;
+  String? overview;
+  double? popularity;
+  String? posterPath;
+  DateTime? releaseDate;
+  String? title;
+  bool? video;
+  double? voteAverage;
+  int? voteCount;
+  String? creditId;
+  String? department;
+  String? job;
+
+  Crew({
+    this.adult,
+    this.backdropPath,
+    this.genreIds,
+    this.id,
+    this.originalLanguage,
+    this.originalTitle,
+    this.overview,
+    this.popularity,
+    this.posterPath,
+    this.releaseDate,
+    this.title,
+    this.video,
+    this.voteAverage,
+    this.voteCount,
+    this.creditId,
+    this.department,
+    this.job,
+  });
+
+  factory Crew.fromJson(Map<String, dynamic> json) => Crew(
         adult: json["adult"],
         backdropPath: json["backdrop_path"],
-        genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
+        genreIds: json["genre_ids"] == null
+            ? []
+            : List<int>.from(json["genre_ids"]!.map((x) => x)),
         id: json["id"],
         originalLanguage: json["original_language"],
         originalTitle: json["original_title"],
         overview: json["overview"],
+        popularity: json["popularity"]?.toDouble(),
         posterPath: json["poster_path"],
-        releaseDate: DateTime.parse(json["release_date"]),
+        releaseDate: json["release_date"] == ""
+            ? DateTime.parse("2012-02-02")
+            : DateTime.parse(json["release_date"]),
         title: json["title"],
-        voteAverage: json["vote_average"].toDouble(),
+        video: json["video"],
+        voteAverage: json["vote_average"]?.toDouble(),
+        voteCount: json["vote_count"],
+        creditId: json["credit_id"],
+        department: json["department"],
+        job: json["job"],
       );
 }

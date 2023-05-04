@@ -1,54 +1,22 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:sam_frontend/Models/Movie_Model.dart';
-import 'package:api_cache_manager/api_cache_manager.dart';
-import 'package:api_cache_manager/models/cache_db_model.dart';
-import 'package:cron/cron.dart';
+import 'package:sam_frontend/Constant/api_key.dart' as apiKey;
+import 'package:sam_frontend/Models/Movies_Model.dart';
 
 class HttpMoviesServices {
   Future<MoviesModel> getTrending(type, page) async {
-    var isCacheExits =
-        await APICacheManager().isAPICacheKeyExist('MovieTrending');
-
-    // Run After every 15 min and update cache
-    var cron = new Cron();
-    cron.schedule(new Schedule.parse('*/15 * * * *'), () async {
-      final res = await http.get(Uri.https(
-          'sam-api-flask.herokuapp.com', '/movie/trending/$type/$page'));
-      if (res.statusCode == 200) {
-        // Adding data to local DB for performance
-        APICacheDBModel cacheDBModel =
-            new APICacheDBModel(key: 'MovieTrending', syncData: res.body);
-
-        APICacheManager().addCacheData(cacheDBModel);
-      }
-    });
-
-    if (!isCacheExits) {
-      final res = await http.get(Uri.https(
-          'sam-api-flask.herokuapp.com', '/movie/trending/$type/$page'));
-      if (res.statusCode == 200) {
-        // Adding data to local DB for performance
-        APICacheDBModel cacheDBModel =
-            new APICacheDBModel(key: 'MovieTrending', syncData: res.body);
-
-        APICacheManager().addCacheData(cacheDBModel);
-
-        MoviesModel result = MoviesModel.fromJson(json.decode(res.body));
-        return result;
-      }
-    } else {
-      var cacheData = await APICacheManager().getCacheData('MovieTrending');
-      return MoviesModel.fromJson(json.decode(cacheData.syncData));
+    final res = await http.get(Uri.parse(
+        "https://api.themoviedb.org/3/trending/movie/day?api_key=${apiKey.tbdbApiKey}"));
+    if (res.statusCode == 200) {
+      return moviesModelFromJson(res.body);
     }
-
-    throw 'Error from Trandin Movies';
+    throw Exception("Error from movies trending");
   }
 
   Future<MoviesModel> getGenresMovies(genresId, page) async {
-    final res = await http.get(Uri.https(
-        'sam-api-flask.herokuapp.com', '/movie/genre/$genresId/$page'));
+    final res = await http.get(Uri.parse(
+        "https://api.themoviedb.org/3/discover/movie?api_key=${apiKey.tbdbApiKey}&language=en-US&with_genres=$genresId&page=$page"));
     if (res.statusCode == 200) {
       MoviesModel result = MoviesModel.fromJson(json.decode(res.body));
       return result;
@@ -56,22 +24,20 @@ class HttpMoviesServices {
     throw 'Error from now Latest';
   }
 
-  Future<MoviesModel> getTopMovie(page) async {
-    final res = await http
-        .get(Uri.https("sam-api-flask.herokuapp.com", "/movie/toprated/$page"));
+  Future<MoviesModel> getTopMovies({int page = 0}) async {
+    final res = await http.get(Uri.parse(
+        "https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey.tbdbApiKey}&language=en-US&page=$page"));
     if (res.statusCode == 200) {
-      MoviesModel result = MoviesModel.fromJson(json.decode(res.body));
-      return result;
+      return moviesModelFromJson(res.body);
     }
-    throw 'Error during fetching top movies';
+    throw Exception("Error from movies top rated");
   }
 
   Future<MoviesModel> getNowPlaing(page) async {
-    final res = await http.get(
-        Uri.https('sam-api-flask.herokuapp.com', '/movie/nowplaying/$page'));
+    final res = await http.get(Uri.parse(
+        "https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey.tbdbApiKey}&language=en-US&page=$page"));
     if (res.statusCode == 200) {
-      MoviesModel result = MoviesModel.fromJson(json.decode(res.body));
-      return result;
+      return moviesModelFromJson(res.body);
     }
     throw 'Error from now playing';
   }
@@ -87,14 +53,11 @@ class HttpMoviesServices {
   }
 
   Future<MoviesModel> getSearched(page, search) async {
-    final res = await http.get(Uri.https(
-        'sam-api-flask.herokuapp.com', '/movie/search/$search/$page'));
+    final res = await http.get(Uri.parse(
+        "https://api.themoviedb.org/3/search/tv?api_key=${apiKey.tbdbApiKey}&language=en-US&query=$search&page=$page"));
     if (res.statusCode == 200) {
-      MoviesModel result = MoviesModel.fromJson(json.decode(res.body));
-      return result;
+      return moviesModelFromJson(res.body);
     }
-    // ignore: todo
-    // TODO: handle proper error when there is no movie for given name
     throw 'Error from searched';
   }
 }

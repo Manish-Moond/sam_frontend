@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
-import 'package:sam_frontend/Models/Popular_Person_Model.dart';
+import 'package:sam_frontend/Models/Person_Popular_Model.dart';
 import 'package:sam_frontend/Screens/Person_Descripetion.dart';
 import 'package:sam_frontend/Services/Person_Servies.dart';
 
@@ -13,11 +13,10 @@ class PopularPersons extends StatefulWidget {
 
 class _PopularPersonsState extends State<PopularPersons> {
   HttpPersonServices _httpPersonServices = HttpPersonServices();
-
-  List<Result> _person = [];
   ScrollController _scrollController = ScrollController();
-  int _page = 1;
+  List<Result> _person = [];
   bool _loading = true;
+  int _page = 1;
 
   void filler(value) {
     setState(() {
@@ -71,8 +70,9 @@ class _PopularPersonsState extends State<PopularPersons> {
           child: _loading
               ? Center(
                   child: CircularProgressIndicator(
-                  color: kSecondaryColor,
-                ))
+                    color: kSecondaryColor,
+                  ),
+                )
               : ScrollConfiguration(
                   behavior: ScrollBehavior(),
                   child: GlowingOverscrollIndicator(
@@ -89,13 +89,15 @@ class _PopularPersonsState extends State<PopularPersons> {
                               GestureDetector(
                                 onTap: () {
                                   Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (BuildContext context) =>
-                                              PersonDescripetion(
-                                                  personId: _person[index].id,
-                                                  profilePath: _person[index]
-                                                      .profilePath)));
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          PersonDescripetion(
+                                              personId: _person[index].id!,
+                                              profilePath:
+                                                  _person[index].profilePath!),
+                                    ),
+                                  );
                                 },
                                 child: Card(
                                   elevation: 2,
@@ -109,14 +111,14 @@ class _PopularPersonsState extends State<PopularPersons> {
                                     placeholder: AssetImage(
                                         'assets/images/movieplaceholder.jpg'),
                                     image: NetworkImage(
-                                      'https://image.tmdb.org/t/p/w500/${_person[index].profilePath}',
+                                      'https://image.tmdb.org/t/p/w500/${_person[index].profilePath!}',
                                     ),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
                               ),
                               Text(
-                                _person[index].name,
+                                _person[index].name!,
                                 style: TextStyle(
                                     color: kSecondaryColor,
                                     // fontWeight: FontWeight.bold,

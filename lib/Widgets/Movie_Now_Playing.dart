@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
-import 'package:sam_frontend/Models/Movie_Model.dart';
+import 'package:sam_frontend/Models/Movies_Model.dart';
 import 'package:sam_frontend/Services/Movie_Servies.dart';
 import 'package:sam_frontend/Widgets/MTV_Card.dart';
 
@@ -13,7 +13,7 @@ class MovieNowPlaying extends StatefulWidget {
 
 class _MovieNowPlayingState extends State<MovieNowPlaying> {
   final HttpMoviesServices _httpMoviesServices = HttpMoviesServices();
-  List<Result> _movies = [];
+  List<MoviesResultList> _movies = [];
   ScrollController _scrollController = ScrollController();
   int _page = 1;
   bool _loading = true;
@@ -82,16 +82,16 @@ class _MovieNowPlayingState extends State<MovieNowPlaying> {
                       itemBuilder: (context, index) {
                         return MTVCard(
                           movieOrNot: true,
-                          genres: _movies[index].genreIds,
-                          id: _movies[index].id,
-                          originalTitle: _movies[index].originalTitle,
-                          originalLanguage: _movies[index].originalLanguage,
-                          overview: _movies[index].overview,
-                          backdropPath: _movies[index].backdropPath,
-                          posterPath: _movies[index].posterPath,
-                          releaseDate: _movies[index].releaseDate,
-                          title: _movies[index].title,
-                          voteAverage: _movies[index].voteAverage,
+                          genres: _movies[index].genreIds!,
+                          id: _movies[index].id!,
+                          originalTitle: _movies[index].originalTitle!,
+                          originalLanguage: _movies[index].originalLanguage!,
+                          overview: _movies[index].overview!,
+                          backdropPath: _movies[index].backdropPath!,
+                          posterPath: _movies[index].posterPath!,
+                          releaseDate: _movies[index].releaseDate!,
+                          title: _movies[index].title!,
+                          voteAverage: _movies[index].voteAverage!,
                         );
                       },
                     ),

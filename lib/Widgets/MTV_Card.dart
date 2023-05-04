@@ -5,18 +5,18 @@ import 'package:sam_frontend/Widgets/Movie_Modal.dart';
 import 'package:sam_frontend/Widgets/TvSeries_Modal.dart';
 
 class MTVCard extends StatelessWidget {
-  final bool searcedOrNot;
+  final bool? searcedOrNot;
   final bool movieOrNot;
-  final List<int> genres;
-  final int id;
-  final String originalTitle;
-  final String originalLanguage;
-  final String overview;
-  final String posterPath;
-  final DateTime releaseDate;
-  final String title;
-  final double voteAverage;
-  final String backdropPath;
+  final List<int>? genres;
+  final int? id;
+  final String? originalTitle;
+  final String? originalLanguage;
+  final String? overview;
+  final String? posterPath;
+  final DateTime? releaseDate;
+  final String? title;
+  final double? voteAverage;
+  final String? backdropPath;
 
   const MTVCard(
       {Key? key,
@@ -46,20 +46,22 @@ class MTVCard extends StatelessWidget {
       child: InkWell(
         onTap: () {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) => MovieDescripation(
-                        genres: genres,
-                        id: id,
-                        originalTitle: originalTitle,
-                        originalLanguage: originalLanguage,
-                        overview: overview,
-                        backdropPath: backdropPath,
-                        posterPath: posterPath,
-                        releaseDate: releaseDate,
-                        title: title,
-                        voteAverage: voteAverage,
-                      )));
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => MovieDescripation(
+                genres: genres,
+                id: id,
+                originalTitle: originalTitle,
+                originalLanguage: originalLanguage,
+                overview: overview,
+                backdropPath: backdropPath,
+                posterPath: posterPath,
+                releaseDate: releaseDate,
+                title: title,
+                voteAverage: voteAverage,
+              ),
+            ),
+          );
         },
         onDoubleTap: () {
           movieOrNot
@@ -67,9 +69,9 @@ class MTVCard extends StatelessWidget {
                   context: context,
                   builder: (BuildContext context) {
                     return MovieModal(
-                      name: originalTitle,
-                      imageUrl: posterPath,
-                      mtvId: id,
+                      name: originalTitle!,
+                      imageUrl: posterPath!,
+                      mtvId: id!,
                     );
                   },
                 )
@@ -77,9 +79,9 @@ class MTVCard extends StatelessWidget {
                   context: context,
                   builder: (BuildContext context) {
                     return TvSeriesModal(
-                      name: originalTitle,
-                      imageUrl: posterPath,
-                      mtvId: id,
+                      name: originalTitle!,
+                      imageUrl: posterPath!,
+                      mtvId: id!,
                     );
                   },
                 );
@@ -89,11 +91,11 @@ class MTVCard extends StatelessWidget {
           children: [
             Container(
                 height:
-                    searcedOrNot ? size.height * 0.268 : size.height * 0.273,
-                width: searcedOrNot ? size.width * 0.48 : size.width * 0.41,
+                    searcedOrNot! ? size.height * 0.268 : size.height * 0.273,
+                width: searcedOrNot! ? size.width * 0.48 : size.width * 0.41,
                 child: FadeInImage(
                   placeholder: AssetImage('assets/images/movieplaceholder.jpg'),
-                  image: NetworkImage(posterPath != ' '
+                  image: NetworkImage(posterPath != ''
                       ? 'https://image.tmdb.org/t/p/w500/$posterPath'
                       : 'https://via.placeholder.com/150'),
                   fit: BoxFit.cover,
@@ -103,7 +105,7 @@ class MTVCard extends StatelessWidget {
               child: SizedBox(
                 width: size.width * 0.38,
                 child: Text(
-                  title,
+                  title!,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(color: kSecondaryColor),
                 ),
@@ -133,7 +135,7 @@ class MTVCard extends StatelessWidget {
                 ),
                 Container(
                   child: Text(
-                    '${releaseDate.year.toString()}',
+                    '${releaseDate!.year.toString()}',
                     style: TextStyle(color: kSecondaryColor),
                   ),
                 )

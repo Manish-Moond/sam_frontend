@@ -18,16 +18,13 @@ class PersonDescripetion extends StatefulWidget {
 
 class _PersonDescripetionState extends State<PersonDescripetion> {
   HttpPersonServices _httpPersonServices = HttpPersonServices();
-
   List<String> _personInfo = [];
-  // DateTime _birthday = DateTime.now();
   bool _infoFetchingDone = false;
 
   void filler(value) {
     _personInfo.add(value.biography);
     _personInfo.add(value.name);
     _personInfo.add(value.knownForDepartment);
-    // _birthday = value.birthday;
     setState(() {
       _infoFetchingDone = true;
     });
@@ -81,8 +78,9 @@ class _PersonDescripetionState extends State<PersonDescripetion> {
                       )
                     : Center(
                         child: CircularProgressIndicator(
-                        color: kSecondaryColor,
-                      )),
+                          color: kSecondaryColor,
+                        ),
+                      ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
@@ -94,67 +92,71 @@ class _PersonDescripetionState extends State<PersonDescripetion> {
                   ),
                 ),
                 FutureBuilder(
-                    future: _httpPersonServices.getPersonWork(widget.personId),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<PersonWorkModel> snapshot) {
-                      if (snapshot.hasData) {
-                        return Container(
-                          height: size.height * 0.8,
-                          child: Container(
-                            padding: EdgeInsets.all(4),
-                            child: ScrollConfiguration(
-                              behavior: ScrollBehavior(),
-                              child: GlowingOverscrollIndicator(
-                                axisDirection: AxisDirection.down,
-                                color: kSecondaryColor,
-                                child: GridView.builder(
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    crossAxisSpacing: 8,
-                                    childAspectRatio: MediaQuery.of(context)
-                                            .size
-                                            .width /
-                                        (MediaQuery.of(context).size.height /
-                                            1.4),
-                                  ),
-                                  itemCount: snapshot.data!.work.length,
-                                  itemBuilder: (context, index) {
-                                    PersonWorkModel? _personWork =
-                                        snapshot.data;
-                                    return MTVCard(
-                                      movieOrNot: true,
-                                      searcedOrNot: true,
-                                      genres: _personWork!.work[index].genreIds,
-                                      id: _personWork.work[index].id,
-                                      originalTitle:
-                                          _personWork.work[index].originalTitle,
-                                      originalLanguage: _personWork
-                                          .work[index].originalLanguage,
-                                      overview:
-                                          _personWork.work[index].overview,
-                                      posterPath:
-                                          _personWork.work[index].posterPath,
-                                      backdropPath:
-                                          _personWork.work[index].backdropPath,
-                                      releaseDate:
-                                          _personWork.work[index].releaseDate,
-                                      title: _personWork.work[index].title,
-                                      voteAverage:
-                                          _personWork.work[index].voteAverage,
-                                    );
-                                  },
+                  future: _httpPersonServices.getPersonWork(widget.personId),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<PersonWorkModel> snapshot) {
+                    if (snapshot.hasData) {
+                      return Container(
+                        height: size.height * 0.8,
+                        child: Container(
+                          padding: EdgeInsets.all(4),
+                          child: ScrollConfiguration(
+                            behavior: ScrollBehavior(),
+                            child: GlowingOverscrollIndicator(
+                              axisDirection: AxisDirection.down,
+                              color: kSecondaryColor,
+                              child: GridView.builder(
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 8,
+                                  childAspectRatio:
+                                      MediaQuery.of(context).size.width /
+                                          (MediaQuery.of(context).size.height /
+                                              1.4),
                                 ),
+                                itemCount: snapshot.data!.work!.length,
+                                itemBuilder: (context, index) {
+                                  PersonWorkModel? _personWork = snapshot.data;
+                                  print(_personWork!.work![index].releaseDate!);
+                                  return MTVCard(
+                                    movieOrNot: true,
+                                    searcedOrNot: true,
+                                    genres: _personWork.work![index].genreIds!,
+                                    id: _personWork.id!,
+                                    originalTitle:
+                                        _personWork.work![index].originalTitle!,
+                                    originalLanguage: _personWork
+                                        .work![index].originalLanguage!,
+                                    overview:
+                                        _personWork.work![index].overview!,
+                                    posterPath:
+                                        _personWork.work![index].posterPath!,
+                                    backdropPath:
+                                        _personWork.work![index].backdropPath!,
+                                    releaseDate:
+                                        _personWork.work![index].releaseDate!,
+                                    title: _personWork.work![index].title!,
+                                    voteAverage:
+                                        _personWork.work![index].voteAverage!,
+                                  );
+                                },
                               ),
                             ),
                           ),
-                        );
-                      }
+                        ),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text("${snapshot.error}"));
+                    } else {
                       return Center(
-                          child: CircularProgressIndicator(
-                        color: kSecondaryColor,
-                      ));
-                    })
+                        child: CircularProgressIndicator(
+                          color: kSecondaryColor,
+                        ),
+                      );
+                    }
+                  },
+                ),
               ],
             ),
           ),

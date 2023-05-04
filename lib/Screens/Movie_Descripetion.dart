@@ -5,16 +5,16 @@ import 'package:sam_frontend/Constant/Colors.dart';
 import 'dart:math' as math;
 
 class MovieDescripation extends StatefulWidget {
-  final List<int> genres;
-  final int id;
-  final String originalTitle;
-  final String originalLanguage;
-  final String overview;
-  final String posterPath;
-  final DateTime releaseDate;
-  final String title;
-  final double voteAverage;
-  final String backdropPath;
+  final List<int>? genres;
+  final int? id;
+  final String? originalTitle;
+  final String? originalLanguage;
+  final String? overview;
+  final String? posterPath;
+  final DateTime? releaseDate;
+  final String? title;
+  final double? voteAverage;
+  final String? backdropPath;
   MovieDescripation(
       {Key? key,
       required this.genres,
@@ -67,7 +67,7 @@ class _MovieDescripationState extends State<MovieDescripation> {
   }
 
   static const _actionTitles = ['Watched', 'Removed', 'Plan To Watch'];
-  void _showAction(BuildContext context, int index) {
+  void showAction(BuildContext context, int index) {
     showDialog<void>(
       context: context,
       builder: (context) {
@@ -120,7 +120,7 @@ class _MovieDescripationState extends State<MovieDescripation> {
                 //Rating
                 Container(
                   child: RatingBar.builder(
-                    initialRating: widget.voteAverage / 2,
+                    initialRating: widget.voteAverage! / 2,
                     minRating: 1,
                     direction: Axis.horizontal,
                     allowHalfRating: true,
@@ -138,7 +138,7 @@ class _MovieDescripationState extends State<MovieDescripation> {
                 Container(
                   //Release date
                   child: Text(
-                    '${widget.releaseDate.year.toString()}-${widget.releaseDate.month.toString().padLeft(2, '0')}-${widget.releaseDate.day.toString().padLeft(2, '0')}',
+                    '${widget.releaseDate!.year.toString()}-${widget.releaseDate!.month.toString().padLeft(2, '0')}-${widget.releaseDate!.day.toString().padLeft(2, '0')}',
                     style: TextStyle(color: kSecondaryColor, fontSize: 15),
                   ),
                 ),
@@ -153,7 +153,7 @@ class _MovieDescripationState extends State<MovieDescripation> {
                 child: SizedBox(
                   width: size.width * 0.8,
                   child: Text(
-                    widget.originalTitle,
+                    widget.originalTitle!,
                     overflow: TextOverflow.fade,
                     style: TextStyle(
                         fontSize: 22,
@@ -169,7 +169,7 @@ class _MovieDescripationState extends State<MovieDescripation> {
               child: SizedBox(
                 width: size.width * 0.8,
                 child: ExpandableText(
-                  widget.overview,
+                  widget.overview!,
                   expandText: 'show more',
                   collapseText: 'show less',
                   linkColor: kThiredColor,
@@ -445,7 +445,7 @@ class ActionButton extends StatelessWidget {
     return Material(
       shape: const CircleBorder(),
       clipBehavior: Clip.antiAlias,
-      color: theme.accentColor,
+      color: theme.colorScheme.secondary,
       elevation: 4.0,
       child: IconTheme.merge(
         data: theme.accentIconTheme,

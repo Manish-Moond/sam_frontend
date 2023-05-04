@@ -1,38 +1,38 @@
-import 'dart:convert';
-
 import 'package:sam_frontend/Models/Person_Info_Model.dart';
 import 'package:http/http.dart' as http;
 import 'package:sam_frontend/Models/Person_Work_Model.dart';
-import 'package:sam_frontend/Models/Popular_Person_Model.dart';
+import 'package:sam_frontend/Constant/api_key.dart' as apiKey;
+import 'package:sam_frontend/Models/Person_Popular_Model.dart';
 
 class HttpPersonServices {
   Future<PersonWorkModel> getPersonWork(personId) async {
-    final res = await http.get(
-        Uri.https('sam-api-flask.herokuapp.com', '/person/work/$personId'));
+    print("Person id $personId");
+    final res = await http.get(Uri.parse(
+        "https://api.themoviedb.org/3/person/$personId/movie_credits?api_key=${apiKey.tbdbApiKey}&language=en-US"));
     if (res.statusCode == 200) {
-      return PersonWorkModel.fromJson(json.decode(res.body));
+      return personWorkModelFromJson(res.body);
     }
 
     throw 'Error during fetching person work';
   }
 
   Future<PersonInfoModel> getPersonInfo(personId) async {
-    final res = await http.get(
-        Uri.https('sam-api-flask.herokuapp.com', '/person/info/$personId'));
+    final res = await http.get(Uri.parse(
+        "https://api.themoviedb.org/3/person/$personId?api_key=${apiKey.tbdbApiKey}&language=en-US"));
     if (res.statusCode == 200) {
-      return  PersonInfoModel.fromJson(json.decode(res.body));
+      return personInfoModelFromJson(res.body);
     }
 
     throw 'Error during fetching person work';
   }
 
-  Future<PopularPersonModel> getPopularPerson(page) async {
-    final res = await http
-        .get(Uri.https('sam-api-flask.herokuapp.com', '/person/popular/$page'));
+  Future<PersonPopularModel> getPopularPerson(page) async {
+    final res = await http.get(Uri.parse(
+        "https://api.themoviedb.org/3/person/popular?api_key=${apiKey.tbdbApiKey}&language=en-US&page=$page"));
     if (res.statusCode == 200) {
-      return PopularPersonModel.fromJson(json.decode(res.body));
+      return popularPersonModelFromJson(res.body);
     }
 
-    throw 'Error during fetching popular person';
+    throw 'Error during fetching person popular';
   }
 }

@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
-import 'package:sam_frontend/Models/Movie_Model.dart';
+import 'package:sam_frontend/Models/Movies_Model.dart';
 import 'package:sam_frontend/Screens/Movie_Descripetion.dart';
 import 'package:sam_frontend/Services/Movie_Servies.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -15,7 +15,7 @@ class MovieTrending extends StatefulWidget {
 
 class _MovieTrendingState extends State<MovieTrending> {
   final HttpMoviesServices _httpMoviesServices = HttpMoviesServices();
-  List<Result> _movies = [];
+  List<MoviesResultList> _movies = [];
   int _page = 1;
   bool _loading = true;
 
@@ -59,16 +59,16 @@ class _MovieTrendingState extends State<MovieTrending> {
                       context,
                       MaterialPageRoute(
                         builder: (BuildContext context) => MovieDescripation(
-                          genres: _movies[index].genreIds,
-                          id: _movies[index].id,
-                          originalTitle: _movies[index].originalTitle,
-                          originalLanguage: _movies[index].originalLanguage,
-                          overview: _movies[index].overview,
-                          backdropPath: _movies[index].backdropPath,
-                          posterPath: _movies[index].posterPath,
-                          releaseDate: _movies[index].releaseDate,
-                          title: _movies[index].title,
-                          voteAverage: _movies[index].voteAverage,
+                          genres: _movies[index].genreIds!,
+                          id: _movies[index].id!,
+                          originalTitle: _movies[index].originalTitle!,
+                          originalLanguage: _movies[index].originalLanguage!,
+                          overview: _movies[index].overview!,
+                          backdropPath: _movies[index].backdropPath!,
+                          posterPath: _movies[index].posterPath!,
+                          releaseDate: _movies[index].releaseDate!,
+                          title: _movies[index].title!,
+                          voteAverage: _movies[index].voteAverage!,
                         ),
                       ),
                     );
@@ -111,7 +111,7 @@ class _MovieTrendingState extends State<MovieTrending> {
                           left: 15,
                         ),
                         child: Text(
-                          _movies[index].title.toUpperCase(),
+                          _movies[index].title!.toUpperCase(),
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,

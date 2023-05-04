@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
-import 'package:sam_frontend/Models/Movie_Model.dart';
+import 'package:sam_frontend/Models/Movies_Model.dart';
+// import 'package:sam_frontend/Models/Movie_Model.dart';
 import 'package:sam_frontend/Services/Movie_Servies.dart';
 import 'package:sam_frontend/Widgets/MTV_Card.dart';
 
@@ -11,37 +12,39 @@ class MovieTopRated extends StatefulWidget {
 
 class _MovieTopRatedState extends State<MovieTopRated> {
   final HttpMoviesServices _httpMoviesServices = HttpMoviesServices();
-  List<Result> _movies = [];
   ScrollController _scrollController = ScrollController();
+  List<MoviesResultList> _movies = [];
+  bool _loading = false;
   int _page = 1;
-  bool _loading = true;
 
-  void filler(value) {
+  filler(value) {
     setState(() {
-      for (int i = 0; i < value.results.length; i++) {
-        _movies.add(value.results[i]);
-      }
+      _movies.addAll(value.results);
       _loading = false;
     });
+  }
+
+  Future<void> _scrolleListener() async {
+    if (_loading) return;
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      setState(() {
+        _loading = true;
+      });
+      _page += 1;
+      await _httpMoviesServices
+          .getTopMovies(page: _page)
+          .then((value) => filler(value));
+    }
   }
 
   @override
   void initState() {
     super.initState();
-    _loading = true;
-    _httpMoviesServices.getTopMovie(_page).then((value) {
-      filler(value);
-    });
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        _page += 1;
-        _loading = true;
-        _httpMoviesServices.getTopMovie(_page).then((value) {
-          filler(value);
-        });
-      }
-    });
+    _httpMoviesServices
+        .getTopMovies(page: _page)
+        .then((value) => filler(value));
+    _scrollController.addListener(_scrolleListener);
   }
 
   @override
@@ -62,11 +65,12 @@ class _MovieTopRatedState extends State<MovieTopRated> {
         ),
         Container(
           height: size.height * 0.35,
-          child: _loading
+          child: _movies.isEmpty
               ? Center(
                   child: CircularProgressIndicator(
-                  color: kSecondaryColor,
-                ))
+                    color: kSecondaryColor,
+                  ),
+                )
               : ScrollConfiguration(
                   behavior: ScrollBehavior(),
                   child: GlowingOverscrollIndicator(
@@ -75,21 +79,29 @@ class _MovieTopRatedState extends State<MovieTopRated> {
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       controller: _scrollController,
-                      itemCount: _movies.length,
+                      itemCount: _loading ? _movies.length + 2 : _movies.length,
                       itemBuilder: (context, index) {
-                        return MTVCard(
-                          movieOrNot: true,
-                          genres: _movies[index].genreIds,
-                          id: _movies[index].id,
-                          originalTitle: _movies[index].originalTitle,
-                          originalLanguage: _movies[index].originalLanguage,
-                          overview: _movies[index].overview,
-                          backdropPath: _movies[index].backdropPath,
-                          posterPath: _movies[index].posterPath,
-                          releaseDate: _movies[index].releaseDate,
-                          title: _movies[index].title,
-                          voteAverage: _movies[index].voteAverage,
-                        );
+                        if (index < _movies.length) {
+                          return MTVCard(
+                            movieOrNot: true,
+                            genres: _movies[index].genreIds!,
+                            id: _movies[index].id!,
+                            originalTitle: _movies[index].originalTitle!,
+                            originalLanguage: _movies[index].originalLanguage!,
+                            overview: _movies[index].overview!,
+                            backdropPath: _movies[index].backdropPath!,
+                            posterPath: _movies[index].posterPath!,
+                            releaseDate: _movies[index].releaseDate!,
+                            title: _movies[index].title!,
+                            voteAverage: _movies[index].voteAverage!,
+                          );
+                        } else {
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: kSecondaryColor,
+                            ),
+                          );
+                        }
                       },
                     ),
                   ),

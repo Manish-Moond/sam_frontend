@@ -7,10 +7,11 @@ class MTVSGenres extends StatelessWidget {
   final List<String> genres;
 
   MTVSGenres(
-      {Key? key, required this.selectedFunction, required this.selectedValue, required this.genres})
+      {Key? key,
+      required this.selectedFunction,
+      required this.selectedValue,
+      required this.genres})
       : super(key: key);
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -22,63 +23,65 @@ class MTVSGenres extends StatelessWidget {
           height: size.height * 0.01,
         ),
         Container(
-            height: 60,
-            child: ScrollConfiguration(
-                  behavior: ScrollBehavior(),
-
-              child: GlowingOverscrollIndicator(
-                axisDirection: AxisDirection.right,
-                color: kSecondaryColor,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    Padding(
+          height: 60,
+          child: ScrollConfiguration(
+            behavior: ScrollBehavior(),
+            child: GlowingOverscrollIndicator(
+              axisDirection: AxisDirection.right,
+              color: kSecondaryColor,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 12, 6),
+                    child: GestureDetector(
+                      onTap: () {
+                        selectedFunction('All');
+                      },
+                      child: Chip(
+                        label: Text(
+                          'All',
+                          style: TextStyle(
+                              color: selectedValue == 'All'
+                                  ? kPrimaryColor
+                                  : kSecondaryColor),
+                        ),
+                        backgroundColor: selectedValue == 'All'
+                            ? kSecondaryColor
+                            : kPrimaryColor,
+                      ),
+                    ),
+                  ),
+                  ...genres.map(
+                    (e) => Padding(
                       padding: const EdgeInsets.fromLTRB(0, 0, 12, 6),
                       child: GestureDetector(
                         onTap: () {
-                          selectedFunction('All');
+                          selectedFunction(e);
                         },
                         child: Chip(
+                          elevation: 0,
+                          shadowColor: kPrimaryColor,
+                          clipBehavior: Clip.antiAlias,
+                          backgroundColor: selectedValue == e
+                              ? kSecondaryColor
+                              : kPrimaryColor,
                           label: Text(
-                            'All',
+                            e,
                             style: TextStyle(
-                                color: selectedValue == 'All'
+                                color: selectedValue == e
                                     ? kPrimaryColor
                                     : kSecondaryColor),
                           ),
-                          backgroundColor: selectedValue == 'All'
-                              ? kSecondaryColor
-                              : kPrimaryColor,
                         ),
                       ),
                     ),
-                    ...genres.map((e) => Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 12, 6),
-                          child: GestureDetector(
-                            onTap: () {
-                              selectedFunction(e);
-                            },
-                            child: Chip(
-                              elevation: 0,
-                              shadowColor: kPrimaryColor,
-                              clipBehavior: Clip.antiAlias,
-                              backgroundColor: selectedValue == e
-                                  ? kSecondaryColor
-                                  : kPrimaryColor,
-                              label: Text(
-                                e,
-                                style: TextStyle(
-                                    color: selectedValue == e
-                                        ? kPrimaryColor
-                                        : kSecondaryColor),
-                              ),
-                            ),
-                          ),
-                        ))
-                  ],
-                ),
+                  ),
+                ],
               ),
-            )),
+            ),
+          ),
+        ),
       ],
     );
   }

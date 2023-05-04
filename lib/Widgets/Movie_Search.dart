@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
-import 'package:sam_frontend/Models/Movie_Model.dart';
+import 'package:sam_frontend/Models/Movies_Model.dart';
 import 'package:sam_frontend/Services/Movie_Servies.dart';
 import 'package:sam_frontend/Widgets/MTV_Card.dart';
 
@@ -14,10 +14,10 @@ class MovieSearch extends StatefulWidget {
 
 class _MovieSearchState extends State<MovieSearch> {
   final HttpMoviesServices _httpMoviesServices = HttpMoviesServices();
-  List<Result> _movies = [];
   ScrollController _scrollController = ScrollController();
-  int _page = 1;
+  List<MoviesResultList> _movies = [];
   bool _loading = true;
+  int _page = 1;
 
   void filler(value) {
     setState(() {
@@ -64,50 +64,52 @@ class _MovieSearchState extends State<MovieSearch> {
   Widget build(BuildContext context) {
     if (_loading) {
       return Container(
-            color: kPrimaryColor,
-            child: Center(
-                child: CircularProgressIndicator(
-              color: kSecondaryColor,
-            )),
-          );
+        color: kPrimaryColor,
+        child: Center(
+          child: CircularProgressIndicator(
+            color: kSecondaryColor,
+          ),
+        ),
+      );
     } else {
       return Container(
-            padding: EdgeInsets.fromLTRB(4, 4, 4, 4),
-            color: kPrimaryColor,
-            child: ScrollConfiguration(
-                  behavior: ScrollBehavior(),
-              child: GlowingOverscrollIndicator(
-                    axisDirection: AxisDirection.down,
-                color: kSecondaryColor,
-                child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 8,
-                    childAspectRatio: MediaQuery.of(context).size.width /
-                        (MediaQuery.of(context).size.height / 1.4),
-                  ),
-                  controller: _scrollController,
-                  itemCount: _movies.length,
-                  itemBuilder: (context, index) {
-                    return MTVCard(
-                      movieOrNot: true,
-                      searcedOrNot: true,
-                      genres: _movies[index].genreIds,
-                      id: _movies[index].id,
-                      originalTitle: _movies[index].originalTitle,
-                      originalLanguage: _movies[index].originalLanguage,
-                      overview: _movies[index].overview,
-                      backdropPath: _movies[index].backdropPath,
-                      posterPath: _movies[index].posterPath,
-                      releaseDate: _movies[index].releaseDate,
-                      title: _movies[index].title,
-                      voteAverage: _movies[index].voteAverage,
-                    );
-                  },
-                ),
+        padding: EdgeInsets.fromLTRB(4, 4, 4, 4),
+        color: kPrimaryColor,
+        child: ScrollConfiguration(
+          behavior: ScrollBehavior(),
+          child: GlowingOverscrollIndicator(
+            axisDirection: AxisDirection.down,
+            color: kSecondaryColor,
+            child: GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 8,
+                childAspectRatio: MediaQuery.of(context).size.width /
+                    (MediaQuery.of(context).size.height / 1.4),
               ),
+              controller: _scrollController,
+              itemCount: _movies.length,
+              itemBuilder: (context, index) {
+                print(_movies[index].id!);
+                return MTVCard(
+                  movieOrNot: true,
+                  searcedOrNot: true,
+                  genres: _movies[index].genreIds!,
+                  id: _movies[index].id!,
+                  originalTitle: _movies[index].originalTitle!,
+                  originalLanguage: _movies[index].originalLanguage!,
+                  overview: _movies[index].overview!,
+                  backdropPath: _movies[index].backdropPath!,
+                  posterPath: _movies[index].posterPath!,
+                  releaseDate: _movies[index].releaseDate!,
+                  title: _movies[index].title!,
+                  voteAverage: _movies[index].voteAverage!,
+                );
+              },
             ),
-          );
+          ),
+        ),
+      );
     }
   }
 }
