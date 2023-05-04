@@ -77,7 +77,7 @@ class _TvSeriesModalState extends State<TvSeriesModal> {
                         onPressed: () {
                           addData('Watching');
                         },
-                        style: ElevatedButton.styleFrom(primary: kPrimaryColor),
+                        style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor),
                         child: Text(
                           "Watching",
                           style: TextStyle(color: kSecondaryColor),
@@ -86,7 +86,7 @@ class _TvSeriesModalState extends State<TvSeriesModal> {
                         onPressed: () {
                           addData('Watched');
                         },
-                        style: ElevatedButton.styleFrom(primary: kPrimaryColor),
+                        style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor),
                         child: Text(
                           "Watched",
                           style: TextStyle(color: kSecondaryColor),
@@ -95,7 +95,7 @@ class _TvSeriesModalState extends State<TvSeriesModal> {
                         onPressed: () {
                           addData('On Hold');
                         },
-                        style: ElevatedButton.styleFrom(primary: kPrimaryColor),
+                        style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor),
                         child: Text(
                           "On Hold",
                           style: TextStyle(color: kSecondaryColor),
@@ -109,7 +109,7 @@ class _TvSeriesModalState extends State<TvSeriesModal> {
                         onPressed: () {
                           addData('Plan To Watch');
                         },
-                        style: ElevatedButton.styleFrom(primary: kPrimaryColor),
+                        style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor),
                         child: Text(
                           "Plan To Watch",
                           style: TextStyle(color: kSecondaryColor),
@@ -118,7 +118,7 @@ class _TvSeriesModalState extends State<TvSeriesModal> {
                         onPressed: () {
                           addData('Drop');
                         },
-                        style: ElevatedButton.styleFrom(primary: kPrimaryColor),
+                        style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor),
                         child: Text(
                           "Drop",
                           style: TextStyle(color: kSecondaryColor),
@@ -133,7 +133,7 @@ class _TvSeriesModalState extends State<TvSeriesModal> {
                   children: [
                     ElevatedButton(
                         onPressed: () {},
-                        style: ElevatedButton.styleFrom(primary: kPrimaryColor),
+                        style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor),
                         child: Text(
                           "Save",
                           style: TextStyle(color: kSecondaryColor),

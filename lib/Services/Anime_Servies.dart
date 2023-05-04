@@ -106,7 +106,6 @@ class AnimeHTTPServices {
 
   Future<AnimeModel> getAnimeBySeasch(
       {required String name, required int page}) async {
-    print(name);
     final res = await http
         .get(Uri.parse("https://api.jikan.moe/v4/anime?letter=$name"));
     if (res.statusCode == 200) {

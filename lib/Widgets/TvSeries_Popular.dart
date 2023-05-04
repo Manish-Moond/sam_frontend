@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
-import 'package:sam_frontend/Models/TvSeries_Model.dart';
+import 'package:sam_frontend/Models/Movies_Tv_Series_Model.dart';
 import 'package:sam_frontend/Services/TvSeries_Servies.dart';
 import 'package:sam_frontend/Widgets/MTV_Card.dart';
 
@@ -15,7 +15,7 @@ class _TvSeriesPopularState extends State<TvSeriesPopular> {
   final HttpTvSeriesServices _httpMoviesServices = HttpTvSeriesServices();
   ScrollController _scrollController = ScrollController();
 
-  List<Result> _tv = [];
+  List<MTSResultList> _tv = [];
   int _page = 1;
   bool _loading = true;
 
@@ -75,11 +75,11 @@ class _TvSeriesPopularState extends State<TvSeriesPopular> {
                   color: kSecondaryColor,
                 ))
               : ScrollConfiguration(
-                behavior: ScrollBehavior(),
-                child: GlowingOverscrollIndicator(
-                  axisDirection: AxisDirection.right,
+                  behavior: ScrollBehavior(),
+                  child: GlowingOverscrollIndicator(
+                    axisDirection: AxisDirection.right,
                     color: kSecondaryColor,
-                  child: ListView.builder(
+                    child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       controller: _scrollController,
                       itemCount: _tv.length,
@@ -99,8 +99,8 @@ class _TvSeriesPopularState extends State<TvSeriesPopular> {
                         );
                       },
                     ),
+                  ),
                 ),
-              ),
         ),
       ],
     );

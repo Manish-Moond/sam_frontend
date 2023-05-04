@@ -71,7 +71,7 @@ class _MovieModalState extends State<MovieModal> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
-                  style: ElevatedButton.styleFrom(primary: kPrimaryColor),
+                  style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor),
                   onPressed: () {
                     addData('Watched');
                   },
@@ -81,7 +81,7 @@ class _MovieModalState extends State<MovieModal> {
                   ),
                 ),
                 ElevatedButton(
-                    style: ElevatedButton.styleFrom(primary: kPrimaryColor),
+                    style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor),
                     onPressed: () {
                       addData('Plan To Watch');
                     },

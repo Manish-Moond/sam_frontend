@@ -10,8 +10,7 @@ class SignUpWidget extends StatelessWidget {
         padding: EdgeInsets.all(20),
         child: ElevatedButton.icon(
           style: ElevatedButton.styleFrom(
-            primary: kSecondaryColor,
-            onPrimary: kPrimaryColor,
+            foregroundColor: kPrimaryColor, backgroundColor: kSecondaryColor,
             minimumSize: Size(double.infinity, 50),
           ),
           icon: FaIcon(FontAwesomeIcons.google),

@@ -103,7 +103,7 @@ class _MovieDescripationState extends State<MovieDescripation> {
                 borderRadius: BorderRadius.circular(2.0),
                 child: FadeInImage(
                   placeholder: AssetImage('assets/images/movieplaceholder.jpg'),
-                  image: NetworkImage(widget.backdropPath != ' '
+                  image: NetworkImage(widget.backdropPath != ''
                       ? 'https://image.tmdb.org/t/p/w500/${widget.backdropPath}'
                       : 'https://via.placeholder.com/500'),
                   fit: BoxFit.cover,
@@ -448,7 +448,7 @@ class ActionButton extends StatelessWidget {
       color: theme.colorScheme.secondary,
       elevation: 4.0,
       child: IconTheme.merge(
-        data: theme.accentIconTheme,
+        data: theme.primaryIconTheme,
         child: IconButton(
           onPressed: onPressed,
           icon: icon,

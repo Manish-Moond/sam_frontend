@@ -6,7 +6,6 @@ import 'package:sam_frontend/Models/Person_Popular_Model.dart';
 
 class HttpPersonServices {
   Future<PersonWorkModel> getPersonWork(personId) async {
-    print("Person id $personId");
     final res = await http.get(Uri.parse(
         "https://api.themoviedb.org/3/person/$personId/movie_credits?api_key=${apiKey.tbdbApiKey}&language=en-US"));
     if (res.statusCode == 200) {

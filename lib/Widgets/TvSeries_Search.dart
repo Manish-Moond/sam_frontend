@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
-import 'package:sam_frontend/Models/TvSeries_Model.dart';
+import 'package:sam_frontend/Models/Movies_Tv_Series_Model.dart';
 import 'package:sam_frontend/Services/TvSeries_Servies.dart';
 import 'package:sam_frontend/Widgets/MTV_Card.dart';
 
@@ -14,7 +14,7 @@ class TvSeriesSearch extends StatefulWidget {
 
 class _TvSeriesSearchState extends State<TvSeriesSearch> {
   final HttpTvSeriesServices _httpTvSeriesServices = HttpTvSeriesServices();
-  List<Result> _tvseries = [];
+  List<MTSResultList> _tvseries = [];
   ScrollController _scrollController = ScrollController();
   int _page = 1;
   bool _loading = true;

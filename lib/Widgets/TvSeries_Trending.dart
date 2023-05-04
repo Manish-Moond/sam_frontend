@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
-import 'package:sam_frontend/Models/TvSeries_Model.dart';
+import 'package:sam_frontend/Models/Movies_Tv_Series_Model.dart';
 import 'package:sam_frontend/Screens/Movie_Descripetion.dart';
 import 'package:sam_frontend/Services/TvSeries_Servies.dart';
 
@@ -15,7 +15,7 @@ class TvSeriesTrending extends StatefulWidget {
 
 class _TvSeriesTrendingState extends State<TvSeriesTrending> {
   final HttpTvSeriesServices _httpTvSeriesServices = HttpTvSeriesServices();
-  List<Result> _tv = [];
+  List<MTSResultList> _tv = [];
   int _page = 1;
   bool _loading = true;
 
@@ -61,7 +61,7 @@ class _TvSeriesTrendingState extends State<TvSeriesTrending> {
                             builder: (context) => MovieDescripation(
                                 genres: _tv[index].genreIds,
                                 id: _tv[index].id,
-                                originalTitle: _tv[index].name,
+                                originalTitle: _tv[index].title,
                                 originalLanguage: _tv[index].originalLanguage,
                                 overview: _tv[index].overview,
                                 posterPath: _tv[index].posterPath,
@@ -108,7 +108,7 @@ class _TvSeriesTrendingState extends State<TvSeriesTrending> {
                           left: 15,
                         ),
                         child: Text(
-                          _tv[index].name.toUpperCase(),
+                          _tv[index].name!.toUpperCase(),
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,

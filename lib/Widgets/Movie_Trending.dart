@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
-import 'package:sam_frontend/Models/Movies_Model.dart';
+import 'package:sam_frontend/Models/Movies_Tv_Series_Model.dart';
 import 'package:sam_frontend/Screens/Movie_Descripetion.dart';
 import 'package:sam_frontend/Services/Movie_Servies.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -15,7 +15,7 @@ class MovieTrending extends StatefulWidget {
 
 class _MovieTrendingState extends State<MovieTrending> {
   final HttpMoviesServices _httpMoviesServices = HttpMoviesServices();
-  List<MoviesResultList> _movies = [];
+  List<MTSResultList> _movies = [];
   int _page = 1;
   bool _loading = true;
 

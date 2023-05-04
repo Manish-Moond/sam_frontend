@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sam_frontend/Constant/Colors.dart';
-import 'package:sam_frontend/Models/Movies_Model.dart';
+import 'package:sam_frontend/Models/Movies_Tv_Series_Model.dart';
 // import 'package:sam_frontend/Models/Movie_Model.dart';
 import 'package:sam_frontend/Services/Movie_Servies.dart';
 import 'package:sam_frontend/Widgets/MTV_Card.dart';
@@ -13,7 +13,7 @@ class MovieTopRated extends StatefulWidget {
 class _MovieTopRatedState extends State<MovieTopRated> {
   final HttpMoviesServices _httpMoviesServices = HttpMoviesServices();
   ScrollController _scrollController = ScrollController();
-  List<MoviesResultList> _movies = [];
+  List<MTSResultList> _movies = [];
   bool _loading = false;
   int _page = 1;
 

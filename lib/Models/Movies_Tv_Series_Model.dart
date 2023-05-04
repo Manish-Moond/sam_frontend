@@ -1,20 +1,20 @@
 // To parse this JSON data, do
 //
-//     final moviesModel = moviesModelFromJson(jsonString);
+//     final MoviesTvSeriesModel = MoviesTvSeriesModelFromJson(jsonString);
 
 import 'dart:convert';
 
-MoviesModel moviesModelFromJson(String str) =>
-    MoviesModel.fromJson(json.decode(str));
+MoviesTvSeriesModel moviesTvSeriesModelFromJson(String str) =>
+    MoviesTvSeriesModel.fromJson(json.decode(str));
 
-class MoviesModel {
+class MoviesTvSeriesModel {
   Dates? dates;
   int? page;
-  List<MoviesResultList>? results;
+  List<MTSResultList>? results;
   int? totalPages;
   int? totalResults;
 
-  MoviesModel({
+  MoviesTvSeriesModel({
     this.dates,
     this.page,
     this.results,
@@ -22,13 +22,14 @@ class MoviesModel {
     this.totalResults,
   });
 
-  factory MoviesModel.fromJson(Map<String, dynamic> json) => MoviesModel(
+  factory MoviesTvSeriesModel.fromJson(Map<String, dynamic> json) =>
+      MoviesTvSeriesModel(
         dates: json["dates"] == null ? null : Dates.fromJson(json["dates"]),
         page: json["page"],
         results: json["results"] == null
             ? []
-            : List<MoviesResultList>.from(
-                json["results"]!.map((x) => MoviesResultList.fromJson(x))),
+            : List<MTSResultList>.from(
+                json["results"]!.map((x) => MTSResultList.fromJson(x))),
         totalPages: json["total_pages"],
         totalResults: json["total_results"],
       );
@@ -51,7 +52,7 @@ class Dates {
       );
 }
 
-class MoviesResultList {
+class MTSResultList {
   bool? adult;
   String? backdropPath;
   List<int>? genreIds;
@@ -62,12 +63,14 @@ class MoviesResultList {
   double? popularity;
   String? posterPath;
   DateTime? releaseDate;
+  dynamic firstAirDate;
   String? title;
+  String? name;
   bool? video;
   double? voteAverage;
   int? voteCount;
 
-  MoviesResultList({
+  MTSResultList({
     this.adult,
     this.backdropPath,
     this.genreIds,
@@ -78,14 +81,15 @@ class MoviesResultList {
     this.popularity,
     this.posterPath,
     this.releaseDate,
+    this.firstAirDate,
     this.title,
+    this.name,
     this.video,
     this.voteAverage,
     this.voteCount,
   });
 
-  factory MoviesResultList.fromJson(Map<String, dynamic> json) =>
-      MoviesResultList(
+  factory MTSResultList.fromJson(Map<String, dynamic> json) => MTSResultList(
         adult: json["adult"] == null ? true : json['adult'],
         backdropPath:
             json["backdrop_path"] == null ? "" : json["backdrop_path"],
@@ -105,7 +109,13 @@ class MoviesResultList {
         releaseDate: json["release_date"] == null
             ? DateTime.parse("2012-02-27 13:27:00.123456789z")
             : DateTime.parse(json["release_date"]),
+        firstAirDate: json["first_air_date"] == null
+            ? DateTime.parse("2012-02-27 13:27:00.123456789z")
+            : json["first_air_date"] == ''
+                ? DateTime.parse("2012-02-27 13:27:00.123456789z")
+                : DateTime.parse(json['first_air_date']),
         title: json["title"] == null ? " " : json["title"],
+        name: json["name"] == null ? " " : json["name"],
         video: json["video"] == null ? false : json["video"],
         voteAverage: json["vote_average"]?.toDouble() == null
             ? 0.0

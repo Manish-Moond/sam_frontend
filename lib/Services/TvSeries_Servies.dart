@@ -1,93 +1,53 @@
-import 'dart:convert';
-
-import 'package:api_cache_manager/api_cache_manager.dart';
-import 'package:api_cache_manager/models/cache_db_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:sam_frontend/Models/TvSeries_Model.dart';
-import 'package:cron/cron.dart';
+import 'package:sam_frontend/Constant/api_key.dart';
+import 'package:sam_frontend/Models/Movies_Tv_Series_Model.dart';
 
 class HttpTvSeriesServices {
-  Future<TvSeriesModel> getTSTrending(
-      {required int page, bool isRefresh = false}) async {
-
-    var isCacheExits =
-        await APICacheManager().isAPICacheKeyExist('TvSeriesTrending');
-
-    // Run After every 15 min and update cache
-    var cron = new Cron();
-    cron.schedule(new Schedule.parse('*/15 * * * *'), () async {
-      final res = await http
-          .get(Uri.https('sam-api-flask.herokuapp.com', '/ts/trending/$page'));
-      if (res.statusCode == 200) {
-        // Adding data to local DB for performance
-        APICacheDBModel cacheDBModel =
-            new APICacheDBModel(key: 'TvSeriesTrending', syncData: res.body);
-
-        APICacheManager().addCacheData(cacheDBModel);
-      }
-    });
-
-
-    if (!isCacheExits) {
-      final res = await http
-          .get(Uri.https('sam-api-flask.herokuapp.com', '/ts/trending/$page'));
-      if (res.statusCode == 200) {
-        // Adding data to local DB for performance
-        APICacheDBModel cacheDBModel =
-            new APICacheDBModel(key: 'TvSeriesTrending', syncData: res.body);
-
-        APICacheManager().addCacheData(cacheDBModel);
-
-        TvSeriesModel result = TvSeriesModel.fromJson(json.decode(res.body));
-        return result;
-      }
-    } else {
-      var cacheData = await APICacheManager().getCacheData('TvSeriesTrending');
-      return TvSeriesModel.fromJson(json.decode(cacheData.syncData));
+  Future<MoviesTvSeriesModel> getTSTrending({required int page}) async {
+    int page = 1;
+    final res = await http.get(Uri.parse(
+        "https://api.themoviedb.org/3/trending/tv/day?api_key=$tbdbApiKey&page=$page"));
+    if (res.statusCode == 200) {
+      return moviesTvSeriesModelFromJson(res.body);
     }
-    // }
-
-    throw 'Error from now Latest';
+    throw Exception("Error from TS trending");
   }
 
-  Future<TvSeriesModel> getTSTopRated(
+  Future<MoviesTvSeriesModel> getTSTopRated(
       {required int page, bool isRefresh = false}) async {
-    final res = await http
-        .get(Uri.https('sam-api-flask.herokuapp.com', '/ts/toprated/$page'));
+    final res = await http.get(Uri.parse(
+        "https://api.themoviedb.org/3/tv/top_rated?api_key=$tbdbApiKey&language=en-US&page=$page"));
     if (res.statusCode == 200) {
-      TvSeriesModel result = TvSeriesModel.fromJson(json.decode(res.body));
+      final result = moviesTvSeriesModelFromJson(res.body);
       return result;
     }
     throw 'Error from now Latest';
   }
 
-  Future<TvSeriesModel> getTSPopular(page) async {
-    final res = await http
-        .get(Uri.https('sam-api-flask.herokuapp.com', '/ts/popular/$page'));
+  Future<MoviesTvSeriesModel> getTSPopular(page) async {
+    final res = await http.get(Uri.parse(
+        "https://api.themoviedb.org/3/tv/popular?api_key=$tbdbApiKey&language=en-US&page=$page"));
     if (res.statusCode == 200) {
-      TvSeriesModel result = TvSeriesModel.fromJson(json.decode(res.body));
-      return result;
+      return moviesTvSeriesModelFromJson(res.body);
     }
     throw 'Error from now Latest';
   }
 
-  Future<TvSeriesModel> getTSSearch(
+  Future<MoviesTvSeriesModel> getTSSearch(
       {required int page, required String name}) async {
-    final res = await http.get(
-        Uri.https('sam-api-flask.herokuapp.com', '/ts/search/$name/$page'));
+    final res = await http.get(Uri.parse(
+        "https://api.themoviedb.org/3/search/tv?api_key=$tbdbApiKey&language=en-US&query=$name&page=$page"));
     if (res.statusCode == 200) {
-      TvSeriesModel result = TvSeriesModel.fromJson(json.decode(res.body));
-      return result;
+      return moviesTvSeriesModelFromJson(res.body);
     }
     throw 'Error from search';
   }
 
-  Future<TvSeriesModel> getTSGenreResult({page, genreId}) async {
-    final res = await http.get(
-        Uri.https('sam-api-flask.herokuapp.com', '/ts/genre/$genreId/$page'));
+  Future<MoviesTvSeriesModel> getTSGenreResult({page, genreId}) async {
+    final res = await http.get(Uri.parse(
+        "https://api.themoviedb.org/3/discover/tv?api_key=$tbdbApiKey&page=$page&with_genres=$genreId"));
     if (res.statusCode == 200) {
-      TvSeriesModel result = TvSeriesModel.fromJson(json.decode(res.body));
-      return result;
+      return moviesTvSeriesModelFromJson(res.body);
     }
     throw 'Error from search';
   }
