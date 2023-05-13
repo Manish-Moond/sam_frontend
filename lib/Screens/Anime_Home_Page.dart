@@ -14,7 +14,7 @@ class AnimeHomePage extends StatefulWidget {
 }
 
 class _AnimeHomePageState extends State<AnimeHomePage> {
-  String value = 'This Season';
+  String value = 'Seasons';
   void animeToggler(newValue) {
     setState(() {
       value = newValue;
@@ -37,10 +37,10 @@ class _AnimeHomePageState extends State<AnimeHomePage> {
                     indicatorWeight: 3,
                     tabs: [
                       Tab(
-                        text: 'This Season',
+                        text: 'Seasons',
                       ),
                       Tab(
-                        text: 'For You',
+                        text: 'Top',
                       )
                     ],
                   ),

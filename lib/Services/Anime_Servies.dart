@@ -12,7 +12,7 @@ class AnimeHTTPServices {
           await APICacheManager().isAPICacheKeyExist('animeSeason$year$season');
       final now = DateTime.now();
 
-      if (_isCacheExist) {
+      if (_isCacheExist && page == 1) {
         var cacheData =
             await APICacheManager().getCacheData('animeSeason$year$season');
         Timestamp timestampNow = Timestamp.fromDate(now);
