@@ -52,7 +52,6 @@ class _HomePageState extends State<HomePage> {
               return PreferredSize(
                   child: AppBar(
                     backgroundColor: kPrimaryColor,
-                    // elevation: 3,
                     title: Text(
                       'MyList',
                       style: TextStyle(
@@ -63,27 +62,33 @@ class _HomePageState extends State<HomePage> {
                     bottom: TabBar(
                       indicatorColor: kSecondaryColor,
                       tabs: [
-                        Text(
-                          'Movie',
-                          // style: TextStyle(color: Colors.white, fontSize: 15),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                          child: Text('Movie'),
                         ),
-                        Text(
-                          'Anime',
-                          // style: TextStyle(color: Colors.white, fontSize: 15),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                          child: Text('Anime'),
                         ),
-                        Text(
-                          'TvSeries',
-                          // style: TextStyle(color: Colors.white, fontSize: 15),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                          child: Text('TvSeries'),
                         )
                       ],
                     ),
                   ),
-                  preferredSize: Size.fromHeight(95));
+                  preferredSize: Size.fromHeight(75));
             case 4:
-              return CustomAppBar(
-                  name: 'More',
-                  value: searchFillerValue,
-                  searchFillerState: searchFillterFunction);
+              return AppBar(
+                backgroundColor: kPrimaryColor,
+                title: Text(
+                  "About",
+                  style: TextStyle(
+                      color: kSecondaryColor,
+                      fontSize: 23,
+                      fontWeight: FontWeight.bold),
+                ),
+              );
             default:
           }
         }()),
@@ -100,7 +105,6 @@ class _HomePageState extends State<HomePage> {
             Icon(Icons.more_horiz, size: 30)
           ],
           onTap: (index) {
-            //Handle button tap
             _index = index;
             setState(() {
               _index = index;
