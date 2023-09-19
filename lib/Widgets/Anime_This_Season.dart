@@ -28,8 +28,8 @@ class _AnimeThisSeasonState extends State<AnimeThisSeason> {
     "summer",
     "fall"
   ];
-  String dropDownValueSeason = seasons.first;
-  int dropdownValueYear = 2023;
+  String dropDownValueSeason = seasons[(DateTime.now().month ~/ 3) - 1];
+  int dropdownValueYear = DateTime.now().year;
 
   void filler({value, thisSeasonOrNot = false}) {
     if (thisSeasonOrNot) {
@@ -170,6 +170,7 @@ class _AnimeThisSeasonState extends State<AnimeThisSeason> {
                             backgroundColor:
                                 MaterialStateProperty.all(kSecondaryColor)),
                         onPressed: () {
+                          _page = 1;
                           _isAnotherSeasonCalling = true;
                           getAnimeBySeason();
                         },
