@@ -28,7 +28,7 @@ class _AnimeThisSeasonState extends State<AnimeThisSeason> {
     "summer",
     "fall"
   ];
-  String dropDownValueSeason = seasons[(DateTime.now().month ~/ 3) - 1];
+  String dropDownValueSeason = seasons[0];
   int dropdownValueYear = DateTime.now().year;
 
   void filler({value, thisSeasonOrNot = false}) {
@@ -105,6 +105,7 @@ class _AnimeThisSeasonState extends State<AnimeThisSeason> {
 
   @override
   Widget build(BuildContext context) {
+    print(dropDownValueSeason);
     var size = MediaQuery.of(context).size;
     final double itemHeight = (size.height - size.height * 0.14) / 2;
     final double itemWidth = size.width / 2;
